@@ -1,0 +1,210 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Molecular dynamics of water - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html" class="active"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Molecular dynamics of water - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="tutorial/water.html#molecular-dynamics-of-water" id="molecular-dynamics-of-water"><h1>Molecular dynamics of water</h1></a>
+<p>In this example, we will simulate a molecular liquid of high scientific
+interest: water. At the same time we will learn how we can reuse a potential
+definition between multiple simulations, and how we can switch the potential
+definition in a simulation.</p>
+<p>You will need three input files for this simulation:</p>
+<ul>
+<li><a href="data/water.xyz">water.xyz</a>: the initial configuration;</li>
+<li><a href="data/water.toml">water.toml</a>: the simulation input;</li>
+<li><a href="data/water-fSCP.toml">water-fSCP.toml</a>: the potentials definitions.</li>
+</ul>
+<p>The simulation run in a few minutes (up to 10), and will write the trajectory of
+the system.</p>
+<a class="header" href="tutorial/water.html#the-input-files-commented" id="the-input-files-commented"><h1>The input files commented</h1></a>
+<a class="header" href="tutorial/water.html#watertoml-file" id="watertoml-file"><h2><code>water.toml</code> file</h2></a>
+<p>The main input file is pretty similar to the previous examples, with two
+novelties:</p>
+<ul>
+<li>The <code>guess_bonds = true</code> entry tell Lumol to try to guess the bonds from the
+distances in the XYZ file. This is needed because we want to simulate a
+molecule, but there is not bonding information inside the XYZ format. If we
+used a PDB file instead, this would not be needed;</li>
+<li>The <code>potentials = &quot;water-fSCP.toml&quot;</code> tell Lumol to read the potentials from
+the <code>water-fSCP.toml</code> file. Using this type of input for the potentials allow
+to share the same potential for multiple simulations, and to easily change
+the potential used in the simulation.</li>
+</ul>
+<pre><code class="language-toml">[input]
+version = 1
+
+[[systems]]
+file = &quot;water.xyz&quot;
+cell = 28.0
+guess_bonds = true
+potentials = &quot;water-fSCP.toml&quot;
+
+[[simulations]]
+nsteps = 5000
+outputs = [
+    {type = &quot;Trajectory&quot;, file = &quot;trajectory.xyz&quot;, frequency = 10}
+]
+
+[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+</code></pre>
+<a class="header" href="tutorial/water.html#water-fscptoml-file" id="water-fscptoml-file"><h2><code>water-fSCP.toml</code> file</h2></a>
+<p><code>water-fSCP.toml</code> is a standalone potential input file. It contains the same
+data as a potential definition inside a <code>[[systems]]</code> section, but without the
+<code>system.potential</code> prefix on all sections names.</p>
+<p>In this input, we start by defining which version of the input format we are
+using.</p>
+<pre><code class="language-toml"># f-SPC model of water, using Ewald summation for electrostatics
+[input]
+version = 1
+</code></pre>
+<p>Then, we can define some global input data: the pair potential cutoff and the
+atomic charges.</p>
+<pre><code class="language-toml">[global]
+cutoff = &quot;14 A&quot;
+
+[charges]
+O = -0.82
+H = 0.41
+</code></pre>
+<p>The pair potential section contains the usual pairs declarations, with a few
+additional options.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3.16 A&quot;, epsilon = &quot;0.155 kcal/mol&quot;}
+</code></pre>
+<p>We can add a <code>restriction</code> to restrict a specific pair interaction to some kind
+of pairs. Here we will only account for H-H pairs inside the same molecule.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;H&quot;, &quot;H&quot;]
+harmonic = {k = &quot;79.8 kcal/mol/A^2&quot;, x0 = &quot;1.633 A&quot;}
+restriction = &quot;IntraMolecular&quot;
+</code></pre>
+<p>We can also define a non-interacting pair interaction! This is useful when some
+atoms does not interact in the model we use.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;H&quot;, &quot;O&quot;]
+null = {}
+</code></pre>
+<p>Then comes the bonds and angles definitions. These are the interactions used
+between bonded particles (or angles formed by two bonds and dihedral angles
+formed by three bonds).</p>
+<pre><code class="language-toml">[[bonds]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;1054.2 kcal/mol/A^2&quot;, x0 = &quot;1.0 A&quot;}
+
+[[angles]]
+atoms = [&quot;H&quot;, &quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;75.9 kcal/mol/rad^2&quot;, x0 = &quot;109.5 deg&quot;}
+</code></pre>
+<p>Finally we specify how to compute the electrostatic interaction, this time using
+the Ewald sum. We can restrict the coulombic interactions to only apply between
+particles not in the same molecule using a <code>restriction</code> here too.</p>
+<pre><code class="language-toml">[coulomb]
+ewald = {cutoff = &quot;8.5 A&quot;, kmax = 3}
+restriction = &quot;InterMolecular&quot;
+</code></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="tutorial/nacl.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="concepts/intro.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="tutorial/nacl.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="concepts/intro.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

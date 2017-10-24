@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pair interactions - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html" class="active"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Pair interactions - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="input/pairs.html#pair-interactions" id="pair-interactions"><h1>Pair interactions</h1></a>
+<a class="header" href="input/pairs.html#cutoff-treatment" id="cutoff-treatment"><h2>Cutoff treatment</h2></a>
+<p>When computing the energy and forces for non-bonded pair interactions, Lumol
+uses a cutoff radius $rc$. This means that the force and energy associated with
+any pair at a distance bigger than $rc$ will be zero. We can use two different
+cutoff schemes, presented in the following section.</p>
+<p>In the potentials input file, the cutoff should be specified for all the
+<code>[[pairs]]</code> sections. It can be specified once for all the pairs in the <code>global</code>
+section, and then overridden for specific interactions:</p>
+<pre><code class="language-toml"># Use a simple cutoff with a radius of 10 A for all pair interactions
+[global]
+cutoff = &quot;10 A&quot;
+
+[[pairs]]
+atoms = [&quot;A&quot;, &quot;A&quot;]
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+
+[[pairs]]
+atoms = [&quot;B&quot;, &quot;B&quot;]
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+
+# Except for this one, use a shifted cutoff with a radius of 8 A
+[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+cutoff = {shifted = &quot;8 A&quot;}
+</code></pre>
+<a class="header" href="input/pairs.html#simple-cutoff-potential-truncation" id="simple-cutoff-potential-truncation"><h3>Simple cutoff (potential truncation)</h3></a>
+<p>This scheme just sets the potential $U(r)$ to zero for any distance bigger than
+$rc$:</p>
+<p>$$ V(r) = \begin{cases}
+U(r) &amp; r &lt;= rc \\
+0 &amp; r &gt; rc
+\end{cases}$$</p>
+<p>To use this potential truncation, we specify a string containing the cutoff
+distance as the <code>cutoff</code> value.</p>
+<pre><code class="language-toml">[global]
+cutoff = &quot;10 A&quot;
+
+[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {x0 = &quot;3 A&quot;, k = &quot;5.9 kJ/mol/A^2&quot;}
+cutoff = &quot;8 A&quot;
+</code></pre>
+<a class="header" href="input/pairs.html#truncation-with-energy-shift" id="truncation-with-energy-shift"><h3>Truncation with energy shift</h3></a>
+<p>The potential $U$ can be additionally shifted to make sure it is continuous at
+$r = rc$. This is important for molecular dynamics, where a discontinuity means
+an infinite force in the integration.</p>
+<p>$$ V(r) = \begin{cases}
+U(r) - U(rc) &amp; r &lt;= rc \\
+0 &amp; r &gt; rc
+\end{cases}$$</p>
+<p>In the input, this uses a table containing the shifted value, which must be a
+string containing the cutoff radius.</p>
+<pre><code class="language-toml">[global]
+cutoff = {shifted = &quot;8 A&quot;}
+
+[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {x0 = &quot;3 A&quot;, k = &quot;5.9 kJ/mol/A^2&quot;}
+cutoff = {shifted = &quot;10 A&quot;}
+</code></pre>
+<a class="header" href="input/pairs.html#tail-correction" id="tail-correction"><h3>Tail correction</h3></a>
+<p>Tail corrections (also called long range corrections) are a way to account for
+the error we introduce by cutting off the potential. If the simulated system is
+homogeneous and isotropic beyond the the cutoff (if the pair distribution
+function $g(r)$ is 1 after the cutoff) we have an expression for the corrections
+we can evaluate. For a potential $V(r)$ with associated forces $\vec f(r)$, the
+missing energy and virial (which is used to compute instantaneous pressure)
+expressions are at density $\rho$:</p>
+<p>$$ U_\text{tail} = 2 \pi \rho \int_{rc}^{+\infty} r^2 V(r) \ dr, $$
+$$ P_\text{tail} = 2 \pi \rho^2 \int_{rc}^{+\infty} r^2 \vec r \cdot \vec f(r) \ dr. $$</p>
+<p>In the input, these additional energetic and pressure terms are controlled by
+the <code>tail_correction</code> keyword, which can be placed either in the <code>[global]</code>
+section, or in any specific <code>[[pairs]]</code> section.</p>
+<pre><code class="language-toml"># Use tail corrections for every pair interaction
+[global]
+tail_correction = true
+
+# Except for this one.
+[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {x0 = &quot;3 A&quot;, k = &quot;5.9 kJ/mol/A^2&quot;}
+tail_correction = false
+</code></pre>
+<a class="header" href="input/pairs.html#pairs-restrictions" id="pairs-restrictions"><h2>Pairs restrictions</h2></a>
+<p>Some force fields define additional restrictions concerning which particles
+should interact together and which ones should not. For example, sometimes
+bonded particles should not interact through electrostatic potential, or some
+interactions should only be taken in account for particles not in the same
+molecule. The way to specify this is to use restrictions. Restrictions can be
+used in two places: in the <code>[[pairs]]</code> section, and in the <code>[coulomb]</code> section.
+In both cases, they are specified with the <code>restriction</code> keyword, and one of the
+possible values.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+restriction = {scale14 = 0.5}
+
+[coulomb]
+ewald = {cutoff = &quot;8 A&quot;, kmax = 6}
+restriction = &quot;intermolecular&quot;
+</code></pre>
+<p>The possible values for <code>restriction</code> are:</p>
+<ul>
+<li><code>&quot;intramolecular&quot;</code> or <code>&quot;intra-molecular&quot;</code> to act only on particles that are
+in the same molecule;</li>
+<li><code>&quot;intermolecular&quot;</code> or <code>&quot;inter-molecular&quot;</code> to act only on particles that are
+<strong>NOT</strong> in the same molecule;</li>
+<li><code>&quot;exclude12&quot;</code> to exclude particles directly bonded together;</li>
+<li><code>&quot;exclude13&quot;</code> to exclude particles directly bonded together or forming an
+angle;</li>
+<li><code>&quot;exclude14&quot;</code> to exclude particles directly bonded together; forming an angle
+or a dihedral angle;</li>
+<li><code>{scale14 = &lt;scaling&gt;}</code> works like <code>exclude13</code>, <em>i.e.</em> intramolecular
+interactions between three neighboring particles (connected by two bonds) will
+not be computed. Additionally, interactions between the first and the forth
+(hence the <code>14</code> in <code>scale14</code>) particle will be computed, but using scaled
+energies and forces. This simply means that the energies and forces are
+multiplied (linear scaling) by the given scaling factor, which must be
+between 0 and 1.</li>
+</ul>
+<a class="header" href="input/pairs.html#potentials-computation" id="potentials-computation"><h2>Potentials computation</h2></a>
+<p>The same potential function (Lennard-Jones, Harmonic, <em>etc.</em>) can be computed
+with different methods: directly, by shifting at the cutoff distance, using a
+table interpolation, <em>etc.</em> This is the purpose of computation. The default way
+is to use the mathematical function corresponding to a potential to compute it.
+To use a different type of computation, the <code>computation</code> keyword can be used in
+the <code>[[pairs]]</code> section.</p>
+<a class="header" href="input/pairs.html#table-interpolation" id="table-interpolation"><h2>Table interpolation</h2></a>
+<p>Another way to compute a potential is to compute it on a regularly spaced
+grid, and then to interpolate values for points in the grid. In some cases, this
+can be faster than recomputing the function every time.</p>
+<p>This can be done with the <code>table</code> computation, which does a linear interpolation
+in regularly spaced values in the <code>[0, max)</code> segment. You need to provide the
+<code>max</code> value, and the number of points <code>n</code> for the interpolation:</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+computation = {table = {max = &quot;8 A&quot;, n = 5000}}
+</code></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="input/interactions.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="input/electrostatic.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="input/interactions.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="input/electrostatic.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Molecular dynamics - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html" class="active"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Molecular dynamics - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="input/md.html#molecular-dynamics" id="molecular-dynamics"><h1>Molecular dynamics</h1></a>
+<p>A molecular dynamics simulation is started by setting the propagator <code>type</code> to
+<code>&quot;MolecularDynamics&quot;</code>. The only needed key is the <code>timestep</code>, which is the
+time step to use in the integration of forces and velocities to positions.</p>
+<pre><code class="language-toml">[[simulations]]
+nsteps = 1_000_000
+
+[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;BerendsenBarostat&quot;, pressure = &quot;100 bar&quot;, timestep = 1000}
+thermostat = {type = &quot;Berendsen&quot;, temperature = &quot;400 K&quot;, timestep = 100}
+</code></pre>
+<p>Other options are the <code>integrator</code> key to use another integration scheme, the
+<code>thermostat</code> key to set a thermostat, and the <code>controls</code> key to add some
+additional control algorithm to the simulation.</p>
+<a class="header" href="input/md.html#integrators" id="integrators"><h2>Integrators</h2></a>
+<p>Integrators are algorithms that propagate the forces acting on the particles to
+compute their motions. The simplest ones performs an NVE integration, but some
+integrators allow to work in different ensembles. All NVE integrators can be
+turned into NVT integrators by adding a <a href="input/md.html#thermostats">thermostat</a>
+to the simulation. In the input, if the <code>integrator</code> key is absent, the default
+integrator is a Velocity-Verlet integrator.</p>
+<a class="header" href="input/md.html#velocity-verlet-integrator" id="velocity-verlet-integrator"><h3>Velocity-Verlet integrator</h3></a>
+<p>Velocity-Verlet is the most common NVE integrator for molecular dynamics. See
+this <a href="https://en.wikipedia.org/wiki/Verlet_integration#Velocity_Verlet">page</a> for more information about the algorithm.</p>
+<p>In the input, it can be specified by using the <code>VelocityVerlet</code> integrator type:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;VelocityVerlet&quot;}
+</code></pre>
+<a class="header" href="input/md.html#verlet-integrator" id="verlet-integrator"><h3>Verlet integrator</h3></a>
+<p>Verlet algorithm is another simple NVE integrator. See this <a href="https://en.wikipedia.org/wiki/Verlet_integration#Basic_St.C3.B6rmer.E2.80.93Verlet">page</a> for
+more information. Most of the time, the Velocity-Verlet algorithm is
+preferable, since it produces more precise velocities.</p>
+<p>In the input, it can be specified by using the <code>Verlet</code> integrator type:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;Verlet&quot;}
+</code></pre>
+<a class="header" href="input/md.html#leap-frog-integrator" id="leap-frog-integrator"><h3>Leap-Frog integrator</h3></a>
+<p>The Leap-Frog algorithm is a third NVE integrator. See this <a href="https://en.wikipedia.org/wiki/Leapfrog_integration">page</a> for
+details about the algorithm.</p>
+<p>In the input, it can be specified by using the <code>LeapFrog</code> integrator type:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;LeapFrog&quot;}
+</code></pre>
+<a class="header" href="input/md.html#berendsen-barostat" id="berendsen-barostat"><h3>Berendsen barostat</h3></a>
+<p>The Berendsen barostat integrator algorithm use the Berendsen barostat with a
+Velocity-Verlet integrator to achieve NPT integration. It must be use together
+with a thermostat, preferentially the Berendsen thermostat. See this
+<a href="http://www.sklogwiki.org/SklogWiki/index.php/Berendsen_barostat">page</a> for more information about the algorithm.</p>
+<p>This algorithm exists in two versions: an isotropic one and an anisotropic one.
+The isotropic version of the barostat scale all the cell parameter by the same
+value using the scalar pressure. The anisotropic version scale the different
+cell parameters by different values, using the stress tensor instead.</p>
+<p>In the input, the isotropic barostat can be specified by using the
+<code>BerendsenBarostat</code> integrator type:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;BerendsenBarostat&quot;, pressure = &quot;100 bar&quot;, timestep = 1000}
+thermostat = {type = &quot;Berendsen&quot;, temperature = &quot;400 K&quot;, timestep = 100}
+</code></pre>
+<p>The <code>pressure</code> key specify the target pressure for the simulation, and the
+<code>timestep</code> is the relaxation time step of the barostat.</p>
+<p>The anisotropic barostat can be specified by using the <code>AnisoBerendsenBarostat</code>
+integrator type:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;AnisoBerendsenBarostat&quot;, pressure = &quot;100 bar&quot;, timestep = 1000}
+thermostat = {type = &quot;Berendsen&quot;, temperature = &quot;400 K&quot;, timestep = 100}
+</code></pre>
+<p>The <code>pressure</code> key specify the target hydrostatic pressure for the simulation,
+and the <code>timestep</code> is the relaxation time step of the barostat.</p>
+<p>In both cases, the barostat time step is expressed in fraction of the main
+integration time step. Using a main time step of 2 fs and a barostat time step
+of 1000 will yield an effective relaxation time of 2000 fs or 2 ps.</p>
+<a class="header" href="input/md.html#thermostats" id="thermostats"><h2>Thermostats</h2></a>
+<p>Thermostats are algorithms used to maintain the temperature of a system at a
+given value. They are specified in the input by the <code>thermostat</code> key.</p>
+<a class="header" href="input/md.html#berendsen-thermostat" id="berendsen-thermostat"><h3>Berendsen thermostat</h3></a>
+<p>The Berendsen thermostat is described <a href="http://www.sklogwiki.org/SklogWiki/index.php/Berendsen_thermostat">here</a>, and provide a
+simple exponential relaxation of the temperature to a target value. In the
+input, it is declared with the <code>Berendsen</code> thermostat type, a target
+<code>temperature</code> value, and a <code>timestep</code>.</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+thermostat = {type = &quot;Berendsen&quot;, temperature = &quot;400 K&quot;, timestep = 100}
+</code></pre>
+<p>The time step is expressed in fraction of the main integration time step, like
+for the Berendsen barostat.</p>
+<a class="header" href="input/md.html#rescaling-thermostat" id="rescaling-thermostat"><h3>Rescaling thermostat</h3></a>
+<p>A rescaling thermostat is the simplest thermostat algorithm possible: it just
+rescale all the velocities to set the temperature to the wanted value. It can be
+useful for equilibration as it converges quickly. In the input, it is specified
+by the <code>Rescale</code> thermostat type, a target <code>temperature</code> value, and a
+<code>tolerance</code> value. The tolerance value is optional, and is used to let the
+system fluctuate around the wanted temperature: while the instant temperature is
+inside the <code>[temperature - tolerance : temperature + tolerance]</code> range, no
+rescale happen.</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+thermostat = {type = &quot;Rescale&quot;, temperature = &quot;250 K&quot;, tolerance = &quot;10 K&quot;}
+</code></pre>
+<a class="header" href="input/md.html#controls" id="controls"><h2>Controls</h2></a>
+<p>Control algorithm are supplementary steps that modify the system to ensure some
+invariant, or apply some constraint. They are specified in the <code>controls</code> array,
+by giving a control <code>type</code>. The <code>every</code> key specifies that the algorithm should
+only be run every <code>n</code> step of the simulation (optional, defaults to 1).</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+controls = [
+    # Remove global rotation of the system every 4 timestep
+    {type = &quot;RemoveRotation&quot;, every = 4}
+]
+</code></pre>
+<ul>
+<li>The <code>RemoveTranslation</code> control removes the global system rotation;</li>
+<li>The <code>RemoveRotation</code> control removes the global system translation.</li>
+<li>The <code>Rewrap</code> control rewraps all molecules' centers of mass to lie within the
+unit cell. Individual atoms in a molecule may still lie outside of the cell.</li>
+</ul>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="input/simulations.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="input/mc.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="input/simulations.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="input/mc.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

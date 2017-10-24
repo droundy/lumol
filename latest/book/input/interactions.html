@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Interactions - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html" class="active"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Interactions - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="input/interactions.html#interactions" id="interactions"><h1>Interactions</h1></a>
+<p>Interactions describe the energies between atoms - or more general - between
+interaction sites. These energies arise due to covalent bonding of atoms to
+form molecules, short-range van der Waals or long-range Coulombic energies. To
+describe interactions we use <em>potentials</em> which are functions  that take a set
+of parameters and geometrical coordinates (for example distances  or angles) as
+input and yield energies and forces. A set of potential functions  and
+parameters to describe energies and forces of a molecule is also often called
+<em>force field</em>. We will use the terms interactions and force field
+interchangeably.</p>
+<p>To be more specific, we distinguish between the following contributions:</p>
+<ul>
+<li><code>pairs</code> are van der Waals interactions between pairs of atoms;</li>
+<li><code>bonds</code> describe the energy between bonded atoms;</li>
+<li><code>angles</code> and <code>dihedrals</code> describe energy contributions due to bending and
+twisting of bonded atoms;</li>
+<li><code>coulomb</code> and <code>charges</code> describe long-range contributions due to
+electrostatic interactions;</li>
+<li>the <code>global</code> section describes additional parameter that apply to all the
+energy contributions.</li>
+</ul>
+<p>Information about interactions for <code>pairs</code>, <code>bonds</code>, <code>angles</code> and <code>dihedrals</code>
+are organized as arrays of TOML tables. The <code>coulomb</code> section contains
+information about the treatment of long-range electrostatic interactions and the
+<code>charges</code> section defines the partial charges of the atoms.</p>
+<p>An example of an input file for the f-SPC model of water is given bellow:</p>
+<pre><code class="language-toml">[input]
+version = 1
+
+[global]
+cutoff = &quot;10 A&quot;
+
+[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3.16 A&quot;, epsilon = &quot;0.155 kcal/mol&quot;}
+
+[[pairs]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+null = {}
+
+[[pairs]]
+atoms = [&quot;H&quot;, &quot;H&quot;]
+harmonic = {k = &quot;79.8 kcal/mol/A^2&quot;, x0 = &quot;1.633 A&quot;}
+restriction = &quot;intra-molecular&quot;
+
+[[bonds]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;1054.2 kcal/mol/A^2&quot;, x0 = &quot;1.0 A&quot;}
+
+[[angles]]
+atoms = [&quot;H&quot;, &quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;75.9 kcal/mol/rad^2&quot;, x0 = &quot;109.5 deg&quot;}
+
+[coulomb]
+ewald = {cutoff = &quot;10 A&quot;, kmax = 7}
+
+[charges]
+O = -0.82
+H = 0.41
+</code></pre>
+<a class="header" href="input/interactions.html#van-der-waals-and-covalent-interactions" id="van-der-waals-and-covalent-interactions"><h2>van der Waals and covalent interactions</h2></a>
+<p>The <code>pairs</code>, <code>bonds</code>, <code>angles</code> and <code>dihedrals</code> sections are arrays, in which
+every entry must contain at least two keys: the <code>atoms</code> key, and a
+<a href="input/potentials.html">potential</a> key. With the <code>atoms</code> key you can specify the
+two atom types to which the interaction should be applied. The number of atoms
+depends on the type of interaction: You have to provide two atoms for <code>pairs</code>
+and <code>bonds</code>, three atoms for <code>angles</code> and four atoms for <code>dihedrals</code>.</p>
+<p>For example you can use a <code>harmonic</code> bond potential for all your <code>C-H</code> bonds:</p>
+<pre><code class="language-toml">[[bonds]]
+atoms = [&quot;C&quot;, &quot;H&quot;]
+harmonic = {x0 = &quot;3.405 A&quot;, k = &quot;2385 kcal/mol/A^2&quot;}
+</code></pre>
+<p>The <code>[[pairs]]</code> entries can be customized further with a specific cutoff, or
+pair restriction. See the <a href="input/pairs.html">corresponding</a> documentation.</p>
+<a class="header" href="input/interactions.html#restrictions" id="restrictions"><h3>Restrictions</h3></a>
+<p>In some force fields, neighboring atoms in molecules may interact solely via
+covalent potentials (and not van der Waals or electrostatic). In this case, we
+have to <em>exclude</em> interactions between neighbors in molecules. You can do that
+(and more) in the <code>pairs</code> section by specifying a
+<a href="input/pairs.html#pairs-restrictions">restriction</a> using the <code>restriction</code> key.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;Ar&quot;, &quot;Ar&quot;]
+lj = {sigma = &quot;3.405 A&quot;, epsilon = &quot;0.2385 kcal/mol&quot;}
+cutoff = &quot;10 A&quot;
+restriction  = &quot;IntraMolecular&quot;
+</code></pre>
+<a class="header" href="input/interactions.html#coulombic-interactions" id="coulombic-interactions"><h2>Coulombic interactions</h2></a>
+<p>The method for treatment of electrostatic interactions is specified in the
+<code>coulomb</code> section. There are multiple available solvers for <a href="input/electrostatic.html">electrostatic
+interactions</a>. Optionally, an additional
+<a href="input/pairs.html#pairs-restrictions">restriction</a> can be specified with the
+<code>restriction</code> key.</p>
+<pre><code class="language-toml">[coulomb]
+ewald = {cutoff = &quot;10 A&quot;, kmax = 7}
+restriction  = &quot;exclude13&quot;
+
+[charges]
+Na = 1
+Cl = -1
+</code></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="input/systems.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="input/pairs.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="input/systems.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="input/pairs.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

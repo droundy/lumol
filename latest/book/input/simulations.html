@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Simulations - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html" class="active"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Simulations - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="input/simulations.html#simulations" id="simulations"><h1>Simulations</h1></a>
+<p>The way to propagate the system is defined in the <code>[[simulations]]</code> section of
+the input file. This section always contains at least two keys: <code>nsteps</code> specify
+the number of steps in the simulation, and the <code>simulations.propagator</code> table
+specify which propagator to use.</p>
+<p>Here is an example of NPT molecular dynamics:</p>
+<pre><code class="language-toml">[[simulations]]
+nsteps = 1_000_000
+
+[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;BerendsenBarostat&quot;, pressure = &quot;100 bar&quot;, timestep = 1000}
+thermostat = {type = &quot;Berendsen&quot;, temperature = &quot;400 K&quot;, timestep = 100}
+</code></pre>
+<p>Two propagators are currently implemented: one for <a href="input/md.html">molecular dynamics</a>; and
+one for <a href="input/mc.html">Monte Carlo</a>.</p>
+<a class="header" href="input/simulations.html#outputs" id="outputs"><h2>Outputs</h2></a>
+<p>Additionally, a simulation can also output the evolution of the system
+properties. Which properties are needed is given in the <code>outputs</code> array:</p>
+<pre><code class="language-toml">[[simulations]]
+nsteps = 1_000_000
+outputs = [
+    {type = &quot;Trajectory&quot;, file = &quot;filename.xyz&quot;, frequency = 100},
+    {type = &quot;Energy&quot;, file = &quot;energy.dat&quot;, frequency = 200},
+    {type = &quot;Custom&quot;, file = &quot;custom.dat&quot;, template = &quot;{vx[3] / mass[3]}&quot;},
+]
+
+[simulations.propagator]
+...
+</code></pre>
+<p>This array is an array of tables, containing three keys: the <code>type</code> of output,
+the <code>file</code> to write the output to; and the <code>frequency</code> of the output. The file
+is a path, and the output will be written to this path. The frequency is a
+number, and the output will be written every <code>frequency</code> steps to the file.
+Except for the <code>Trajectory</code> output, all files are formatted with header lines
+starting with a <code>#</code>, and containing information about the quantities and the
+units used for the output, and then multiple lines containing the step and the
+quantities. The available outputs are the following:</p>
+<ul>
+<li>
+<p>The <code>Energy</code> output will write the potential, kinetic and total energy;</p>
+</li>
+<li>
+<p>The <code>Cell</code> output will write the unit cell parameters, lengths and angles;</p>
+</li>
+<li>
+<p>The <code>Properties</code> output will write the volume, the instant pressure (computed
+from the virial equation) and the instant temperature of the system;</p>
+</li>
+<li>
+<p>The <code>Trajectory</code> output should be used to write a trajectory. The format of
+the trajectory will be guessed from the <code>file</code> extension. Supported formats
+are documented in <a href="http://chemfiles.github.io/chemfiles/">chemfiles</a>
+documentation.</p>
+</li>
+<li>
+<p>The <code>Custom</code> output is the most powerful one, taking an user-provided
+template string and using it to output data. The template should be given
+as a string with the <code>template</code> key in the TOML input file.</p>
+<p>Here are some examples of custom output templates:</p>
+<ul>
+<li>A constant string is reproduced as it is: <code>some data</code>;</li>
+<li>Anything in braces is replaced by the corresponding values: <code>{pressure} {volume}</code>;</li>
+<li>Mathematical operators are allowed in braces: <code>{pressure / volume}</code>. You
+can use <code>+</code>, <code>-</code>, <code>/</code>, <code>*</code>, <code>^</code> for exponentiation and parentheses;</li>
+<li>Some properties are arrays of atomic properties <code>{x[0] + y[20]}</code>;</li>
+<li>Finally, all the properties are given in the internal units. One can
+specify another unit: <code>x[0] / nm</code>.</li>
+</ul>
+<p>Here is a list of all properties available to custom outputs:</p>
+<ul>
+<li>Atomic properties: <code>x</code>, <code>y</code> and <code>z</code> for cartesian coordinates, <code>vx</code>, <code>vy</code>
+and <code>vz</code> for cartesian components of the velocity, <code>mass</code> for the atomic
+mass, <code>charge</code> for the atomic charge.</li>
+<li>Physical properties: <code>pressure</code>, <code>volume</code>, <code>temperature</code>, <code>natoms</code></li>
+<li>Unit Cell properties: <code>cell.a</code>, <code>cell.b</code>, <code>cell.c</code> are the unit cell
+vector lengths; <code>cell.alpha</code>, <code>cell.beta</code> and <code>cell.gamma</code> are the
+unit cell angles.</li>
+</ul>
+</li>
+</ul>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="input/potentials.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="input/md.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="input/potentials.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="input/md.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

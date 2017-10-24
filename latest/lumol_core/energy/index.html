@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `energy` mod in crate `lumol_core`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, energy">
+
+    <title>lumol_core::energy - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Module energy</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../index.html'>lumol_core</a></p><script>window.sidebarCurrent = {name: 'energy', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>lumol_core</a>::<wbr><a class="mod" href=''>energy</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/lumol_core/energy/mod.rs.html#4-257' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Interaction potentials for energy and forces computations</p>
+
+<h1 id='potentials' class='section-header'><a href='#potentials'>Potentials</a></h1>
+<p>In classical simulations, the total energy of a system is separated as a
+sum containing terms from the non-bonded pairs, the bonds, the angles, the
+dihedral angles in the system; and the electrostatic interactions.</p>
+
+<p>Potentials are used to compute the interaction energy in a system. They are
+represented by a <a href="trait.Potential.html"><code>Potential</code></a> trait, used to compute the force
+and the energy of interaction. In order to add a new potential to lumol,
+one has to implement the Potential trait, and then indicate how the
+potential can be used. This is done by implementing one or more of the
+potentials marker traits:</p>
+
+<ul>
+<li><a href="trait.PairPotential.html"><code>PairPotential</code></a> for non-bonded two body interactions;</li>
+<li><a href="trait.BondPotential.html"><code>BondPotential</code></a> for covalent bonds interactions;</li>
+<li><a href="trait.AnglePotential.html"><code>AnglePotential</code></a> for covalent angles interactions;</li>
+<li><a href="trait.DihedralPotential.html"><code>DihedralPotential</code></a> for covalent dihedral angles
+interactions.</li>
+</ul>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">lumol_core</span>::<span class="ident">energy</span>::{<span class="ident">Potential</span>, <span class="ident">PairPotential</span>, <span class="ident">DihedralPotential</span>};
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
+<span class="kw">struct</span> <span class="ident">OnePotential</span>;
+
+<span class="comment">// OnePotential is a potential</span>
+<span class="kw">impl</span> <span class="ident">Potential</span> <span class="kw">for</span> <span class="ident">OnePotential</span> {
+    <span class="kw">fn</span> <span class="ident">energy</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, _: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="ident">f64</span> {<span class="number">1.0</span>}
+    <span class="kw">fn</span> <span class="ident">force</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, _: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="ident">f64</span> {<span class="number">0.0</span>}
+}
+
+<span class="comment">// It can be used for pair and dihedral potentials, but not for angles or</span>
+<span class="comment">// bonds.</span>
+<span class="kw">impl</span> <span class="ident">PairPotential</span> <span class="kw">for</span> <span class="ident">OnePotential</span> {
+    <span class="comment">/* some code omitted */</span>
+}
+<span class="kw">impl</span> <span class="ident">DihedralPotential</span> <span class="kw">for</span> <span class="ident">OnePotential</span> {}</pre>
+
+<h1 id='global-and-coulombic-potentials' class='section-header'><a href='#global-and-coulombic-potentials'>Global and Coulombic potentials</a></h1>
+<p>Global potentials are potentials that have an effect on the whole system at
+once. They are defined by implementing the <a href="trait.GlobalPotential.html"><code>GlobalPotential</code></a> trait. <a href="trait.CoulombicPotential.html"><code>CoulombicPotential</code></a> are a
+specific version of global potentials used to compute electrostatic
+interactions.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.BornMayerHuggins.html"
+                                  title='struct lumol_core::energy::BornMayerHuggins'>BornMayerHuggins</a></td>
+                           <td class='docblock-short'>
+                                <p>Born-Mayer-Huggins potential.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Buckingham.html"
+                                  title='struct lumol_core::energy::Buckingham'>Buckingham</a></td>
+                           <td class='docblock-short'>
+                                <p>Buckingham potential.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.CosineHarmonic.html"
+                                  title='struct lumol_core::energy::CosineHarmonic'>CosineHarmonic</a></td>
+                           <td class='docblock-short'>
+                                <p>Cosine harmonic potential.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Ewald.html"
+                                  title='struct lumol_core::energy::Ewald'>Ewald</a></td>
+                           <td class='docblock-short'>
+                                <p>Ewald summation for coulombic interactions.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Harmonic.html"
+                                  title='struct lumol_core::energy::Harmonic'>Harmonic</a></td>
+                           <td class='docblock-short'>
+                                <p>Harmonic potential.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.LennardJones.html"
+                                  title='struct lumol_core::energy::LennardJones'>LennardJones</a></td>
+                           <td class='docblock-short'>
+                                <p>Lennard-Jones potential.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.MorsePotential.html"
+                                  title='struct lumol_core::energy::MorsePotential'>MorsePotential</a></td>
+                           <td class='docblock-short'>
+                                <p>Morse potential</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.NullPotential.html"
+                                  title='struct lumol_core::energy::NullPotential'>NullPotential</a></td>
+                           <td class='docblock-short'>
+                                <p>No-op potential.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PairInteraction.html"
+                                  title='struct lumol_core::energy::PairInteraction'>PairInteraction</a></td>
+                           <td class='docblock-short'>
+                                <p>A non-bonded interaction between two particle.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.RestrictionInfo.html"
+                                  title='struct lumol_core::energy::RestrictionInfo'>RestrictionInfo</a></td>
+                           <td class='docblock-short'>
+                                <p>Restriction information attached to a pair of <code>Particles</code> in a <code>System</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.SharedEwald.html"
+                                  title='struct lumol_core::energy::SharedEwald'>SharedEwald</a></td>
+                           <td class='docblock-short'>
+                                <p>Thread-sade wrapper around Ewald implementing <code>CoulombicPotential</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.TableComputation.html"
+                                  title='struct lumol_core::energy::TableComputation'>TableComputation</a></td>
+                           <td class='docblock-short'>
+                                <p>Computation of a potential using tabulated values.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Torsion.html"
+                                  title='struct lumol_core::energy::Torsion'>Torsion</a></td>
+                           <td class='docblock-short'>
+                                <p>Torsion potential.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Wolf.html"
+                                  title='struct lumol_core::energy::Wolf'>Wolf</a></td>
+                           <td class='docblock-short'>
+                                <p>Wolf summation for coulombic interactions.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.PairRestriction.html"
+                                  title='enum lumol_core::energy::PairRestriction'>PairRestriction</a></td>
+                           <td class='docblock-short'>
+                                <p>Possible restrictions on the pair interactions.</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.AnglePotential.html"
+                                  title='trait lumol_core::energy::AnglePotential'>AnglePotential</a></td>
+                           <td class='docblock-short'>
+                                <p>Marker trait for potentials that can be used for molecular angles.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.BondPotential.html"
+                                  title='trait lumol_core::energy::BondPotential'>BondPotential</a></td>
+                           <td class='docblock-short'>
+                                <p>Marker trait for potentials that can be used for molecular bonds.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.Computation.html"
+                                  title='trait lumol_core::energy::Computation'>Computation</a></td>
+                           <td class='docblock-short'>
+                                <p>Alternative energy and forces computation.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.CoulombicPotential.html"
+                                  title='trait lumol_core::energy::CoulombicPotential'>CoulombicPotential</a></td>
+                           <td class='docblock-short'>
+                                <p>Electrostatic potential solver.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.DihedralPotential.html"
+                                  title='trait lumol_core::energy::DihedralPotential'>DihedralPotential</a></td>
+                           <td class='docblock-short'>
+                                <p>Marker trait for potentials that can be used for molecular dihedral angles.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.GlobalCache.html"
+                                  title='trait lumol_core::energy::GlobalCache'>GlobalCache</a></td>
+                           <td class='docblock-short'>
+                                <p>Energetic cache for global potentials.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.GlobalPotential.html"
+                                  title='trait lumol_core::energy::GlobalPotential'>GlobalPotential</a></td>
+                           <td class='docblock-short'>
+                                <p>A potential acting on the whole <a href="../sys/struct.System.html">System</a> at once.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.PairPotential.html"
+                                  title='trait lumol_core::energy::PairPotential'>PairPotential</a></td>
+                           <td class='docblock-short'>
+                                <p>Marker trait for potentials that can be used for non-bonded two body
+interactions.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.Potential.html"
+                                  title='trait lumol_core::energy::Potential'>Potential</a></td>
+                           <td class='docblock-short'>
+                                <p>A potential for force and energy computations.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "lumol_core";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

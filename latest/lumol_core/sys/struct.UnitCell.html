@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `UnitCell` struct in crate `lumol_core`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, UnitCell">
+
+    <title>lumol_core::sys::UnitCell - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct UnitCell</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>sys</a></p><script>window.sidebarCurrent = {name: 'UnitCell', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>sys</a>::<wbr><a class="struct" href=''>UnitCell</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#31-39' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct UnitCell { /* fields omitted */ }</pre><div class='docblock'><p>An UnitCell defines the system physical boundaries.</p>
+
+<p>The shape of the cell can be any of the <a href="enum.CellShape.html"><code>CellShape</code></a>, and will
+influence how periodic boundary conditions are applied.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#41-258' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#43-49' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create an infinite unit cell</p>
+</div><h4 id='method.ortho' class="method"><span id='ortho.v' class='invisible'><code>fn <a href='#method.ortho' class='fnname'>ortho</a>(a: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, b: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, c: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>) -&gt; <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#51-61' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create an orthorhombic unit cell, with side lengths <code>a, b, c</code>.</p>
+</div><h4 id='method.cubic' class="method"><span id='cubic.v' class='invisible'><code>fn <a href='#method.cubic' class='fnname'>cubic</a>(length: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>) -&gt; <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#63-73' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a cubic unit cell, with side lengths <code>length, length, length</code>.</p>
+</div><h4 id='method.triclinic' class="method"><span id='triclinic.v' class='invisible'><code>fn <a href='#method.triclinic' class='fnname'>triclinic</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;a: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;b: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;c: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;alpha: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;beta: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;gamma: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a><br>) -&gt; <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#76-98' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a triclinic unit cell, with side lengths <code>a, b, c</code> and angles
+<code>alpha, beta, gamma</code>.</p>
+</div><h4 id='method.shape' class="method"><span id='shape.v' class='invisible'><code>fn <a href='#method.shape' class='fnname'>shape</a>(&amp;self) -&gt; <a class="enum" href="../../lumol_core/sys/enum.CellShape.html" title="enum lumol_core::sys::CellShape">CellShape</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#101-103' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the cell shape</p>
+</div><h4 id='method.is_infinite' class="method"><span id='is_infinite.v' class='invisible'><code>fn <a href='#method.is_infinite' class='fnname'>is_infinite</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#107-109' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Check if this unit cell is infinite, <em>i.e.</em> if it does not have periodic boundary
+conditions.</p>
+</div><h4 id='method.vect_a' class="method"><span id='vect_a.v' class='invisible'><code>fn <a href='#method.vect_a' class='fnname'>vect_a</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#112-117' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the first vector of the cell</p>
+</div><h4 id='method.a' class="method"><span id='a.v' class='invisible'><code>fn <a href='#method.a' class='fnname'>a</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#120-125' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the first length of the cell (i.e. the norm of the first vector of
+the cell)</p>
+</div><h4 id='method.vect_b' class="method"><span id='vect_b.v' class='invisible'><code>fn <a href='#method.vect_b' class='fnname'>vect_b</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#128-133' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the second vector of the cell</p>
+</div><h4 id='method.b' class="method"><span id='b.v' class='invisible'><code>fn <a href='#method.b' class='fnname'>b</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#137-142' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the second length of the cell (i.e. the norm of the second vector of
+the cell)</p>
+</div><h4 id='method.vect_c' class="method"><span id='vect_c.v' class='invisible'><code>fn <a href='#method.vect_c' class='fnname'>vect_c</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#145-150' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the third vector of the cell</p>
+</div><h4 id='method.c' class="method"><span id='c.v' class='invisible'><code>fn <a href='#method.c' class='fnname'>c</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#154-159' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the third length of the cell (i.e. the norm of the third vector of
+the cell)</p>
+</div><h4 id='method.lengths' class="method"><span id='lengths.v' class='invisible'><code>fn <a href='#method.lengths' class='fnname'>lengths</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.array.html">[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.array.html">; 3]</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#162-176' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the distances between faces of the unit cell</p>
+</div><h4 id='method.alpha' class="method"><span id='alpha.v' class='invisible'><code>fn <a href='#method.alpha' class='fnname'>alpha</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#179-188' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the first angle of the cell</p>
+</div><h4 id='method.beta' class="method"><span id='beta.v' class='invisible'><code>fn <a href='#method.beta' class='fnname'>beta</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#191-200' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the second angle of the cell</p>
+</div><h4 id='method.gamma' class="method"><span id='gamma.v' class='invisible'><code>fn <a href='#method.gamma' class='fnname'>gamma</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#203-212' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the third angle of the cell</p>
+</div><h4 id='method.volume' class="method"><span id='volume.v' class='invisible'><code>fn <a href='#method.volume' class='fnname'>volume</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#215-229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the volume of the cell</p>
+</div><h4 id='method.scale_mut' class="method"><span id='scale_mut.v' class='invisible'><code>fn <a href='#method.scale_mut' class='fnname'>scale_mut</a>(&amp;mut self, factor: <a class="struct" href="../../lumol_core/types/struct.Matrix3.html" title="struct lumol_core::types::Matrix3">Matrix3</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#232-235' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Scale this unit cell in-place by multiplying the cell matrix by <code>factor</code>.</p>
+</div><h4 id='method.scale' class="method"><span id='scale.v' class='invisible'><code>fn <a href='#method.scale' class='fnname'>scale</a>(&amp;self, s: <a class="struct" href="../../lumol_core/types/struct.Matrix3.html" title="struct lumol_core::types::Matrix3">Matrix3</a>) -&gt; <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#239-242' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Scale this unit cell by multiplying the cell matrix by <code>s</code>, and return a
+new scaled unit cell</p>
+</div><h4 id='method.reciprocal_vectors' class="method"><span id='reciprocal_vectors.v' class='invisible'><code>fn <a href='#method.reciprocal_vectors' class='fnname'>reciprocal_vectors</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#245-257' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the reciprocal vectors of this unit cell</p>
+</div></div><h3 id='impl-1' class='impl'><span class='in-band'><code>impl <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code><a href='#impl-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#261-406' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'><p>Geometric operations using periodic boundary conditions</p>
+</div><div class='impl-items'><h4 id='method.wrap_vector' class="method"><span id='wrap_vector.v' class='invisible'><code>fn <a href='#method.wrap_vector' class='fnname'>wrap_vector</a>(&amp;self, vect: &amp;mut <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#265-281' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Wrap a vector in the unit cell, obeying the periodic boundary conditions.
+For a cubic cell of side length <code>L</code>, this produce a vector with all
+components in <code>[0, L)</code>.</p>
+</div><h4 id='method.vector_image' class="method"><span id='vector_image.v' class='invisible'><code>fn <a href='#method.vector_image' class='fnname'>vector_image</a>(&amp;self, vect: &amp;mut <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#286-302' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Find the image of a vector in the unit cell, obeying the periodic
+boundary conditions. For a cubic cell of side length <code>L</code>, this produce a
+vector with all components in <code>[-L/2, L/2)</code>.</p>
+</div><h4 id='method.fractional' class="method"><span id='fractional.v' class='invisible'><code>fn <a href='#method.fractional' class='fnname'>fractional</a>(&amp;self, vect: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>) -&gt; <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#306-308' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the fractional representation of the <code>v</code> vector in this cell</p>
+</div><h4 id='method.cartesian' class="method"><span id='cartesian.v' class='invisible'><code>fn <a href='#method.cartesian' class='fnname'>cartesian</a>(&amp;self, frac: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>) -&gt; <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#313-315' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the Cartesian representation of the fractional <code>v</code> vector in this
+cell</p>
+</div><h4 id='method.distance' class="method"><span id='distance.v' class='invisible'><code>fn <a href='#method.distance' class='fnname'>distance</a>(&amp;self, u: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, v: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#318-322' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Periodic boundary conditions distance between the point <code>u</code> and the point <code>v</code></p>
+</div><h4 id='method.angle' class="method"><span id='angle.v' class='invisible'><code>fn <a href='#method.angle' class='fnname'>angle</a>(&amp;self, a: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, b: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, c: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#326-335' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the angle formed by the points at <code>a</code>, <code>b</code> and <code>c</code> using periodic
+boundary conditions.</p>
+</div><h4 id='method.angle_and_derivatives' class="method"><span id='angle_and_derivatives.v' class='invisible'><code>fn <a href='#method.angle_and_derivatives' class='fnname'>angle_and_derivatives</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;a: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;b: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;c: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#339-358' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the angle formed by the points at <code>a</code>, <code>b</code> and <code>c</code> using periodic
+boundary conditions and its derivatives.</p>
+</div><h4 id='method.dihedral' class="method"><span id='dihedral.v' class='invisible'><code>fn <a href='#method.dihedral' class='fnname'>dihedral</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;a: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;b: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;c: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;d: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#363-374' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the dihedral angle formed by the points at <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code> using
+periodic boundary conditions.</p>
+</div><h4 id='method.dihedral_and_derivatives' class="method"><span id='dihedral_and_derivatives.v' class='invisible'><code>fn <a href='#method.dihedral_and_derivatives' class='fnname'>dihedral_and_derivatives</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;a: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;b: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;c: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;d: &amp;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#378-405' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the dihedral angle and and its derivatives defined by the points at
+<code>a</code>, <code>b</code>, <code>c</code> and <code>d</code> using periodic boundary conditions.</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#30' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#30' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#30' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#30' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Self)</code></span><span class='out-of-band'><div class='ghost'></div><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div><a class='srclink' href='https://doc.rust-lang.org/nightly/src/core/clone.rs.html#112-114' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 id='impl-Copy' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a> for <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code><a href='#impl-Copy' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#30' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 id='impl-PartialEq' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> for <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a></code><a href='#impl-PartialEq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#30' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#30' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/cells.rs.html#30' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "lumol_core";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

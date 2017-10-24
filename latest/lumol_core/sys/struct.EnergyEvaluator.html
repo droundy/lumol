@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `EnergyEvaluator` struct in crate `lumol_core`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, EnergyEvaluator">
+
+    <title>lumol_core::sys::EnergyEvaluator - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct EnergyEvaluator</p><div class="block items"><ul><li><a href="#methods">Methods</a></li></ul></div><p class='location'><a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>sys</a></p><script>window.sidebarCurrent = {name: 'EnergyEvaluator', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>sys</a>::<wbr><a class="struct" href=''>EnergyEvaluator</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#15-17' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct EnergyEvaluator&lt;'a&gt; { /* fields omitted */ }</pre><div class='docblock'><p>An helper struct to evaluate energy components of a system.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../../lumol_core/sys/struct.EnergyEvaluator.html" title="struct lumol_core::sys::EnergyEvaluator">EnergyEvaluator</a>&lt;'a&gt;</code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#19-26' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(system: &amp;'a <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a>) -&gt; <a class="struct" href="../../lumol_core/sys/struct.EnergyEvaluator.html" title="struct lumol_core::sys::EnergyEvaluator">EnergyEvaluator</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#21-25' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a new <code>EnergyEvaluator</code> acting on the given <code>system</code>.</p>
+</div></div><h3 id='impl-1' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../../lumol_core/sys/struct.EnergyEvaluator.html" title="struct lumol_core::sys::EnergyEvaluator">EnergyEvaluator</a>&lt;'a&gt;</code><a href='#impl-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#28-169' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.pair' class="method"><span id='pair.v' class='invisible'><code>fn <a href='#method.pair' class='fnname'>pair</a>(&amp;self, r: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#32-42' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy associated with the pair of particles <code>i, j</code> at
+distance <code>r</code></p>
+</div><h4 id='method.pairs' class="method"><span id='pairs.v' class='invisible'><code>fn <a href='#method.pairs' class='fnname'>pairs</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#45-56' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy of all the pairs in the system</p>
+</div><h4 id='method.pairs_tail' class="method"><span id='pairs_tail.v' class='invisible'><code>fn <a href='#method.pairs_tail' class='fnname'>pairs_tail</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#60-77' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy due to long range corrections for the pairs</p>
+</div><h4 id='method.bond' class="method"><span id='bond.v' class='invisible'><code>fn <a href='#method.bond' class='fnname'>bond</a>(&amp;self, r: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#82-88' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy associated with the bonded particles <code>i, j</code> at
+distance <code>r</code></p>
+</div><h4 id='method.bonds' class="method"><span id='bonds.v' class='invisible'><code>fn <a href='#method.bonds' class='fnname'>bonds</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#91-101' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy of all the bonds in the system</p>
+</div><h4 id='method.angle' class="method"><span id='angle.v' class='invisible'><code>fn <a href='#method.angle' class='fnname'>angle</a>(&amp;self, theta: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, k: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#105-111' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy associated with the angle <code>i, j, k</code> at angle <code>theta</code></p>
+</div><h4 id='method.angles' class="method"><span id='angles.v' class='invisible'><code>fn <a href='#method.angles' class='fnname'>angles</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#114-124' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy of all the angles in the system</p>
+</div><h4 id='method.dihedral' class="method"><span id='dihedral.v' class='invisible'><code>fn <a href='#method.dihedral' class='fnname'>dihedral</a>(&amp;self, phi: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, k: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, m: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#129-135' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy associated with the dihedral angle <code>i, j, k, m</code> at
+angle <code>phi</code></p>
+</div><h4 id='method.dihedrals' class="method"><span id='dihedrals.v' class='invisible'><code>fn <a href='#method.dihedrals' class='fnname'>dihedrals</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#138-148' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy of all the dihedral angles in the system</p>
+</div><h4 id='method.coulomb' class="method"><span id='coulomb.v' class='invisible'><code>fn <a href='#method.coulomb' class='fnname'>coulomb</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#152-158' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy of the electrostatic interactions</p>
+</div><h4 id='method.global' class="method"><span id='global.v' class='invisible'><code>fn <a href='#method.global' class='fnname'>global</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/energy.rs.html#162-168' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energy of the global potentials</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "lumol_core";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

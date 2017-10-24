@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `SharedEwald` struct in crate `lumol_core`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, SharedEwald">
+
+    <title>lumol_core::energy::SharedEwald - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct SharedEwald</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>energy</a></p><script>window.sidebarCurrent = {name: 'SharedEwald', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>energy</a>::<wbr><a class="struct" href=''>SharedEwald</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#727' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct SharedEwald(_);</pre><div class='docblock'><p>Thread-sade wrapper around Ewald implementing <code>CoulombicPotential</code>.</p>
+
+<p>This wrapper allow to share a Ewald solver between threads (make it <code>Send + Sync</code>) while still using caching in Monte Carlo simulations (with
+interior mutability).</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../../lumol_core/energy/struct.SharedEwald.html" title="struct lumol_core::energy::SharedEwald">SharedEwald</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#729-755' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(ewald: <a class="struct" href="../../lumol_core/energy/struct.Ewald.html" title="struct lumol_core::energy::Ewald">Ewald</a>) -&gt; <a class="struct" href="../../lumol_core/energy/struct.SharedEwald.html" title="struct lumol_core::energy::SharedEwald">SharedEwald</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#738-740' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Wrap <code>ewald</code> in a thread-safe structure.</p>
+
+<h1 id='example' class='section-header'><a href='#example'>Example</a></h1>
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">ewald</span> <span class="op">=</span> <span class="ident">SharedEwald</span>::<span class="ident">new</span>(<span class="ident">Ewald</span>::<span class="ident">new</span>(<span class="number">12.5</span>, <span class="number">10</span>));
+<span class="kw">let</span> <span class="ident">boxed</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">CoulombicPotential</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">ewald</span>);</pre>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../lumol_core/energy/struct.SharedEwald.html" title="struct lumol_core::energy::SharedEwald">SharedEwald</a></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#757-761' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/energy/struct.SharedEwald.html" title="struct lumol_core::energy::SharedEwald">SharedEwald</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#758-760' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Self)</code></span><span class='out-of-band'><div class='ghost'></div><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div><a class='srclink' href='https://doc.rust-lang.org/nightly/src/core/clone.rs.html#112-114' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 id='impl-GlobalPotential' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../lumol_core/energy/trait.GlobalPotential.html" title="trait lumol_core::energy::GlobalPotential">GlobalPotential</a> for <a class="struct" href="../../lumol_core/energy/struct.SharedEwald.html" title="struct lumol_core::energy::SharedEwald">SharedEwald</a></code><a href='#impl-GlobalPotential' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#763-798' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.cutoff' class="method"><span id='cutoff.v' class='invisible'><code>fn <a href='../../lumol_core/energy/trait.GlobalPotential.html#tymethod.cutoff' class='fnname'>cutoff</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#764-766' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Return the cut off radius.</p>
+</div><h4 id='method.energy' class="method"><span id='energy.v' class='invisible'><code>fn <a href='../../lumol_core/energy/trait.GlobalPotential.html#tymethod.energy' class='fnname'>energy</a>(&amp;self, configuration: &amp;<a class="struct" href="../../lumol_core/sys/struct.Configuration.html" title="struct lumol_core::sys::Configuration">Configuration</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#768-776' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the energetic contribution of this potential</p>
+</div><h4 id='method.forces' class="method"><span id='forces.v' class='invisible'><code>fn <a href='../../lumol_core/energy/trait.GlobalPotential.html#tymethod.forces' class='fnname'>forces</a>(&amp;self, configuration: &amp;<a class="struct" href="../../lumol_core/sys/struct.Configuration.html" title="struct lumol_core::sys::Configuration">Configuration</a>, forces: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;mut [</a><a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#778-787' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the force contribution of this potential. This function should return a vector containing the force acting on each particle in the configuration. <a href="../../lumol_core/energy/trait.GlobalPotential.html#tymethod.forces">Read more</a></p>
+</div><h4 id='method.virial' class="method"><span id='virial.v' class='invisible'><code>fn <a href='../../lumol_core/energy/trait.GlobalPotential.html#tymethod.virial' class='fnname'>virial</a>(&amp;self, configuration: &amp;<a class="struct" href="../../lumol_core/sys/struct.Configuration.html" title="struct lumol_core::sys::Configuration">Configuration</a>) -&gt; <a class="struct" href="../../lumol_core/types/struct.Matrix3.html" title="struct lumol_core::types::Matrix3">Matrix3</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#789-797' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Compute the total virial contribution of this potential</p>
+</div></div><h3 id='impl-CoulombicPotential' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../lumol_core/energy/trait.CoulombicPotential.html" title="trait lumol_core::energy::CoulombicPotential">CoulombicPotential</a> for <a class="struct" href="../../lumol_core/energy/struct.SharedEwald.html" title="struct lumol_core::energy::SharedEwald">SharedEwald</a></code><a href='#impl-CoulombicPotential' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#800-804' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.set_restriction' class="method"><span id='set_restriction.v' class='invisible'><code>fn <a href='../../lumol_core/energy/trait.CoulombicPotential.html#tymethod.set_restriction' class='fnname'>set_restriction</a>(&amp;mut self, restriction: <a class="enum" href="../../lumol_core/energy/enum.PairRestriction.html" title="enum lumol_core::energy::PairRestriction">PairRestriction</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#801-803' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Set the pair restriction scheme to use to the given <code>restriction</code>. All future call to <code>GlobalPotential::energy</code>, <code>GlobalPotential::force</code> or <code>GlobalPotential::virial</code> should use this restriction. <a href="../../lumol_core/energy/trait.CoulombicPotential.html#tymethod.set_restriction">Read more</a></p>
+</div></div><h3 id='impl-GlobalCache' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../lumol_core/energy/trait.GlobalCache.html" title="trait lumol_core::energy::GlobalCache">GlobalCache</a> for <a class="struct" href="../../lumol_core/energy/struct.SharedEwald.html" title="struct lumol_core::energy::SharedEwald">SharedEwald</a></code><a href='#impl-GlobalCache' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#806-828' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.move_particles_cost' class="method"><span id='move_particles_cost.v' class='invisible'><code>fn <a href='../../lumol_core/energy/trait.GlobalCache.html#tymethod.move_particles_cost' class='fnname'>move_particles_cost</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;configuration: &amp;<a class="struct" href="../../lumol_core/sys/struct.Configuration.html" title="struct lumol_core::sys::Configuration">Configuration</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;idxes: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;newpos: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a><br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#807-815' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the cost of moving particles in the system. <a href="../../lumol_core/energy/trait.GlobalCache.html#tymethod.move_particles_cost">Read more</a></p>
+</div><h4 id='method.update' class="method"><span id='update.v' class='invisible'><code>fn <a href='../../lumol_core/energy/trait.GlobalCache.html#tymethod.update' class='fnname'>update</a>(&amp;self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/energy/global/ewald.rs.html#817-827' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Update the cache as needed after a call to <code>move_particles_cost</code>. <a href="../../lumol_core/energy/trait.GlobalCache.html#tymethod.update">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "lumol_core";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

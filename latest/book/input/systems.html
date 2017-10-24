@@ -1,0 +1,292 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Systems - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html" class="active"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Systems - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="input/systems.html#systems" id="systems"><h1>Systems</h1></a>
+<p>Let's talk about how you can set up your system. The system contains information
+about:</p>
+<ul>
+<li>the configuration, i.e. the positions (and velocities) of your atoms;</li>
+<li>which atoms are connected (bonded) to form molecules;</li>
+<li>how atoms will interact with each other;</li>
+<li>and the simulation cell (i.e. volume).</li>
+</ul>
+<p>All these details are listed after the <code>[[systems]]</code> keyword. The double
+brackets indicate arrays of tables in TOML. Don't get confused too much, we will
+talk about these in more detail while we go through the different parts of the
+input file.</p>
+<a class="header" href="input/systems.html#setting-the-initial-configuration" id="setting-the-initial-configuration"><h2>Setting the initial configuration</h2></a>
+<p>A convenient way to get initial atom positions is by reading them from a
+file using the <code>file</code> key:</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;data/water.pdb&quot;
+</code></pre>
+<p>Lumol will read the file to build the system accordingly. If the file is a
+trajectory containing multiple steps, the first frame is used. Under the hood,
+we utilize <a href="http://chemfiles.github.io/">chemfiles</a> to parse the data. You can
+read about available file formats in the <a href="http://chemfiles.readthedocs.io/en/latest/formats.html">chemfiles documentation</a>.</p>
+<a class="header" href="input/systems.html#setting-the-topology" id="setting-the-topology"><h2>Setting the topology</h2></a>
+<p>You might want to use simple file formats such as <code>*.xyz</code> that don't specify
+bonding information. You can do that by adding the bonding information
+separately from your configuration file.</p>
+<ul>
+<li>
+<p>Use the <code>topology</code> key to provide a file containing topological details.</p>
+<pre><code class="language-toml">[[systems]]
+# the *.xyz format has no bonding information
+file = &quot;water.xyz&quot;
+# the *.pdb format specifies connections between atoms
+topology = &quot;topology.pdb&quot;
+</code></pre>
+<p>where <code>topology.pdb</code> (here for water) may look like:</p>
+<pre><code>HEADER    water
+COMPND
+SOURCE
+HETATM    1  H    ...
+HETATM    2  H    ...
+HETATM    3  O    ...
+CONECT    1    3
+CONECT    2    3
+CONECT    3    1    2
+END
+</code></pre>
+<p>with <code>CONECT</code> entries detailing for bonding information.</p>
+<p>Often, you can get ready-to-use topology files from databases or create your
+own topologies. If you want to know more about the Protein Data Bank (PDB)
+format have a look at the <a href="http://wwpdb.org/">PDB website</a>;</p>
+</li>
+<li>
+<p>The second option is to use the <code>guess_bonds</code> key to utilize a distance-based
+algorithm that will guess the bonds in the system. The algorithm is the same
+as the one in <a href="http://www.ks.uiuc.edu/Research/vmd/">VMD</a>. You should always check and confirm that the bonds
+guessed by the algorithm are coherent with your system.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;water.xyz&quot;
+guess_bonds = true
+</code></pre>
+<p>Note that <code>guess_bonds</code> takes a boolean value as argument: there are no
+quotation marks around <code>true</code>. Also, TOML is case sensitive, i.e. writing
+<code>guess_bonds = True</code> will throw an error.</p>
+</li>
+</ul>
+<a class="header" href="input/systems.html#setting-the-unit-cell" id="setting-the-unit-cell"><h2>Setting the unit cell</h2></a>
+<p>To set up the (initial) simulation cell you use the <code>cell</code> key.
+We offer three different ways to set the cell:</p>
+<ul>
+<li>
+<p><code>cell = &lt;length&gt;</code> creates a cubic unit cell with the given side
+length. <code>&lt;length&gt;</code> should be a numeric value (no quotation marks) in Angstrom.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = 40
+</code></pre>
+</li>
+<li>
+<p><code>cell = []</code> create an infinite unit cell, without boundaries. This can be
+used when periodic boundary conditions are undesirables, for example to
+simulate aggregates in the void;</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = []
+</code></pre>
+</li>
+<li>
+<p><code>cell = [&lt;a&gt;, &lt;b&gt;, &lt;c&gt;]</code> creates an orthorhombic unit cell.
+You should provide the lengths of the cell, <code>&lt;a&gt;</code>, <code>&lt;b&gt;</code>, and <code>&lt;c&gt;</code> as numeric
+values in Angstrom.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = [24, 24, 76]
+</code></pre>
+</li>
+<li>
+<p><code>cell = [&lt;a&gt;, &lt;b&gt;, &lt;c&gt;, &lt;alpha&gt;, &lt;beta&gt;, &lt;gamma&gt;]</code> creates a triclinic unit
+cell with the given side lengths and angles. <code>&lt;a&gt;</code>, <code>&lt;b&gt;</code>, and <code>&lt;c&gt;</code>
+should be numeric values in Angstrom and <code>&lt;alpha&gt;</code>, <code>&lt;beta&gt;</code>, and <code>&lt;gamma&gt;</code>
+numeric values in degree.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = [24., 24., 22., 90., 82.33, 110.4]
+</code></pre>
+<p>Note that in an TOML array, all values have to have the same type.
+<code>cell = [24, 24, 76]</code> will work since we use all integer values, while
+<code>cell = [24., 24., 76]</code> will throw an error.</p>
+</li>
+</ul>
+<a class="header" href="input/systems.html#initializing-velocities" id="initializing-velocities"><h2>Initializing velocities</h2></a>
+<p>For molecular dynamics (MD) simulations you need initial positions and initial
+velocities of all atoms in your system. Use the <code>velocities</code> key to initialize
+the velocities in the following way:</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;data/water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+velocities = {init = &quot;300 K&quot;}
+</code></pre>
+<p>where the <code>init</code> key will take the temperature as <em>string</em>. The velocities will
+be initialized from a Boltzmann distribution at the given temperature.
+Monte Carlo simulations will not make any use of velocities since transition
+probabilities (i.e. how the system evolves) are based on the positions (and the
+underlying interactions) only.</p>
+<a class="header" href="input/systems.html#specifying-interactions" id="specifying-interactions"><h2>Specifying interactions</h2></a>
+<p>Interactions between atoms are formulated via potentials; functions that give us
+information about energies and forces acting between atoms. We distinguish
+between <em>inter</em>- and <em>intramolecular</em> potentials. For an overview of available
+potential functions, have a look <a href="input/potentials.html">here</a>.</p>
+<p>You can specify interactions between atoms in two ways: either inside the main
+input file or in a separate file. As example we will use a flexible SPC water
+model and put it directly into our main input file:</p>
+<pre><code class="language-toml"># system configuration: initial positions, topology and cell
+[[systems]]
+file = &quot;data/water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = 40
+
+# intermolecular potentials
+[[systems.potentials.pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3.165 A&quot;, epsilon = &quot;0.155 kcal/mol&quot;}
+
+[[systems.potentials.pairs]]
+atoms = [&quot;H&quot;, &quot;H&quot;]
+null = {}
+
+[[systems.potentials.pairs]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+null = {}
+
+# intramolecular potentials
+[[systems.potentials.bonds]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;1059.162 kcal/mol/A^2&quot;, x0 = &quot;1.012 A&quot;}
+
+[[systems.potentials.angles]]
+atoms = [&quot;H&quot;, &quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;75.90 kcal/mol/deg^2&quot;, x0 = &quot;113.24 deg&quot;}
+
+# additional interactions omitted
+</code></pre>
+<p>As you can see, there is a lot of bracket notation going on here. First, in
+<code>[[systems.potentials.xxx]]</code>, the <code>potentials</code> key is actually a nested table of
+<code>systems</code> indicated by the dot notation. Accordingly, <code>pairs</code>, <code>bonds</code>,
+<code>angles</code>, etc. are nested tables of <code>potentials</code>. Second, <code>harmonic = {k = &quot;75.90 kcal/mol/deg&quot;, x0 = &quot;113.24 deg&quot;}</code> is the notation for an inline table.</p>
+<p>Input files can get very big and hard to read when you simulate complex systems
+with a large number of different atoms. In these scenarios it may be better to
+define a separate input file for your interactions like so:</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;data/water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = 40
+potentials = &quot;water.toml&quot;
+</code></pre>
+<p>Here, the <code>potentials</code> key contains a string that is interpreted as the path to
+another input file containing only definitions of interactions. We will give
+examples of interaction input files <a href="input/interactions.html">here</a> along with available
+keywords.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="input/intro.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="input/interactions.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="input/intro.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="input/interactions.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

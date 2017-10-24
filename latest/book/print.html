@@ -1,0 +1,1939 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="print.html#the-lumol-user-manual" id="the-lumol-user-manual"><h1>The Lumol user manual</h1></a>
+<p>Welcome to the Lumol user manual. In this book we teach you how to use Lumol to
+set up and run classical molecular simulations. We designed Lumol to be
+<em>flexible</em> and <em>extensible</em>; you are able to customize your simulation to suit
+your needs and use it as a platform to implement your own algorithms and
+customized potential functions in an <em>easy</em> way. You can use Lumol as a command
+line tool as well as a library in your own code.</p>
+<p>Excited? Then let's start with an overview of this book:</p>
+<ul>
+<li><a href="installation.html">Installation</a>: Where to get and how to install Lumol.</li>
+<li><a href="">The first simulations</a>: Step-by-step tutorials on
+how to perform basic molecular dynamics and Monte Carlo simulations.</li>
+<li><a href="concepts/intro.html">Simulation concepts</a>: Learn about the details. How are
+systems assembled? How do system propagators work?</li>
+<li><a href="input/intro.html">Input files reference</a>: The complete reference for the
+input files needed to perform simulations;</li>
+<li><a href="">Advanced Tutorials</a>: Extending and customizing Lumol.</li>
+</ul>
+<p><strong>Note</strong>: Lumol is actively developed and should be considered as alpha software.
+As the code is likely to change so is this documentation.</p>
+<a class="header" href="print.html#systems-and-simulations" id="systems-and-simulations"><h2>Systems and Simulations</h2></a>
+<p>Lumol mainly consists of two building blocks: the <code>System</code> and the <code>Simulation</code>.
+The <code>System</code> contains general information about the system, such as atomic
+names, positions and velocities, force-field, simulation box. On the other hand,
+a <code>Simulation</code> contains everything needed to run a simulation with a system,
+<em>i.e.</em> algorithms and associated data.</p>
+<p>A <code>System</code> is usually used in combination with one <code>Simulation</code> to explore the
+properties of the system. Sometimes multiple systems can be associated with the
+same simulation (in Gibbs ensemble Monte Carlo or in parallel tempering); and
+sometimes multiple simulations can be associated with the same system, when
+running an energy minimization before a molecular dynamics run.</p>
+<a class="header" href="print.html#installation" id="installation"><h1>Installation</h1></a>
+<p>Lumol is written in <a href="https://www.rust-lang.org/">Rust</a> (<a href="faq.html#why-is-lumol-written-in-rust">why?</a>), and you will need a Rust
+compiler to compile it. You can download one from <a href="https://www.rust-lang.org/downloads.html">here</a>, or
+using your package manager (Rust is available on Fedora, and with Homebrew on OS
+X). Lumol also depends on some C++ libraries, so you will need a C++ compiler
+and CMake to be installed.</p>
+<p>Lumol is tested on Linux and OS X, and should build on Windows without any
+issue. You will need a C++11 capable compiler on Windows (MSVC &gt; 15 or Mingw
+with gcc &gt; 4.9). Be sure to pick the corresponding version of the Rust compiler.</p>
+<p>When all the dependencies are installed on you system, you can install the
+latest release of Lumol using:</p>
+<pre><code>cargo install lumol
+</code></pre>
+<p>and the latest development version with:</p>
+<pre><code>cargo install --git https://github.com/lumol-org/lumol
+</code></pre>
+<p>Both of these commands will download and install the command line interface for
+Lumol in <code>~/.cargo/bin/lumol</code>, where <code>~</code> is your home directory. You may want to
+add <code>~/.cargo/bin</code> to your PATH or move the <code>lumol</code> binary in another directory
+accessible in your PATH.</p>
+<a class="header" href="print.html#tutorial-using-lumol" id="tutorial-using-lumol"><h1>Tutorial: using Lumol</h1></a>
+<p>This section will teach you how to use Lumol to run basic simulations. You can
+and should re-use the examples input file to run your own simulations.</p>
+<a class="header" href="print.html#monte-carlo-simulation-of-argon" id="monte-carlo-simulation-of-argon"><h1>Monte Carlo simulation of Argon</h1></a>
+<p>So let's run a simulation with Lumol. The easiest system to simulate is a
+Lennard-Jones fluid, which is a good model for noble gases fluids. Here we will
+simulate super-critical argon using Metropolis Monte Carlo algorithm.</p>
+<p>For this simulation, you will need the initial configuration available
+<a href="data/argon.xyz">here</a>. Download it and save it under the name <code>argon.xyz</code>.</p>
+<p>You will also need the input file available <a href="data/argon.toml">here</a>. Save it as
+<code>argon.toml</code> and place it near to <code>argon.xyz</code>. You can then run the simulation
+with:</p>
+<pre><code>lumol argon.toml
+</code></pre>
+<p>The simulation should complete in a few second (8 s on my system), and produce
+two files: <code>energy.dat</code> and <code>trajectory.xyz</code>.</p>
+<a class="header" href="print.html#input-file-anatomy" id="input-file-anatomy"><h2>Input file anatomy</h2></a>
+<p>The input file is written using the TOML syntax, you can learn more about this
+<a href="https://github.com/toml-lang/toml">syntax here</a>. The file starts with a header declaring the version of the
+input file syntax used, here the version 1:</p>
+<pre><code class="language-toml">[input]
+version = 1
+</code></pre>
+<p>Then, we declare which system we want to simulate, in the <code>systems</code> array. We
+define this system using an XYZ file, and providing the unit cell size.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;argon.xyz&quot;
+cell = 21.65
+</code></pre>
+<p>We also need to define the interactions potential between the atom in the
+system, which we do in the <code>potential.pairs</code> section; using a Lennard-Jones
+potentials with a cutoff distance of 10 A for all Ar-Ar pairs.</p>
+<pre><code class="language-toml">[[systems.potentials.pairs]]
+atoms = [&quot;Ar&quot;, &quot;Ar&quot;]
+cutoff = &quot;10 A&quot;
+lj = {sigma = &quot;3.4 A&quot;, epsilon = &quot;1.0 kJ/mol&quot;}
+</code></pre>
+<p>Then we define how we want to simulate our system. Here we need to run the
+simulation for <code>100000</code> steps, and output the energy to <code>energy.dat</code> every 100
+steps, and the trajectory to <code>trajectory.xyz</code> every 100 steps too.</p>
+<pre><code class="language-toml">[[simulations]]
+nsteps = 100000
+outputs = [
+    {type = &quot;Energy&quot;, file = &quot;energy.dat&quot;, frequency = 100},
+    {type = &quot;Trajectory&quot;, file = &quot;trajectory.xyz&quot;, frequency = 100}
+]
+</code></pre>
+<p>At the end we define how we propagate the system from one step to another. Here
+we are using a Monte Carlo simulation at 500 K, and the only Monte Carlo move is
+a translation of maximum amplitude of 1 A.</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;500 K&quot;
+moves = [
+    {type = &quot;Translate&quot;, delta = &quot;1 A&quot;},
+]
+</code></pre>
+<p>So now we know how to run simulations of Lennard-Jones fluids. How about we add
+electrostatic interactions in the next example? Say hello to <a href="tutorial/nacl.html">Sodium
+Chloride</a>!</p>
+<a class="header" href="print.html#hello-sodium-chloride" id="hello-sodium-chloride"><h1>Hello Sodium Chloride</h1></a>
+<p>In this example, we will simulate a Sodium Chloride crystal, using molecular
+dynamics to propagate the position throughout time. Sodium Chloride add a
+challenge in simulation because each atom carry a charge. These charges interact
+with a Coulomb potential which goes to zero as $1 / r$. The problem is that the
+cutoff scheme used for pair potential in most molecular simulations can not be
+used for anything that goes to zero slower than $1 / r^3$. So we need to use
+alternate methods to compute the potential for the charges-charges interactions.</p>
+<p>For this simulation, you will need the initial configuration available
+<a href="data/nacl.xyz">here</a>. Download it and save it under the name <code>nacl.xyz</code>. You will
+also need the input file available <a href="data/nacl.toml">here</a>. Save it as <code>nacl.toml</code> and
+place it near to <code>nacl.xyz</code>. Again you can run the simulation which should
+complete in a minute with:</p>
+<pre><code>lumol nacl.toml
+</code></pre>
+<p>This run a molecular dynamics simulation of a NaCl crystal, using electrostatic
+interactions between the atomic charges.</p>
+<a class="header" href="print.html#the-input-file-commented" id="the-input-file-commented"><h2>The input file commented</h2></a>
+<p>We start with the input version again:</p>
+<pre><code class="language-toml">[input]
+version = 1
+</code></pre>
+<p>Then we load the system from the <code>nacl.xyz</code> file and define the unit cell.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;nacl.xyz&quot;
+cell = 22.5608
+</code></pre>
+<p>Here we define some global values for the interactions: setting
+<code>systems.potentials.global.cutoff</code> will use the given cutoff for all the pair
+interactions. The <code>systems.potentials.charges</code> section defined the atomic
+charges in the system.</p>
+<pre><code class="language-toml">[systems.potentials.global]
+cutoff = &quot;8 A&quot;
+
+[systems.potentials.charges]
+Na = 1.0
+Cl = -1.0
+</code></pre>
+<p>We need to define the pair interactions for all the pair combinations in the
+system, <em>i.e.</em> (Na, Na); (Cl, Cl); and (Na, Cl).</p>
+<pre><code class="language-toml">[[systems.potentials.pairs]]
+atoms = [&quot;Na&quot;, &quot;Cl&quot;]
+lj = {sigma = &quot;3.5545 A&quot;, epsilon = &quot;0.04425 kcal/mol&quot;}
+
+[[systems.potentials.pairs]]
+atoms = [&quot;Na&quot;, &quot;Na&quot;]
+lj = {sigma = &quot;2.497 A&quot;, epsilon = &quot;0.07826 kcal/mol&quot;}
+
+[[systems.potentials.pairs]]
+atoms = [&quot;Cl&quot;, &quot;Cl&quot;]
+lj = {sigma = &quot;4.612 A&quot;, epsilon = &quot;0.02502 kcal/mol&quot;}
+</code></pre>
+<p>Because our system have charges, we need to use an electrostatic potential
+solver. Here we are going for the <code>Wolf</code> solver, with a cutoff of 8 A.</p>
+<pre><code class="language-toml">[systems.potentials.coulomb]
+wolf = {cutoff = &quot;8 A&quot;}
+</code></pre>
+<p>We can now define the simulation and the outputs for this simulation.</p>
+<pre><code class="language-toml">[[simulations]]
+nsteps = 5000
+outputs = [
+    {type = &quot;Trajectory&quot;, file = &quot;trajectory.xyz&quot;, frequency = 10}
+]
+</code></pre>
+<p>We are using here a molecular dynamics simulation of the NaCl crystal, and a
+timestep of 1 fs for integration.</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+</code></pre>
+<p>In the next example, we will see how to simulate molecules of
+<a href="tutorial/water.html">water</a>.</p>
+<a class="header" href="print.html#molecular-dynamics-of-water" id="molecular-dynamics-of-water"><h1>Molecular dynamics of water</h1></a>
+<p>In this example, we will simulate a molecular liquid of high scientific
+interest: water. At the same time we will learn how we can reuse a potential
+definition between multiple simulations, and how we can switch the potential
+definition in a simulation.</p>
+<p>You will need three input files for this simulation:</p>
+<ul>
+<li><a href="data/water.xyz">water.xyz</a>: the initial configuration;</li>
+<li><a href="data/water.toml">water.toml</a>: the simulation input;</li>
+<li><a href="data/water-fSCP.toml">water-fSCP.toml</a>: the potentials definitions.</li>
+</ul>
+<p>The simulation run in a few minutes (up to 10), and will write the trajectory of
+the system.</p>
+<a class="header" href="print.html#the-input-files-commented" id="the-input-files-commented"><h1>The input files commented</h1></a>
+<a class="header" href="print.html#watertoml-file" id="watertoml-file"><h2><code>water.toml</code> file</h2></a>
+<p>The main input file is pretty similar to the previous examples, with two
+novelties:</p>
+<ul>
+<li>The <code>guess_bonds = true</code> entry tell Lumol to try to guess the bonds from the
+distances in the XYZ file. This is needed because we want to simulate a
+molecule, but there is not bonding information inside the XYZ format. If we
+used a PDB file instead, this would not be needed;</li>
+<li>The <code>potentials = &quot;water-fSCP.toml&quot;</code> tell Lumol to read the potentials from
+the <code>water-fSCP.toml</code> file. Using this type of input for the potentials allow
+to share the same potential for multiple simulations, and to easily change
+the potential used in the simulation.</li>
+</ul>
+<pre><code class="language-toml">[input]
+version = 1
+
+[[systems]]
+file = &quot;water.xyz&quot;
+cell = 28.0
+guess_bonds = true
+potentials = &quot;water-fSCP.toml&quot;
+
+[[simulations]]
+nsteps = 5000
+outputs = [
+    {type = &quot;Trajectory&quot;, file = &quot;trajectory.xyz&quot;, frequency = 10}
+]
+
+[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+</code></pre>
+<a class="header" href="print.html#water-fscptoml-file" id="water-fscptoml-file"><h2><code>water-fSCP.toml</code> file</h2></a>
+<p><code>water-fSCP.toml</code> is a standalone potential input file. It contains the same
+data as a potential definition inside a <code>[[systems]]</code> section, but without the
+<code>system.potential</code> prefix on all sections names.</p>
+<p>In this input, we start by defining which version of the input format we are
+using.</p>
+<pre><code class="language-toml"># f-SPC model of water, using Ewald summation for electrostatics
+[input]
+version = 1
+</code></pre>
+<p>Then, we can define some global input data: the pair potential cutoff and the
+atomic charges.</p>
+<pre><code class="language-toml">[global]
+cutoff = &quot;14 A&quot;
+
+[charges]
+O = -0.82
+H = 0.41
+</code></pre>
+<p>The pair potential section contains the usual pairs declarations, with a few
+additional options.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3.16 A&quot;, epsilon = &quot;0.155 kcal/mol&quot;}
+</code></pre>
+<p>We can add a <code>restriction</code> to restrict a specific pair interaction to some kind
+of pairs. Here we will only account for H-H pairs inside the same molecule.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;H&quot;, &quot;H&quot;]
+harmonic = {k = &quot;79.8 kcal/mol/A^2&quot;, x0 = &quot;1.633 A&quot;}
+restriction = &quot;IntraMolecular&quot;
+</code></pre>
+<p>We can also define a non-interacting pair interaction! This is useful when some
+atoms does not interact in the model we use.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;H&quot;, &quot;O&quot;]
+null = {}
+</code></pre>
+<p>Then comes the bonds and angles definitions. These are the interactions used
+between bonded particles (or angles formed by two bonds and dihedral angles
+formed by three bonds).</p>
+<pre><code class="language-toml">[[bonds]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;1054.2 kcal/mol/A^2&quot;, x0 = &quot;1.0 A&quot;}
+
+[[angles]]
+atoms = [&quot;H&quot;, &quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;75.9 kcal/mol/rad^2&quot;, x0 = &quot;109.5 deg&quot;}
+</code></pre>
+<p>Finally we specify how to compute the electrostatic interaction, this time using
+the Ewald sum. We can restrict the coulombic interactions to only apply between
+particles not in the same molecule using a <code>restriction</code> here too.</p>
+<pre><code class="language-toml">[coulomb]
+ewald = {cutoff = &quot;8.5 A&quot;, kmax = 3}
+restriction = &quot;InterMolecular&quot;
+</code></pre>
+<a class="header" href="print.html#simulation-concepts" id="simulation-concepts"><h1>Simulation concepts</h1></a>
+<p>In this section, we are going to present the two basic concepts in lumol: the
+<a href="concepts/system.html">systems</a> and the <a href="concepts/simulation.html">simulations</a>.</p>
+<a class="header" href="print.html#system" id="system"><h1>System</h1></a>
+<p>A <code>System</code> contains all the data about the physical system we are simulating.
+It contains four types of data:</p>
+<ul>
+<li>A list of <strong>Particles</strong>, which are physical objects, with a position, a
+velocity, a mass and a name;</li>
+<li>A list of <strong>Molecules</strong> containing information about how the particles are
+bounded together;</li>
+<li>An <strong>UnitCell</strong>, <em>i.e.</em> the bounding box of the simulation.</li>
+<li><strong>Interactions</strong>, sometimes called a force-field.</li>
+</ul>
+<p><img src="static/img/system.svg#center" alt="System components" /></p>
+<a class="header" href="print.html#unit-cells" id="unit-cells"><h2>Unit cells</h2></a>
+<p>Lumol knows about three types of unit cells:</p>
+<ul>
+<li>Infinite cells do not have any boundaries, and can be used to simulate
+systems in vacuum;</li>
+<li>Orthorhombic cells have up to three independent lengths, and all the angles
+of the cell are set to 90°;</li>
+<li>Triclinic cells have 6 independent parameters: 3 lengths and 3 angles.</li>
+</ul>
+<p>Orthorhombic and Triclinic cells are used in combination with <a href="https://en.wikipedia.org/wiki/Periodic_boundary_conditions">periodic boundary
+conditions</a> to
+simulate infinite systems.</p>
+<a class="header" href="print.html#interactions" id="interactions"><h2>Interactions</h2></a>
+<p>Interactions associate a potential and some particles kind. Lumol provides
+code for various potentials types:</p>
+<ul>
+<li>Non-bonding pair potentials;</li>
+<li>Bonds potentials in molecules;</li>
+<li>Angles potentials in molecules;</li>
+<li>Dihedral angles potentials in molecules;</li>
+<li>Long-ranges coulombic potentials (Ewald and Wolf methods);</li>
+<li>Arbitrary external potential applying on the whole system at once.</li>
+</ul>
+<a class="header" href="print.html#simulation" id="simulation"><h1>Simulation</h1></a>
+<p>The flow of a simulation in Lumol is represented below.</p>
+<p><img src="static/img/simulation.svg#center" alt="Simulation flow graph" /></p>
+<p>First, it uses a system to setup any algorithms which uses system specific
+information.</p>
+<p>Then it propagate the system for one step, compute the physical properties as
+needed, and output these properties to the hard drive.</p>
+<p>If the simulation is finished (either the required number of steps has been
+done, or come convergence criterion is reached) it returns the updated system.
+If the simulation is not finished, the system is propagated for one more step.</p>
+<p>While propagating the simulation, Lumol uses two type of algorithms: propagators
+and output algorithms.</p>
+<a class="header" href="print.html#propagators" id="propagators"><h2>Propagators</h2></a>
+<p>Propagators are at the heart of a Simulation. They have the responsibility to
+update the system at each simulation step. Currently, three propagators exists:
+a molecular dynamics one, a Monte Carlo one and a minimizer, for energy
+minimization.</p>
+<a class="header" href="print.html#output-algorithms" id="output-algorithms"><h2>Output algorithms</h2></a>
+<p>Output algorithms have the responsibility to compute and output statistical data
+about the simulated system. Temperature, energy, radial distribution functions
+are some examples of output algorithms. The full list of currently implemented
+output algorithms is available <a href="input/simulations.html#outputs">here</a>.</p>
+<a class="header" href="print.html#units" id="units"><h1>Units</h1></a>
+<p>Lumol features a set of internal units and offers facilities to convert
+from and to this set of internal units.</p>
+<p>The internal unit system is the following:</p>
+<ul>
+<li>Angstrom (<code>A</code>) for distances;</li>
+<li>Femtosecond (<code>fs</code>) for time;</li>
+<li>Unified atomic mass unit (<code>u</code> or <code>Da</code>) for mass;</li>
+<li>Kelvin (<code>K</code>) for temperature;</li>
+<li>Number of particles for quantity of matter;</li>
+<li>Radian (<code>rad</code>) for angles;</li>
+</ul>
+<p>Any other internal unit is derived from this set:</p>
+<ul>
+<li>The internal unit of energy is <code>u A^2 fs^-2</code>;</li>
+<li>The internal unit of force is <code>u A fs^-2</code>;</li>
+<li>The internal unit of pressure is <code>u A^-1 fs^-2</code>;</li>
+<li><em>etc.</em></li>
+</ul>
+<p>Lumol knows how to convert any value in these internal unit to others units.
+The accepted units are:</p>
+<table><thead><tr><th> Quantity    </th><th> Accepted units                    </th></tr></thead><tbody>
+<tr><td> Distance    </td><td> A, Å, nm, pm, fm, m, bohr   </td></tr>
+<tr><td> Time        </td><td> fs, ps, ns                        </td></tr>
+<tr><td> Mass        </td><td> u, Da, kDa, g, kg                 </td></tr>
+<tr><td> Matter      </td><td> mol                               </td></tr>
+<tr><td> Angle       </td><td> rad, deg                          </td></tr>
+<tr><td> Energy      </td><td> J, kJ, kcal, eV, H, Ry            </td></tr>
+<tr><td> Force       </td><td> N                                 </td></tr>
+<tr><td> Pressure    </td><td> Pa, kPa, MPa, bar, atm            </td></tr>
+</tbody></table>
+<p>In the input files, the units are specified as strings, and must be spelled
+exactly as in the above table. They can be combined with other units using <code>*</code>
+for multiplication, <code>/</code> for division, and  <code>^</code> for exponents. Parentheses can be
+used to group sub-units together. Some valid unit strings are <code>kcal/mol</code>, <code>(J / mol) * A^-2</code>, and <code>m*fs^-1</code>.</p>
+<a class="header" href="print.html#input-files" id="input-files"><h1>Input files</h1></a>
+<p>An input file contains all information that you need to run a simulation.
+It is usually organized in three main sections: <strong>input</strong>, <strong>systems</strong> and
+<strong>simulations</strong>.</p>
+<ul>
+<li>The <a href="input/intro.html#input-metadata">input</a> section contains metadata about
+the input itself (i.e. a version number).</li>
+<li>The <a href="input/systems.html">systems</a> section contains information about the
+initial configuration, the interactions between atoms and the simulation cell.</li>
+<li>The <a href="input/simulations.html">simulations</a> section defines how your system will
+propagate. You can generally choose between molecular dynamics (MD) or Monte-
+Carlo (MC).</li>
+</ul>
+<p>Interactions (often also called <em>force field</em>) are the heart of every simulation
+since they encapsulate the physical behaviour of atoms by defining how they
+interact with each other. You can specify interactions within the main input
+file as a part of the <code>systems</code> section, but since your system can contain a
+huge number of interactions it is often more convenient to create a separate
+input file. Doing so has two advantages. First, it will keep your main input
+file short and readable and second, you can simply reuse your force field input
+for different simulations (you can even build your own force fields library). We
+talk more about standalone input files for interactions on this
+<a href="input/interactions.html">page</a>.</p>
+<a class="header" href="print.html#format" id="format"><h2>Format</h2></a>
+<p>Lumol input files use the <a href="https://github.com/toml-lang/toml">TOML</a> format, a simple and minimalist
+configuration format based on <code>key = value</code> pairs. You can read an introduction
+to the TOML format <a href="https://github.com/toml-lang/toml">here</a>.</p>
+<a class="header" href="print.html#input-metadata" id="input-metadata"><h2>Input metadata</h2></a>
+<p>All input files must contain an <code>[input]</code> section looking like this:</p>
+<pre><code class="language-toml">[input]
+version = 1
+</code></pre>
+<p>Introducing a <code>version</code> key helps us to make changes to the input file format
+while keeping compatibility with previous formats. Please note that
+Lumol is not in version 1.0 yet and we currently cannot guarantee compatibility
+for input files.</p>
+<p>The input files can also contain a <code>[log]</code> section to control where should the
+code output be printed. Please see the corresponding
+<a href="input/log.html">documentation</a> for more information.</p>
+<a class="header" href="print.html#units-in-input" id="units-in-input"><h2>Units in input</h2></a>
+<p>The unit of a value can be defined by a specific string, which will be parsed
+and converted to the <a href="concepts/units.html">internal unit system</a>.
+If there is no unit in the string, the internal unit for this type is used.
+No consistency check is performed, and it is up to you to check the given units.</p>
+<pre><code class="language-toml"># Here, 'cutoff' is a distance
+
+# OK
+cutoff = &quot;8 A&quot;
+# OK, will use the internal unit of distance.
+# This is not recommended. The internal unit may change, and the input convey less information
+cutoff = &quot;8&quot;
+# OK, but big !
+cutoff = &quot;8 km&quot;
+
+# OK, but probably not what you want. Will be interpreted as 8000 A
+cutoff = &quot;8 ps&quot;
+# invalid, 'cutoff' must be a string
+cutoff = 8.0
+</code></pre>
+<a class="header" href="print.html#systems" id="systems"><h1>Systems</h1></a>
+<p>Let's talk about how you can set up your system. The system contains information
+about:</p>
+<ul>
+<li>the configuration, i.e. the positions (and velocities) of your atoms;</li>
+<li>which atoms are connected (bonded) to form molecules;</li>
+<li>how atoms will interact with each other;</li>
+<li>and the simulation cell (i.e. volume).</li>
+</ul>
+<p>All these details are listed after the <code>[[systems]]</code> keyword. The double
+brackets indicate arrays of tables in TOML. Don't get confused too much, we will
+talk about these in more detail while we go through the different parts of the
+input file.</p>
+<a class="header" href="print.html#setting-the-initial-configuration" id="setting-the-initial-configuration"><h2>Setting the initial configuration</h2></a>
+<p>A convenient way to get initial atom positions is by reading them from a
+file using the <code>file</code> key:</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;data/water.pdb&quot;
+</code></pre>
+<p>Lumol will read the file to build the system accordingly. If the file is a
+trajectory containing multiple steps, the first frame is used. Under the hood,
+we utilize <a href="http://chemfiles.github.io/">chemfiles</a> to parse the data. You can
+read about available file formats in the <a href="http://chemfiles.readthedocs.io/en/latest/formats.html">chemfiles documentation</a>.</p>
+<a class="header" href="print.html#setting-the-topology" id="setting-the-topology"><h2>Setting the topology</h2></a>
+<p>You might want to use simple file formats such as <code>*.xyz</code> that don't specify
+bonding information. You can do that by adding the bonding information
+separately from your configuration file.</p>
+<ul>
+<li>
+<p>Use the <code>topology</code> key to provide a file containing topological details.</p>
+<pre><code class="language-toml">[[systems]]
+# the *.xyz format has no bonding information
+file = &quot;water.xyz&quot;
+# the *.pdb format specifies connections between atoms
+topology = &quot;topology.pdb&quot;
+</code></pre>
+<p>where <code>topology.pdb</code> (here for water) may look like:</p>
+<pre><code>HEADER    water
+COMPND
+SOURCE
+HETATM    1  H    ...
+HETATM    2  H    ...
+HETATM    3  O    ...
+CONECT    1    3
+CONECT    2    3
+CONECT    3    1    2
+END
+</code></pre>
+<p>with <code>CONECT</code> entries detailing for bonding information.</p>
+<p>Often, you can get ready-to-use topology files from databases or create your
+own topologies. If you want to know more about the Protein Data Bank (PDB)
+format have a look at the <a href="http://wwpdb.org/">PDB website</a>;</p>
+</li>
+<li>
+<p>The second option is to use the <code>guess_bonds</code> key to utilize a distance-based
+algorithm that will guess the bonds in the system. The algorithm is the same
+as the one in <a href="http://www.ks.uiuc.edu/Research/vmd/">VMD</a>. You should always check and confirm that the bonds
+guessed by the algorithm are coherent with your system.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;water.xyz&quot;
+guess_bonds = true
+</code></pre>
+<p>Note that <code>guess_bonds</code> takes a boolean value as argument: there are no
+quotation marks around <code>true</code>. Also, TOML is case sensitive, i.e. writing
+<code>guess_bonds = True</code> will throw an error.</p>
+</li>
+</ul>
+<a class="header" href="print.html#setting-the-unit-cell" id="setting-the-unit-cell"><h2>Setting the unit cell</h2></a>
+<p>To set up the (initial) simulation cell you use the <code>cell</code> key.
+We offer three different ways to set the cell:</p>
+<ul>
+<li>
+<p><code>cell = &lt;length&gt;</code> creates a cubic unit cell with the given side
+length. <code>&lt;length&gt;</code> should be a numeric value (no quotation marks) in Angstrom.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = 40
+</code></pre>
+</li>
+<li>
+<p><code>cell = []</code> create an infinite unit cell, without boundaries. This can be
+used when periodic boundary conditions are undesirables, for example to
+simulate aggregates in the void;</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = []
+</code></pre>
+</li>
+<li>
+<p><code>cell = [&lt;a&gt;, &lt;b&gt;, &lt;c&gt;]</code> creates an orthorhombic unit cell.
+You should provide the lengths of the cell, <code>&lt;a&gt;</code>, <code>&lt;b&gt;</code>, and <code>&lt;c&gt;</code> as numeric
+values in Angstrom.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = [24, 24, 76]
+</code></pre>
+</li>
+<li>
+<p><code>cell = [&lt;a&gt;, &lt;b&gt;, &lt;c&gt;, &lt;alpha&gt;, &lt;beta&gt;, &lt;gamma&gt;]</code> creates a triclinic unit
+cell with the given side lengths and angles. <code>&lt;a&gt;</code>, <code>&lt;b&gt;</code>, and <code>&lt;c&gt;</code>
+should be numeric values in Angstrom and <code>&lt;alpha&gt;</code>, <code>&lt;beta&gt;</code>, and <code>&lt;gamma&gt;</code>
+numeric values in degree.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = [24., 24., 22., 90., 82.33, 110.4]
+</code></pre>
+<p>Note that in an TOML array, all values have to have the same type.
+<code>cell = [24, 24, 76]</code> will work since we use all integer values, while
+<code>cell = [24., 24., 76]</code> will throw an error.</p>
+</li>
+</ul>
+<a class="header" href="print.html#initializing-velocities" id="initializing-velocities"><h2>Initializing velocities</h2></a>
+<p>For molecular dynamics (MD) simulations you need initial positions and initial
+velocities of all atoms in your system. Use the <code>velocities</code> key to initialize
+the velocities in the following way:</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;data/water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+velocities = {init = &quot;300 K&quot;}
+</code></pre>
+<p>where the <code>init</code> key will take the temperature as <em>string</em>. The velocities will
+be initialized from a Boltzmann distribution at the given temperature.
+Monte Carlo simulations will not make any use of velocities since transition
+probabilities (i.e. how the system evolves) are based on the positions (and the
+underlying interactions) only.</p>
+<a class="header" href="print.html#specifying-interactions" id="specifying-interactions"><h2>Specifying interactions</h2></a>
+<p>Interactions between atoms are formulated via potentials; functions that give us
+information about energies and forces acting between atoms. We distinguish
+between <em>inter</em>- and <em>intramolecular</em> potentials. For an overview of available
+potential functions, have a look <a href="input/potentials.html">here</a>.</p>
+<p>You can specify interactions between atoms in two ways: either inside the main
+input file or in a separate file. As example we will use a flexible SPC water
+model and put it directly into our main input file:</p>
+<pre><code class="language-toml"># system configuration: initial positions, topology and cell
+[[systems]]
+file = &quot;data/water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = 40
+
+# intermolecular potentials
+[[systems.potentials.pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3.165 A&quot;, epsilon = &quot;0.155 kcal/mol&quot;}
+
+[[systems.potentials.pairs]]
+atoms = [&quot;H&quot;, &quot;H&quot;]
+null = {}
+
+[[systems.potentials.pairs]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+null = {}
+
+# intramolecular potentials
+[[systems.potentials.bonds]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;1059.162 kcal/mol/A^2&quot;, x0 = &quot;1.012 A&quot;}
+
+[[systems.potentials.angles]]
+atoms = [&quot;H&quot;, &quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;75.90 kcal/mol/deg^2&quot;, x0 = &quot;113.24 deg&quot;}
+
+# additional interactions omitted
+</code></pre>
+<p>As you can see, there is a lot of bracket notation going on here. First, in
+<code>[[systems.potentials.xxx]]</code>, the <code>potentials</code> key is actually a nested table of
+<code>systems</code> indicated by the dot notation. Accordingly, <code>pairs</code>, <code>bonds</code>,
+<code>angles</code>, etc. are nested tables of <code>potentials</code>. Second, <code>harmonic = {k = &quot;75.90 kcal/mol/deg&quot;, x0 = &quot;113.24 deg&quot;}</code> is the notation for an inline table.</p>
+<p>Input files can get very big and hard to read when you simulate complex systems
+with a large number of different atoms. In these scenarios it may be better to
+define a separate input file for your interactions like so:</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;data/water.xyz&quot;
+topology = &quot;topology.pdb&quot;
+cell = 40
+potentials = &quot;water.toml&quot;
+</code></pre>
+<p>Here, the <code>potentials</code> key contains a string that is interpreted as the path to
+another input file containing only definitions of interactions. We will give
+examples of interaction input files <a href="input/interactions.html">here</a> along with available
+keywords.</p>
+<a class="header" href="print.html#interactions-1" id="interactions-1"><h1>Interactions</h1></a>
+<p>Interactions describe the energies between atoms - or more general - between
+interaction sites. These energies arise due to covalent bonding of atoms to
+form molecules, short-range van der Waals or long-range Coulombic energies. To
+describe interactions we use <em>potentials</em> which are functions  that take a set
+of parameters and geometrical coordinates (for example distances  or angles) as
+input and yield energies and forces. A set of potential functions  and
+parameters to describe energies and forces of a molecule is also often called
+<em>force field</em>. We will use the terms interactions and force field
+interchangeably.</p>
+<p>To be more specific, we distinguish between the following contributions:</p>
+<ul>
+<li><code>pairs</code> are van der Waals interactions between pairs of atoms;</li>
+<li><code>bonds</code> describe the energy between bonded atoms;</li>
+<li><code>angles</code> and <code>dihedrals</code> describe energy contributions due to bending and
+twisting of bonded atoms;</li>
+<li><code>coulomb</code> and <code>charges</code> describe long-range contributions due to
+electrostatic interactions;</li>
+<li>the <code>global</code> section describes additional parameter that apply to all the
+energy contributions.</li>
+</ul>
+<p>Information about interactions for <code>pairs</code>, <code>bonds</code>, <code>angles</code> and <code>dihedrals</code>
+are organized as arrays of TOML tables. The <code>coulomb</code> section contains
+information about the treatment of long-range electrostatic interactions and the
+<code>charges</code> section defines the partial charges of the atoms.</p>
+<p>An example of an input file for the f-SPC model of water is given bellow:</p>
+<pre><code class="language-toml">[input]
+version = 1
+
+[global]
+cutoff = &quot;10 A&quot;
+
+[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3.16 A&quot;, epsilon = &quot;0.155 kcal/mol&quot;}
+
+[[pairs]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+null = {}
+
+[[pairs]]
+atoms = [&quot;H&quot;, &quot;H&quot;]
+harmonic = {k = &quot;79.8 kcal/mol/A^2&quot;, x0 = &quot;1.633 A&quot;}
+restriction = &quot;intra-molecular&quot;
+
+[[bonds]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;1054.2 kcal/mol/A^2&quot;, x0 = &quot;1.0 A&quot;}
+
+[[angles]]
+atoms = [&quot;H&quot;, &quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;75.9 kcal/mol/rad^2&quot;, x0 = &quot;109.5 deg&quot;}
+
+[coulomb]
+ewald = {cutoff = &quot;10 A&quot;, kmax = 7}
+
+[charges]
+O = -0.82
+H = 0.41
+</code></pre>
+<a class="header" href="print.html#van-der-waals-and-covalent-interactions" id="van-der-waals-and-covalent-interactions"><h2>van der Waals and covalent interactions</h2></a>
+<p>The <code>pairs</code>, <code>bonds</code>, <code>angles</code> and <code>dihedrals</code> sections are arrays, in which
+every entry must contain at least two keys: the <code>atoms</code> key, and a
+<a href="input/potentials.html">potential</a> key. With the <code>atoms</code> key you can specify the
+two atom types to which the interaction should be applied. The number of atoms
+depends on the type of interaction: You have to provide two atoms for <code>pairs</code>
+and <code>bonds</code>, three atoms for <code>angles</code> and four atoms for <code>dihedrals</code>.</p>
+<p>For example you can use a <code>harmonic</code> bond potential for all your <code>C-H</code> bonds:</p>
+<pre><code class="language-toml">[[bonds]]
+atoms = [&quot;C&quot;, &quot;H&quot;]
+harmonic = {x0 = &quot;3.405 A&quot;, k = &quot;2385 kcal/mol/A^2&quot;}
+</code></pre>
+<p>The <code>[[pairs]]</code> entries can be customized further with a specific cutoff, or
+pair restriction. See the <a href="input/pairs.html">corresponding</a> documentation.</p>
+<a class="header" href="print.html#restrictions" id="restrictions"><h3>Restrictions</h3></a>
+<p>In some force fields, neighboring atoms in molecules may interact solely via
+covalent potentials (and not van der Waals or electrostatic). In this case, we
+have to <em>exclude</em> interactions between neighbors in molecules. You can do that
+(and more) in the <code>pairs</code> section by specifying a
+<a href="input/pairs.html#pairs-restrictions">restriction</a> using the <code>restriction</code> key.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;Ar&quot;, &quot;Ar&quot;]
+lj = {sigma = &quot;3.405 A&quot;, epsilon = &quot;0.2385 kcal/mol&quot;}
+cutoff = &quot;10 A&quot;
+restriction  = &quot;IntraMolecular&quot;
+</code></pre>
+<a class="header" href="print.html#coulombic-interactions" id="coulombic-interactions"><h2>Coulombic interactions</h2></a>
+<p>The method for treatment of electrostatic interactions is specified in the
+<code>coulomb</code> section. There are multiple available solvers for <a href="input/electrostatic.html">electrostatic
+interactions</a>. Optionally, an additional
+<a href="input/pairs.html#pairs-restrictions">restriction</a> can be specified with the
+<code>restriction</code> key.</p>
+<pre><code class="language-toml">[coulomb]
+ewald = {cutoff = &quot;10 A&quot;, kmax = 7}
+restriction  = &quot;exclude13&quot;
+
+[charges]
+Na = 1
+Cl = -1
+</code></pre>
+<a class="header" href="print.html#pair-interactions" id="pair-interactions"><h1>Pair interactions</h1></a>
+<a class="header" href="print.html#cutoff-treatment" id="cutoff-treatment"><h2>Cutoff treatment</h2></a>
+<p>When computing the energy and forces for non-bonded pair interactions, Lumol
+uses a cutoff radius $rc$. This means that the force and energy associated with
+any pair at a distance bigger than $rc$ will be zero. We can use two different
+cutoff schemes, presented in the following section.</p>
+<p>In the potentials input file, the cutoff should be specified for all the
+<code>[[pairs]]</code> sections. It can be specified once for all the pairs in the <code>global</code>
+section, and then overridden for specific interactions:</p>
+<pre><code class="language-toml"># Use a simple cutoff with a radius of 10 A for all pair interactions
+[global]
+cutoff = &quot;10 A&quot;
+
+[[pairs]]
+atoms = [&quot;A&quot;, &quot;A&quot;]
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+
+[[pairs]]
+atoms = [&quot;B&quot;, &quot;B&quot;]
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+
+# Except for this one, use a shifted cutoff with a radius of 8 A
+[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+cutoff = {shifted = &quot;8 A&quot;}
+</code></pre>
+<a class="header" href="print.html#simple-cutoff-potential-truncation" id="simple-cutoff-potential-truncation"><h3>Simple cutoff (potential truncation)</h3></a>
+<p>This scheme just sets the potential $U(r)$ to zero for any distance bigger than
+$rc$:</p>
+<p>$$ V(r) = \begin{cases}
+U(r) &amp; r &lt;= rc \\
+0 &amp; r &gt; rc
+\end{cases}$$</p>
+<p>To use this potential truncation, we specify a string containing the cutoff
+distance as the <code>cutoff</code> value.</p>
+<pre><code class="language-toml">[global]
+cutoff = &quot;10 A&quot;
+
+[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {x0 = &quot;3 A&quot;, k = &quot;5.9 kJ/mol/A^2&quot;}
+cutoff = &quot;8 A&quot;
+</code></pre>
+<a class="header" href="print.html#truncation-with-energy-shift" id="truncation-with-energy-shift"><h3>Truncation with energy shift</h3></a>
+<p>The potential $U$ can be additionally shifted to make sure it is continuous at
+$r = rc$. This is important for molecular dynamics, where a discontinuity means
+an infinite force in the integration.</p>
+<p>$$ V(r) = \begin{cases}
+U(r) - U(rc) &amp; r &lt;= rc \\
+0 &amp; r &gt; rc
+\end{cases}$$</p>
+<p>In the input, this uses a table containing the shifted value, which must be a
+string containing the cutoff radius.</p>
+<pre><code class="language-toml">[global]
+cutoff = {shifted = &quot;8 A&quot;}
+
+[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {x0 = &quot;3 A&quot;, k = &quot;5.9 kJ/mol/A^2&quot;}
+cutoff = {shifted = &quot;10 A&quot;}
+</code></pre>
+<a class="header" href="print.html#tail-correction" id="tail-correction"><h3>Tail correction</h3></a>
+<p>Tail corrections (also called long range corrections) are a way to account for
+the error we introduce by cutting off the potential. If the simulated system is
+homogeneous and isotropic beyond the the cutoff (if the pair distribution
+function $g(r)$ is 1 after the cutoff) we have an expression for the corrections
+we can evaluate. For a potential $V(r)$ with associated forces $\vec f(r)$, the
+missing energy and virial (which is used to compute instantaneous pressure)
+expressions are at density $\rho$:</p>
+<p>$$ U_\text{tail} = 2 \pi \rho \int_{rc}^{+\infty} r^2 V(r) \ dr, $$
+$$ P_\text{tail} = 2 \pi \rho^2 \int_{rc}^{+\infty} r^2 \vec r \cdot \vec f(r) \ dr. $$</p>
+<p>In the input, these additional energetic and pressure terms are controlled by
+the <code>tail_correction</code> keyword, which can be placed either in the <code>[global]</code>
+section, or in any specific <code>[[pairs]]</code> section.</p>
+<pre><code class="language-toml"># Use tail corrections for every pair interaction
+[global]
+tail_correction = true
+
+# Except for this one.
+[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {x0 = &quot;3 A&quot;, k = &quot;5.9 kJ/mol/A^2&quot;}
+tail_correction = false
+</code></pre>
+<a class="header" href="print.html#pairs-restrictions" id="pairs-restrictions"><h2>Pairs restrictions</h2></a>
+<p>Some force fields define additional restrictions concerning which particles
+should interact together and which ones should not. For example, sometimes
+bonded particles should not interact through electrostatic potential, or some
+interactions should only be taken in account for particles not in the same
+molecule. The way to specify this is to use restrictions. Restrictions can be
+used in two places: in the <code>[[pairs]]</code> section, and in the <code>[coulomb]</code> section.
+In both cases, they are specified with the <code>restriction</code> keyword, and one of the
+possible values.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+restriction = {scale14 = 0.5}
+
+[coulomb]
+ewald = {cutoff = &quot;8 A&quot;, kmax = 6}
+restriction = &quot;intermolecular&quot;
+</code></pre>
+<p>The possible values for <code>restriction</code> are:</p>
+<ul>
+<li><code>&quot;intramolecular&quot;</code> or <code>&quot;intra-molecular&quot;</code> to act only on particles that are
+in the same molecule;</li>
+<li><code>&quot;intermolecular&quot;</code> or <code>&quot;inter-molecular&quot;</code> to act only on particles that are
+<strong>NOT</strong> in the same molecule;</li>
+<li><code>&quot;exclude12&quot;</code> to exclude particles directly bonded together;</li>
+<li><code>&quot;exclude13&quot;</code> to exclude particles directly bonded together or forming an
+angle;</li>
+<li><code>&quot;exclude14&quot;</code> to exclude particles directly bonded together; forming an angle
+or a dihedral angle;</li>
+<li><code>{scale14 = &lt;scaling&gt;}</code> works like <code>exclude13</code>, <em>i.e.</em> intramolecular
+interactions between three neighboring particles (connected by two bonds) will
+not be computed. Additionally, interactions between the first and the forth
+(hence the <code>14</code> in <code>scale14</code>) particle will be computed, but using scaled
+energies and forces. This simply means that the energies and forces are
+multiplied (linear scaling) by the given scaling factor, which must be
+between 0 and 1.</li>
+</ul>
+<a class="header" href="print.html#potentials-computation" id="potentials-computation"><h2>Potentials computation</h2></a>
+<p>The same potential function (Lennard-Jones, Harmonic, <em>etc.</em>) can be computed
+with different methods: directly, by shifting at the cutoff distance, using a
+table interpolation, <em>etc.</em> This is the purpose of computation. The default way
+is to use the mathematical function corresponding to a potential to compute it.
+To use a different type of computation, the <code>computation</code> keyword can be used in
+the <code>[[pairs]]</code> section.</p>
+<a class="header" href="print.html#table-interpolation" id="table-interpolation"><h2>Table interpolation</h2></a>
+<p>Another way to compute a potential is to compute it on a regularly spaced
+grid, and then to interpolate values for points in the grid. In some cases, this
+can be faster than recomputing the function every time.</p>
+<p>This can be done with the <code>table</code> computation, which does a linear interpolation
+in regularly spaced values in the <code>[0, max)</code> segment. You need to provide the
+<code>max</code> value, and the number of points <code>n</code> for the interpolation:</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+computation = {table = {max = &quot;8 A&quot;, n = 5000}}
+</code></pre>
+<a class="header" href="print.html#electrostatic-interactions" id="electrostatic-interactions"><h1>Electrostatic interactions</h1></a>
+<p>When some particles in a system are charged, they interact with a Coulomb
+potential: $$ V(x) = \frac{Z_i Z_j}{4 \pi \epsilon r_{ij}}, $$ where $Z_{i,j}$
+are the net charges of the particles, $r_{ij}$ the distance between them and
+$\epsilon$ the dielectric permittivity of the current medium (usually the one of
+void). Because this potential goes to zero at infinity slower than $1/r^3$, it
+can not be computed in periodic simulations using a cutoff distance. This
+section present the available solvers for electrostatic interactions.</p>
+<p>In the input files, electrostatic interactions are specified with two sections:
+the <code>[charges]</code> section sets the values of the charges of the atoms in the
+system, and the <code>[coulomb]</code> section sets the solver to use for the interaction.</p>
+<a class="header" href="print.html#charge-section" id="charge-section"><h2>Charge section</h2></a>
+<p>Charges for the particles in the system are set in a <code>[charges]</code> section in the
+potential input file. This section should contain multiple <code>name = &lt;charge&gt;</code>
+entries, one for each charged particle in the system.</p>
+<pre><code class="language-toml"># Some salt here
+[charges]
+Na = 1
+Cl = -1
+</code></pre>
+<a class="header" href="print.html#ewald-solver" id="ewald-solver"><h2>Ewald solver</h2></a>
+<p>Ewald's idea to compute electrostatic interactions is to split the interaction
+into a short-range term which can be handled with a cutoff scheme; and a long
+range term that can be computed using a <a href="https://en.wikipedia.org/wiki/Fourier_transform">Fourier transform</a>. For more
+information about the Ewald summation and its variants, see
+<a href="http://dx.doi.org/10.1063/1.881812">[Frenkel2002]</a>.</p>
+<p>The <code>[coulomb]</code> section for using an Ewald solver looks like this in the input
+file:</p>
+<pre><code class="language-toml">[coulomb]
+ewald = {cutoff = &quot;9 A&quot;, kmax = 7}
+</code></pre>
+<p>The <code>cutoff</code> parameter specifies the cutoff distance for the short-range and
+long-range interactions splitting. The <code>kmax</code> parameter gives the number of
+vector to use in the reciprocal space (the long-range part of interactions).
+Usually 7-8 is a good value for pure water, for a very periodic charges
+distribution (like a crystal) a lower value, such as 5 is sufficient, and for
+more heterogeneous system, higher values of <code>kmax</code> are needed.</p>
+<a class="header" href="print.html#wolf-solver" id="wolf-solver"><h2>Wolf solver</h2></a>
+<p>The Wolf summation method is another method for computing electrostatic
+interactions presented in <a href="http://dx.doi.org/10.1063/1.478738">[Wolf1999]</a>. This
+method replaces the expensive computation in reciprocal space from Ewald by a
+corrective term, and can be expressed as a converging sum over the charged pairs
+in the system.</p>
+<p>It is accessible using the <code>wolf</code> keyword in the input files:</p>
+<pre><code class="language-toml">[coulomb]
+wolf = {cutoff = &quot;11 A&quot;}
+</code></pre>
+<p>The only parameter is a <code>cutoff</code>, which - as a rule of thumb - should be larger
+than the corresponding cutoff from Ewald summation. For example, <code>cutoff = &quot;11 A&quot;</code> should be suitable for pure water.</p>
+<hr />
+<p>[Frenkel2002] Frenkel, D. &amp; Smith, B. <em>Understanding molecular simulation.</em>
+(Academic press, 2002).</p>
+<p>[Wolf1999] Wolf, D., Keblinski, P., Phillpot, S. R. &amp; Eggebrecht, J. <em>Exact
+method for the simulation of Coulombic systems by spherically truncated,
+pairwise 1/r summation.</em> The Journal of Chemical Physics <strong>110</strong>, 8254 (1999).</p>
+<a class="header" href="print.html#available-potentials" id="available-potentials"><h1>Available potentials</h1></a>
+<p>This section is a list of all the available potentials in Lumol, with the
+associated parameters. All potentials have to provide additional parameters in
+there definition, as a TOML table. Using inline tables is the easiest way to do
+so:</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+# Additional parameters here are 'sigma' and 'epsilon'.
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+</code></pre>
+<p>The same potential can be used for either pairs (at distance $r$); or for
+angles (at angle $\phi$). In all the formulas, the $x$ parameter
+represents either a distance or an angle.</p>
+<a class="header" href="print.html#null-potential" id="null-potential"><h2>Null potential</h2></a>
+<p>This potential is always 0, for all values of $x$. It should be used to remove
+interactions between atoms in a pair/bond/angle/dihedral that are
+present in the system but should not be interacting.</p>
+<p>This potential can be used by specifying the <code>null</code> key with an empty table <code>{}</code>
+as value.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+null = {}
+</code></pre>
+<a class="header" href="print.html#lennard-jones-potential" id="lennard-jones-potential"><h2>Lennard-Jones potential</h2></a>
+<p>The Lennard-Jones potential is a classical potential for pair interactions
+expressed as: $$ V(x) = 4 \epsilon \left[\left(\frac{\sigma}{x}\right)^{12} -
+\left(\frac{\sigma}{x}\right)^6\right].$$</p>
+<p>The Lennard-Jones potential is defined using the <code>lj</code> key. The
+parameters are <code>sigma</code> ($\sigma$) and <code>epsilon</code> ($\epsilon$), which should be
+provided as strings.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3.16 A&quot;, epsilon = &quot;0.155 kcal/mol&quot;}
+</code></pre>
+<a class="header" href="print.html#buckingham-potential" id="buckingham-potential"><h2>Buckingham potential</h2></a>
+<p>The Buckingham potential is a potential for pair interactions expressed as: $$
+V(x) = A \exp(-r / \rho) - \frac{C}{r^6}.$$</p>
+<p>The potential type keyword is <code>buckingham</code>, and the parameters <code>A</code>, <code>rho</code>
+($\rho$) and <code>C</code> should be provided as strings.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+buckingham = {A = &quot;40 kJ/mol&quot;, C = &quot;120e-6 kJ/mol/A^6&quot;, rho = &quot;3.0 A&quot;}
+</code></pre>
+<a class="header" href="print.html#born-mayer-huggins-potential" id="born-mayer-huggins-potential"><h2>Born-Mayer-Huggins potential</h2></a>
+<p>The Born-Mayer-Huggins potential is a potential for pair interactions, used in
+particular for halide alkali. Its expression is: $$ V(x) = A
+\exp\left(\frac{\sigma -r}{\rho}\right) - \frac{C}{r^6} + \frac{D}{r^8}.$$</p>
+<p>The potential type keyword is <code>born</code>, and the parameters <code>A</code>, <code>C</code>, <code>D</code>, <code>sigma</code>
+($\sigma$) and <code>rho</code> ($\rho$) should be provided as strings.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+[pairs.born]
+A = &quot;40 kJ/mol&quot;
+C = &quot;120e-6 kJ/mol/A^6&quot;
+D = &quot;23e-6 kJ/mol/A^8&quot;
+rho = &quot;3.0 A&quot;
+sigma = &quot;2.2 A&quot;
+</code></pre>
+<a class="header" href="print.html#harmonic-potential" id="harmonic-potential"><h2>Harmonic potential</h2></a>
+<p>The Harmonic potential is usually used for intramolecular interactions such as
+bonds, angles or dihedrals. It is expressed as:
+$$ V(x) = \frac 12 k \ (x - x_0)^2$$</p>
+<p>The potential type keyword is <code>harmonic</code>, and the parameters are <code>k</code> and <code>x0</code>,
+provided as strings.</p>
+<pre><code class="language-toml">[[bonds]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;1054.2 kcal/mol/A^2&quot;, x0 = &quot;1.0 A&quot;}
+
+[[angles]]
+atoms = [&quot;H&quot;, &quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;75.9 kcal/mol/rad^2&quot;, x0 = &quot;109.5 deg&quot;}
+</code></pre>
+<a class="header" href="print.html#cosine-harmonic-potential" id="cosine-harmonic-potential"><h2>Cosine-Harmonic potential</h2></a>
+<p>This potential is usually used for angles and dihedral angles interactions,
+because it presents a $2\pi$ periodicity. It is expressed as: $$ V(x) = \frac 12
+k \ (\cos x - \cos x_0)^2$$</p>
+<p>The potential type keyword is <code>cosine-harmonic</code>, and the parameters <code>k</code> and <code>x0</code>
+should be provided as strings.</p>
+<pre><code class="language-toml">[[angles]]
+atoms = [&quot;H&quot;, &quot;C&quot;, &quot;H&quot;]
+cosine-harmonic = {k = &quot;67 kJ/mol&quot;, x0 = &quot;120 deg&quot;}
+</code></pre>
+<a class="header" href="print.html#torsion-potential" id="torsion-potential"><h2>Torsion potential</h2></a>
+<p>This potential is usually used for dihedral interactions. It is
+expressed as: $$ V(x) = k \ (1 + \cos(n x - \delta))$$</p>
+<p>The potential type keyword is <code>torsion</code>, and the parameters <code>k</code> and <code>delta</code>
+($\delta$) should be provided as strings, and <code>n</code> should be provided as an
+integer.</p>
+<pre><code class="language-toml">[[dihedrals]]
+atoms = [&quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;]
+torsion = {k = &quot;40 kJ/mol&quot;, delta = &quot;120 deg&quot;, n: 4}
+</code></pre>
+<a class="header" href="print.html#morse-potential" id="morse-potential"><h2>Morse potential</h2></a>
+<p>This potential is usually used for intramolecular interaction such as bonds,
+angles or dihedrals. It is a better approximation for the vibrational structure
+of the molecule than the Harmonic potential. It is expressed as: $$ V(r) = depth
+(1 - \exp(- a (r - x_0))^2 $$</p>
+<p>The potential type keyword is <code>morse</code>, and the parameters <code>a</code>, <code>x0</code> and <code>depth</code>
+should be provided as strings.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+morse = {depth = &quot;40 kJ/mol&quot;, a = &quot;2.0 A^-1&quot;, x0 = &quot;1.3 A&quot;}
+</code></pre>
+<p>For angles and dihedral angles, <code>x0</code> and <code>a</code> should be provided in angle units:</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+morse = {depth = &quot;40 kJ/mol&quot;, a = &quot;2.0 rad^-1&quot;, x0 = &quot;109.7 deg&quot;}
+</code></pre>
+<a class="header" href="print.html#simulations" id="simulations"><h1>Simulations</h1></a>
+<p>The way to propagate the system is defined in the <code>[[simulations]]</code> section of
+the input file. This section always contains at least two keys: <code>nsteps</code> specify
+the number of steps in the simulation, and the <code>simulations.propagator</code> table
+specify which propagator to use.</p>
+<p>Here is an example of NPT molecular dynamics:</p>
+<pre><code class="language-toml">[[simulations]]
+nsteps = 1_000_000
+
+[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;BerendsenBarostat&quot;, pressure = &quot;100 bar&quot;, timestep = 1000}
+thermostat = {type = &quot;Berendsen&quot;, temperature = &quot;400 K&quot;, timestep = 100}
+</code></pre>
+<p>Two propagators are currently implemented: one for <a href="input/md.html">molecular dynamics</a>; and
+one for <a href="input/mc.html">Monte Carlo</a>.</p>
+<a class="header" href="print.html#outputs" id="outputs"><h2>Outputs</h2></a>
+<p>Additionally, a simulation can also output the evolution of the system
+properties. Which properties are needed is given in the <code>outputs</code> array:</p>
+<pre><code class="language-toml">[[simulations]]
+nsteps = 1_000_000
+outputs = [
+    {type = &quot;Trajectory&quot;, file = &quot;filename.xyz&quot;, frequency = 100},
+    {type = &quot;Energy&quot;, file = &quot;energy.dat&quot;, frequency = 200},
+    {type = &quot;Custom&quot;, file = &quot;custom.dat&quot;, template = &quot;{vx[3] / mass[3]}&quot;},
+]
+
+[simulations.propagator]
+...
+</code></pre>
+<p>This array is an array of tables, containing three keys: the <code>type</code> of output,
+the <code>file</code> to write the output to; and the <code>frequency</code> of the output. The file
+is a path, and the output will be written to this path. The frequency is a
+number, and the output will be written every <code>frequency</code> steps to the file.
+Except for the <code>Trajectory</code> output, all files are formatted with header lines
+starting with a <code>#</code>, and containing information about the quantities and the
+units used for the output, and then multiple lines containing the step and the
+quantities. The available outputs are the following:</p>
+<ul>
+<li>
+<p>The <code>Energy</code> output will write the potential, kinetic and total energy;</p>
+</li>
+<li>
+<p>The <code>Cell</code> output will write the unit cell parameters, lengths and angles;</p>
+</li>
+<li>
+<p>The <code>Properties</code> output will write the volume, the instant pressure (computed
+from the virial equation) and the instant temperature of the system;</p>
+</li>
+<li>
+<p>The <code>Trajectory</code> output should be used to write a trajectory. The format of
+the trajectory will be guessed from the <code>file</code> extension. Supported formats
+are documented in <a href="http://chemfiles.github.io/chemfiles/">chemfiles</a>
+documentation.</p>
+</li>
+<li>
+<p>The <code>Custom</code> output is the most powerful one, taking an user-provided
+template string and using it to output data. The template should be given
+as a string with the <code>template</code> key in the TOML input file.</p>
+<p>Here are some examples of custom output templates:</p>
+<ul>
+<li>A constant string is reproduced as it is: <code>some data</code>;</li>
+<li>Anything in braces is replaced by the corresponding values: <code>{pressure} {volume}</code>;</li>
+<li>Mathematical operators are allowed in braces: <code>{pressure / volume}</code>. You
+can use <code>+</code>, <code>-</code>, <code>/</code>, <code>*</code>, <code>^</code> for exponentiation and parentheses;</li>
+<li>Some properties are arrays of atomic properties <code>{x[0] + y[20]}</code>;</li>
+<li>Finally, all the properties are given in the internal units. One can
+specify another unit: <code>x[0] / nm</code>.</li>
+</ul>
+<p>Here is a list of all properties available to custom outputs:</p>
+<ul>
+<li>Atomic properties: <code>x</code>, <code>y</code> and <code>z</code> for cartesian coordinates, <code>vx</code>, <code>vy</code>
+and <code>vz</code> for cartesian components of the velocity, <code>mass</code> for the atomic
+mass, <code>charge</code> for the atomic charge.</li>
+<li>Physical properties: <code>pressure</code>, <code>volume</code>, <code>temperature</code>, <code>natoms</code></li>
+<li>Unit Cell properties: <code>cell.a</code>, <code>cell.b</code>, <code>cell.c</code> are the unit cell
+vector lengths; <code>cell.alpha</code>, <code>cell.beta</code> and <code>cell.gamma</code> are the
+unit cell angles.</li>
+</ul>
+</li>
+</ul>
+<a class="header" href="print.html#molecular-dynamics" id="molecular-dynamics"><h1>Molecular dynamics</h1></a>
+<p>A molecular dynamics simulation is started by setting the propagator <code>type</code> to
+<code>&quot;MolecularDynamics&quot;</code>. The only needed key is the <code>timestep</code>, which is the
+time step to use in the integration of forces and velocities to positions.</p>
+<pre><code class="language-toml">[[simulations]]
+nsteps = 1_000_000
+
+[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;BerendsenBarostat&quot;, pressure = &quot;100 bar&quot;, timestep = 1000}
+thermostat = {type = &quot;Berendsen&quot;, temperature = &quot;400 K&quot;, timestep = 100}
+</code></pre>
+<p>Other options are the <code>integrator</code> key to use another integration scheme, the
+<code>thermostat</code> key to set a thermostat, and the <code>controls</code> key to add some
+additional control algorithm to the simulation.</p>
+<a class="header" href="print.html#integrators" id="integrators"><h2>Integrators</h2></a>
+<p>Integrators are algorithms that propagate the forces acting on the particles to
+compute their motions. The simplest ones performs an NVE integration, but some
+integrators allow to work in different ensembles. All NVE integrators can be
+turned into NVT integrators by adding a <a href="input/md.html#thermostats">thermostat</a>
+to the simulation. In the input, if the <code>integrator</code> key is absent, the default
+integrator is a Velocity-Verlet integrator.</p>
+<a class="header" href="print.html#velocity-verlet-integrator" id="velocity-verlet-integrator"><h3>Velocity-Verlet integrator</h3></a>
+<p>Velocity-Verlet is the most common NVE integrator for molecular dynamics. See
+this <a href="https://en.wikipedia.org/wiki/Verlet_integration#Velocity_Verlet">page</a> for more information about the algorithm.</p>
+<p>In the input, it can be specified by using the <code>VelocityVerlet</code> integrator type:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;VelocityVerlet&quot;}
+</code></pre>
+<a class="header" href="print.html#verlet-integrator" id="verlet-integrator"><h3>Verlet integrator</h3></a>
+<p>Verlet algorithm is another simple NVE integrator. See this <a href="https://en.wikipedia.org/wiki/Verlet_integration#Basic_St.C3.B6rmer.E2.80.93Verlet">page</a> for
+more information. Most of the time, the Velocity-Verlet algorithm is
+preferable, since it produces more precise velocities.</p>
+<p>In the input, it can be specified by using the <code>Verlet</code> integrator type:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;Verlet&quot;}
+</code></pre>
+<a class="header" href="print.html#leap-frog-integrator" id="leap-frog-integrator"><h3>Leap-Frog integrator</h3></a>
+<p>The Leap-Frog algorithm is a third NVE integrator. See this <a href="https://en.wikipedia.org/wiki/Leapfrog_integration">page</a> for
+details about the algorithm.</p>
+<p>In the input, it can be specified by using the <code>LeapFrog</code> integrator type:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;LeapFrog&quot;}
+</code></pre>
+<a class="header" href="print.html#berendsen-barostat" id="berendsen-barostat"><h3>Berendsen barostat</h3></a>
+<p>The Berendsen barostat integrator algorithm use the Berendsen barostat with a
+Velocity-Verlet integrator to achieve NPT integration. It must be use together
+with a thermostat, preferentially the Berendsen thermostat. See this
+<a href="http://www.sklogwiki.org/SklogWiki/index.php/Berendsen_barostat">page</a> for more information about the algorithm.</p>
+<p>This algorithm exists in two versions: an isotropic one and an anisotropic one.
+The isotropic version of the barostat scale all the cell parameter by the same
+value using the scalar pressure. The anisotropic version scale the different
+cell parameters by different values, using the stress tensor instead.</p>
+<p>In the input, the isotropic barostat can be specified by using the
+<code>BerendsenBarostat</code> integrator type:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;BerendsenBarostat&quot;, pressure = &quot;100 bar&quot;, timestep = 1000}
+thermostat = {type = &quot;Berendsen&quot;, temperature = &quot;400 K&quot;, timestep = 100}
+</code></pre>
+<p>The <code>pressure</code> key specify the target pressure for the simulation, and the
+<code>timestep</code> is the relaxation time step of the barostat.</p>
+<p>The anisotropic barostat can be specified by using the <code>AnisoBerendsenBarostat</code>
+integrator type:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+integrator = {type = &quot;AnisoBerendsenBarostat&quot;, pressure = &quot;100 bar&quot;, timestep = 1000}
+thermostat = {type = &quot;Berendsen&quot;, temperature = &quot;400 K&quot;, timestep = 100}
+</code></pre>
+<p>The <code>pressure</code> key specify the target hydrostatic pressure for the simulation,
+and the <code>timestep</code> is the relaxation time step of the barostat.</p>
+<p>In both cases, the barostat time step is expressed in fraction of the main
+integration time step. Using a main time step of 2 fs and a barostat time step
+of 1000 will yield an effective relaxation time of 2000 fs or 2 ps.</p>
+<a class="header" href="print.html#thermostats" id="thermostats"><h2>Thermostats</h2></a>
+<p>Thermostats are algorithms used to maintain the temperature of a system at a
+given value. They are specified in the input by the <code>thermostat</code> key.</p>
+<a class="header" href="print.html#berendsen-thermostat" id="berendsen-thermostat"><h3>Berendsen thermostat</h3></a>
+<p>The Berendsen thermostat is described <a href="http://www.sklogwiki.org/SklogWiki/index.php/Berendsen_thermostat">here</a>, and provide a
+simple exponential relaxation of the temperature to a target value. In the
+input, it is declared with the <code>Berendsen</code> thermostat type, a target
+<code>temperature</code> value, and a <code>timestep</code>.</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+thermostat = {type = &quot;Berendsen&quot;, temperature = &quot;400 K&quot;, timestep = 100}
+</code></pre>
+<p>The time step is expressed in fraction of the main integration time step, like
+for the Berendsen barostat.</p>
+<a class="header" href="print.html#rescaling-thermostat" id="rescaling-thermostat"><h3>Rescaling thermostat</h3></a>
+<p>A rescaling thermostat is the simplest thermostat algorithm possible: it just
+rescale all the velocities to set the temperature to the wanted value. It can be
+useful for equilibration as it converges quickly. In the input, it is specified
+by the <code>Rescale</code> thermostat type, a target <code>temperature</code> value, and a
+<code>tolerance</code> value. The tolerance value is optional, and is used to let the
+system fluctuate around the wanted temperature: while the instant temperature is
+inside the <code>[temperature - tolerance : temperature + tolerance]</code> range, no
+rescale happen.</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+thermostat = {type = &quot;Rescale&quot;, temperature = &quot;250 K&quot;, tolerance = &quot;10 K&quot;}
+</code></pre>
+<a class="header" href="print.html#controls" id="controls"><h2>Controls</h2></a>
+<p>Control algorithm are supplementary steps that modify the system to ensure some
+invariant, or apply some constraint. They are specified in the <code>controls</code> array,
+by giving a control <code>type</code>. The <code>every</code> key specifies that the algorithm should
+only be run every <code>n</code> step of the simulation (optional, defaults to 1).</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+controls = [
+    # Remove global rotation of the system every 4 timestep
+    {type = &quot;RemoveRotation&quot;, every = 4}
+]
+</code></pre>
+<ul>
+<li>The <code>RemoveTranslation</code> control removes the global system rotation;</li>
+<li>The <code>RemoveRotation</code> control removes the global system translation.</li>
+<li>The <code>Rewrap</code> control rewraps all molecules' centers of mass to lie within the
+unit cell. Individual atoms in a molecule may still lie outside of the cell.</li>
+</ul>
+<a class="header" href="print.html#monte-carlo" id="monte-carlo"><h1>Monte Carlo</h1></a>
+<p>If you want to perform a Monte Carlo simulation, you have to set the propagator
+<code>type</code> to <code>&quot;MonteCarlo&quot;</code>. Every Monte Carlo simulations needs a <code>temperature</code>
+and a set of <code>moves</code> (this set can consist of a single move).</p>
+<p>You can think of a &quot;move&quot; as a specific instruction to generate a new trial
+configuration. For example: &quot;translate a single molecule in the system&quot;, &quot;rotate
+a molecule&quot;, or &quot;change the cell size&quot;. If a move is accepted (based on an
+acceptance criterion), the trial configuration becomes the new configuration. If
+the move is rejected, the system stays in its current configuration. You can add
+multiple moves so that the ensemble of your choice is sampled.</p>
+<p>Here is a list of all moves that are currently implemented in Lumol:</p>
+<ul>
+<li><a href="input/mc.html#translation">Translate</a>: Change the center of mass position of
+a molecule.</li>
+<li><a href="input/mc.html#rotation">Rotate</a>: Perform a rotation of a molecule about its
+center of mass.</li>
+<li><a href="input/mc.html#resize">Resize</a>: Change the size of the simulation cell.</li>
+</ul>
+<p>Currently, all Monte Carlo simulations are carried out using Metropolis
+acceptance criteria.</p>
+<p>You can add all necessary information after the <code>[simulations.propagator]</code> label.</p>
+<ul>
+<li>
+<p>Needed keys:</p>
+<ul>
+<li><code>type = &quot;MonteCarlo&quot;</code></li>
+<li><code>temperature</code> (string): System temperature. The string contains the
+temperature with unit.</li>
+</ul>
+</li>
+<li>
+<p>Optional keys:</p>
+<ul>
+<li><code>update_frequency</code> (positive integer): After this number of steps of a move, <code>delta</code> values
+for this move are updated. Updates use statistics of a moves' acceptance ratio so it
+is recommended to choose a sufficiently high number (&gt;100).</li>
+</ul>
+</li>
+</ul>
+<p>Naturally, Monte Carlo simulations are carried out at constant
+temperature which is set using the <code>temperature</code> key.</p>
+<p>Different from Molecular Dynamics, Monte Carlo simulations don't carry
+information about the velocities of particles.
+As a consequence we cannot access temperature from the kinetic energy.</p>
+<a class="header" href="print.html#example" id="example"><h3>Example</h3></a>
+<p>A sample input for a Monte Carlo simulation (in the NPT ensemble)
+can look like so:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;500 K&quot;
+
+moves = [
+    {type = &quot;Translate&quot;, delta = &quot;1 A&quot;, frequency = 2},
+    {type = &quot;Rotate&quot;, delta = &quot;20 deg&quot;, molecule = &quot;CO2.xyz&quot;},
+    {type = &quot;Resize&quot;, pressure = &quot;10 bar&quot;, delta = &quot;3 A^3&quot;, frequency = 0.001},
+]
+</code></pre>
+<a class="header" href="print.html#moves" id="moves"><h2>Moves</h2></a>
+<p>All <code>moves</code> are specified as inline tables. You can add a move using the <code>type</code>
+key with the name of the move.</p>
+<p><code>moves</code> accept an optional <code>frequency</code> parameter. During a Monte Carlo
+simulation it is very important that a move is selected randomly from the whole
+set. You can increase the chance to pick a certain move (compared to all other
+moves) by assigning a high <code>frequency</code> to it. If you don't specify a
+<code>frequency</code>, it is set to one.</p>
+<p>Lumol normalizes frequencies after all moves are added. The easiest way to
+handle frequencies is to use relative values. We will explain this below in the
+given examples.</p>
+<p>Some moves can be specified to act on a single molecule or particle type. These
+moves accept a <code>molecule</code> key whose value is a path to a configuration file that
+can be read by <a href="http://chemfiles.org/">chemfiles</a>.</p>
+<p>You can add the same move multiple times. For example, you can assign different
+amplitudes for different species in a mixture to make sampling more efficient.
+You can also use the <code>molecule</code> type to freeze a species by assigning a move for
+all but the frozen species.</p>
+<p>If you specify a molecule, it will be selected with the following algorithm:</p>
+<ul>
+<li>Read the first frame of the file;</li>
+<li>If the file does not contain any bonding information, try to guess the bonds;</li>
+<li>Use the first molecule of the frame.</li>
+</ul>
+<p><code>moves</code> that use a displacement (<code>delta</code>) can be added with the
+<code>target_acceptance</code> key.
+After a specific number of times a move was called (<code>update_frequency</code>),
+we compute the acceptance ratio for the current <code>delta</code> value, <em>i.e.</em> how often
+the move was accepted versus how often a move was attempted.
+If the current acceptance is far away from the <code>target_acceptance</code>, we compute
+a new value of <code>delta</code> based on the current acceptance.
+A <code>target_acceptance</code> can only be used in conjunction with the
+update_frequency` key that specifies the frequency between updates.</p>
+<p>Sometimes a given acceptance value cannot be achieved. Either due to limits of
+the adjusted <code>delta</code> value (it makes no sense to rotate a particle by more than 180° or to
+translate it by multiple values of the cutoff range) or due to the nature of the
+system.</p>
+<p>To summarize, using an adjustable displacement, we can increase the efficiency of
+our simulation, but strictly speaking we violate detailed balance and therefore
+the Markov chain. To make sure you get correct results from your simulations, we
+recommend to use adjustable displacements <em>only for equilibration runs</em>. You can
+then take the resulting values for <code>delta</code> and use them for a production run,
+where no further adjustments are made.</p>
+<a class="header" href="print.html#example-1" id="example-1"><h3>Example</h3></a>
+<pre><code class="language-toml"># Equilibration of a protein in water.
+[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;300 K&quot;
+# we update the maximum displacement `delta` after a move was called 500 times
+update_frequency = 500
+
+moves = [
+    # we have much more water in the system so we want to move it more often
+    # hence we set the `frequency = 100`
+    # after 500 calls to this translation move, we adjust `delta` to get to approximately 50% acceptance
+    {type = &quot;Translate&quot;, delta = &quot;2 A&quot;, molecule = &quot;H2O.xyz&quot;, frequency = 100, target_acceptance = 0.5},
+    # the single protein will be displaced only by a small distance `delta = &quot;0.05 A&quot;` during the whole run
+    {type = &quot;Translate&quot;, delta = &quot;0.05 A&quot;, molecule = &quot;protein.pdb&quot;, frequency = 1},
+]
+</code></pre>
+<a class="header" href="print.html#translation" id="translation"><h3>Translation</h3></a>
+<p>The <code>Translate</code> move changes the position of a single, randomly selected  molecule
+by adding a random displacement vector to its center of mass.</p>
+<ul>
+<li>Needed keys:
+<ul>
+<li><code>type = &quot;Translate&quot;</code></li>
+<li><code>delta</code> (string): Maximum amplitude for displacement.</li>
+</ul>
+</li>
+<li>Optional keys:
+<ul>
+<li><code>frequency</code> (float): Move frequency.</li>
+<li><code>molecule</code> (string): Select only the specified molecule type. The string
+contains the path to the configuration file of the molecule.</li>
+<li><code>target_acceptance</code> (float): The target acceptance for this move. Value
+has to be greater than zero and smaller than one. Can only be used in conjunction with <code>update_frequency</code>.</li>
+</ul>
+</li>
+</ul>
+<p>If the <code>molecule</code> key is used, the move will only apply to one molecule type. If
+not, the move will apply to all molecule types in the system. The <code>delta</code> key is
+the maximum magnitude of the translation vector. The conjugated string contains
+the value with unit of distance.</p>
+<a class="header" href="print.html#example-2" id="example-2"><h4>Example</h4></a>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;500 K&quot;
+moves = [
+    # Define a translation for all molecules in the system, including He.
+    {type = &quot;Translate&quot;, delta = &quot;1 A&quot;, frequency = 2},
+    # For He, pick a larger displacement with half the frequency of the
+    # first move. Now there is a 66% chance to pick *any* molecule
+    # and translate it by up to 1 A. There is a 33% chance to pick He (and only He)
+    # and translate it by up to 10 A.
+    {type = &quot;Translate&quot;, delta = &quot;10 A&quot;, molecule = &quot;He.xyz&quot;},
+]
+</code></pre>
+<a class="header" href="print.html#rotation" id="rotation"><h3>Rotation</h3></a>
+<p>The <code>Rotate</code> move randomly rotates a single molecule around its
+center of mass.</p>
+<ul>
+<li>Needed keys:
+<ul>
+<li><code>type = &quot;Rotate&quot;</code></li>
+<li><code>delta</code> (string): Maximum angle for rotation.</li>
+</ul>
+</li>
+<li>Optional keys:
+<ul>
+<li><code>frequency</code> (float): Move frequency.</li>
+<li><code>molecule</code> (string): Select only the specified molecule type. The string
+contains the path to the configuration file of the molecule.</li>
+<li><code>target_acceptance</code> (float): The target acceptance for this move. Value
+has to be greater than zero and smaller than one. Can only be used in conjunction with <code>update_frequency</code>.</li>
+</ul>
+</li>
+</ul>
+<p>If the <code>molecule</code> key is used, the move will only apply to one molecule type. If
+not, the move will apply to all molecules in the system. The <code>delta</code> key is the
+maximum angle. The conjugated string contains the value and the unit of either
+radians or degrees (<code>rad</code> or <code>deg</code>).</p>
+<a class="header" href="print.html#example-3" id="example-3"><h4>Example</h4></a>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;500 K&quot;
+moves = [
+    {type = &quot;Rotate&quot;, delta = &quot;3 deg&quot;, frequency = 2},
+]
+</code></pre>
+<a class="header" href="print.html#resize" id="resize"><h3>Resize</h3></a>
+<p>The <code>Resize</code> move can be used to isotropically change the systems' volume.</p>
+<ul>
+<li>Needed keys:
+<ul>
+<li><code>type = &quot;Resize&quot;</code></li>
+<li><code>pressure</code> (string): Target pressure.</li>
+<li><code>delta</code> (string): Amplitude.</li>
+</ul>
+</li>
+<li>Optional keys:
+<ul>
+<li><code>frequency</code> (float): Move frequency.</li>
+<li><code>target_acceptance</code> (float): The target acceptance for this move. Value
+has to be greater than zero and smaller than one. Can only be used in conjunction with <code>update_frequency</code>.</li>
+</ul>
+</li>
+</ul>
+<p>For a given <code>pressure</code>, the volume will fluctuate during the simulation. We can
+use this move to sample an isobaric-isothermal ensemble. The <code>delta</code> key sets
+the maximum amplitude of the volume change in units of cubic length.</p>
+<p>By changing the volume, we effectively change all (center of mass) positions at
+once. This makes <code>Resize</code> moves computationally expensive and we recommend to
+use a comparatively low value for the <code>frequency</code>. As a rule of thumb, for a
+system containing $N$ particles, every $N + 1$'th move should be a <code>Resize</code>
+move, since a single volume change is approximately as expensive as $N$ particle
+translations or rotations.</p>
+<a class="header" href="print.html#example-4" id="example-4"><h4>Example</h4></a>
+<pre><code class="language-toml"># Simulation of 500 molecules.
+[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;500 K&quot;
+moves = [
+    {type = &quot;Translate&quot;, delta = &quot;1 A&quot;, frequency = 250},
+    {type = &quot;Rotate&quot;, delta = &quot;20 deg&quot;, frequency = 250},
+    {type = &quot;Resize&quot;, pressure = &quot;10 bar&quot;, delta = &quot;3 A^3&quot;, frequency = 1},
+]
+</code></pre>
+<p>As mentioned above, frequencies are normalized. In this example, 501 moves
+consist of 250 translations, 250 rotations and a single resizing of the cell <em>on
+average</em> (remember, moves are picked at random with their respective frequency).
+Setting up a move set like we did in this example is very convenient and in
+literature you'll often find the term &quot;cycle&quot; (here, 1 cycle = 501 moves) to
+describe such a set of moves and respective frequencies.</p>
+<a class="header" href="print.html#minimization" id="minimization"><h1>Minimization</h1></a>
+<p>You can run a minimization by setting the propagator <code>type</code> to <code>Minimization</code>.
+The unique needed key is the <code>minimizer</code> algorithm to use for this simulation;
+you can also optionally set the criteria for minimization convergence.</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;Minimization&quot;
+minimizer = {type = &quot;SteepestDescent&quot;}
+criteria = {energy = &quot;1e-5 kJ/mol&quot;, force2 = &quot;1e-5 kJ^2/mol^2/A^2&quot;}
+</code></pre>
+<p>The single minimization algorithm implemented is the steepest descent algorithm,
+that updates the coordinates of the atom following the energy gradient.</p>
+<p>The minimization stops when the energy difference between the previous and
+the current step is lower than the <code>energy</code> criterion, or when the maximal
+squared norm of the atomic force is lower than the <code>force2</code> criterion.</p>
+<a class="header" href="print.html#logging-configuration" id="logging-configuration"><h1>Logging configuration</h1></a>
+<p>Lumol sends various logging messages while running a simulation. Some of them
+are informational messages (<code>charge was set to 1.2 for 132 particles</code>), others
+are warnings or error message (<code>infinite energy!</code>) and some are for debug
+purposes.</p>
+<p>By default, lumol prints all the informational, warning and error messages to
+the standard terminal output. This allows to run the code and redirect the
+output to a specific file with the usual UNIX way: <code>lumol input.toml &gt; simulation.log</code>.</p>
+<p>Lumol also offers finer-grain configuration for logging output, for example only
+printing errors and warnings, and redirecting everything else to a file. This
+configuration happens in the <code>[log]</code> section of the input file. This section can
+contain either a single output <code>target</code>, or multiple <code>targets</code>.</p>
+<pre><code class="language-toml"># Single log target
+[log]
+target = &quot;lumol.log&quot;
+
+# Multiple log targets
+[log]
+targets = [
+    {target = &quot;lumol.log&quot;},
+    {target = &quot;&lt;stdout&gt;&quot;, level = &quot;warning&quot;}
+]
+
+# Multiple log targets, alternative syntax
+[[log.targets]]
+target = &quot;lumol.log&quot;
+
+[[log.targets]]
+target = &quot;&lt;stdout&gt;&quot;
+level = &quot;warning&quot;
+</code></pre>
+<p>In the multiple targets case, the <code>targets</code> key must be an array of tables,
+containing individual target configuration with the same syntax as a single
+target.</p>
+<p>The only required key is the <code>target</code> key, identifying where to write the
+messages. It is interpreted as the path to a file, expect for the two special
+values of <code>&lt;stdout&gt;</code> and <code>&lt;stderr&gt;</code> that are used to write messages to the
+standard terminal output stream or error stream respectively.</p>
+<pre><code class="language-toml"># Write all messages to the standard error stream
+[log]
+target = &quot;&lt;stderr&gt;&quot;
+</code></pre>
+<p>Optional keys are <code>level</code> and <code>append</code>. The <code>level</code> key controls which messages
+are sent to this output, and default to <code>info</code>. Available levels are the
+following:</p>
+<ul>
+<li><code>error</code>: only error messages;</li>
+<li><code>warning</code>: error and warning messages;</li>
+<li><code>info</code>: error, warnings and informational messages;</li>
+</ul>
+<p>The <code>debug</code> (debug messages) and <code>trace</code> (very verbose debug) are also
+available, but mainly intended for developers.</p>
+<p>The <code>append</code> key is a Boolean value (<code>true</code> or <code>false</code>) only used for files, and
+controlling whether to overwrite the file or append new messages at the end of
+the file. It defaults to <code>false</code>, meaning that the file is overwritten by every
+simulation run.</p>
+<pre><code class="language-toml">[log]
+# Use multiple targets
+targets = [
+    # Print warnings to the standard output stream
+    {target = &quot;&lt;stdout&gt;&quot;, level = &quot;warning&quot;},
+    # Save all messages to the 'lumol.log' file
+    {target = &quot;lumol.log&quot;},
+    # Save debug messages to 'debug.log', keeping the file across simulation
+    # runs.
+    {target = &quot;debug.log&quot;, level = &quot;debug&quot;, append = true},
+]
+
+</code></pre>
+<a class="header" href="print.html#creating-your-own-potential-function" id="creating-your-own-potential-function"><h1>Creating your own potential function</h1></a>
+<p>In this tutorial we will teach you how to use your own potential function with Lumol.
+This tutorial consists of two parts.
+In the first part, we will implement the logic in a separate project using Lumol as an external library.
+The second part describes the neccessary steps to implement the logic into the core package of Lumol called <code>lumol-core</code>.</p>
+<p>A potential is a function that describes the energy and force between interaction sites.
+In Lumol we differentiate between two types of potentials: First, there are potential functions that need the global state of the system, <em>i.e.</em> all positions, as input. The Ewald summation which is used to compute electrostatic interactions is an example for this kind of potential.
+We call them <code>GlobalPotential</code>s.
+And second, we have potentials that take a single geometric parameter as input.
+This geometric parameter can be for example a distance or an angle.
+Typical examples are Van-der-Waals potentials (<em>e.g.</em> Lennard-Jones) and potential functions describing covalent bonds (<em>e.g.</em> harmonic potential, cosine potential, torsion, <em>etc.</em>).
+There are plenty of potentials falling into this category, hence in Lumol we simply call them <code>Potential</code>s.</p>
+<blockquote>
+<p>There are two kind of potentials. A <code>GlobalPotential</code> takes the global systems' state as input
+and a <code>Potential</code> takes a single scalar value (distance, angle, ...) as input.</p>
+</blockquote>
+<p>In this tutorial we will focus on the implementation of the latter.
+More specific, we will implement a potential to compute van-der-Waals interactions between pairs of particles.
+We will make liberal use of the API documentation of both the Rust standard library as well as the Lumol API.
+Please note that we will point to other references, such as the Rust book, concerning general Rust concepts to keep this tutorial brief.
+If you have questions concerning Rust or Lumol, please don't hesitate to file an issue on <a href="https://github.com/lumol-org/lumol/issues">github</a> or join the discussion on our <a href="https://gitter.im/lumol-org/lumol">gitter</a>.</p>
+<p>The tutorial is structured as follows: First we will have a look at how <code>Potentials</code> are represented (what data structures are used) and what functionalities we have to implement. Then we describe how we add those functionalities. We will write a small simulation program that makes use of our newly created potential.
+In the second part we talk about implementing the potential into Lumol's core.
+Rust offers beautiful utilities to add documentation inside the code. We will have a look at the documentation of currently implemented potentials to guide us. We will then add some tests to make sure that our implementation is correct. This concludes the bulk the work, but to make our new potential function accessible to all Lumol users we will also add a parsing function. Doing so, our potential can be conveniently specified from an input file. We conclude the tutorial by adding a short documentation to the user manual.</p>
+<p>We have a lot to do. Ready? Let's go.</p>
+<a class="header" href="print.html#rust-prerequisites" id="rust-prerequisites"><h2>Rust prerequisites</h2></a>
+<p>We recommend reading these chapters in the rust book.</p>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/second-edition/ch05-00-structs.html">structs</a></li>
+<li><a href="https://doc.rust-lang.org/book/second-edition/ch10-02-traits.html">traits</a></li>
+</ul>
+<a class="header" href="print.html#representation" id="representation"><h2>Representation</h2></a>
+<p>As mentioned above, potential functions can be used to model all kinds of interactions between particles such as bonded and non-bonded interactions. In Lumol, <code>Potential</code> is a <a href="https://doc.rust-lang.org/book/second-edition/ch10-02-traits.html">trait</a>. To further distinguish between bonded interactions (bond lengths, angles and dihedrals) and non-bonded interactions, we use another trait (often called marker traits). Your possible options to further specialise a <code>Potential</code> are</p>
+<ul>
+<li><a href="http://lumol.org/lumol/latest/lumol/energy/trait.PairPotential.html"><code>PairPotential</code></a> for non-bonded two body interactions;</li>
+<li><a href="http://lumol.org/lumol/latest/lumol/energy/trait.BondPotential.html"><code>BondPotential</code></a> for covalent bonds interactions;</li>
+<li><a href="http://lumol.org/lumol/latest/lumol/energy/trait.AnglePotential.html"><code>AnglePotential</code></a> for covalent angles interactions;</li>
+<li><a href="http://lumol.org/lumol/latest/lumol/energy/trait.DihedralPotential.html"><code>DihedralPotential</code></a> for covalent dihedral angles interactions.</li>
+</ul>
+<p>In this tutorial, we will implement a potential to describe non-bonded pair interactions, namely the <a href="http://www.sklogwiki.org/SklogWiki/index.php/Mie_potential"><strong>Mie potential</strong></a>. We will have to implement both the <code>Potential</code> as well as the <code>PairPotential</code> traits. If we wanted to implement a function that can be used as non-bonded as well as bond-length potential, we'd have to implement <code>Potential</code>, <code>PairPotential</code> as well as <code>BondPotential</code>. &quot;Implementing a trait&quot; means that we will define a <a href="https://doc.rust-lang.org/book/second-edition/ch05-00-structs.html">structure</a> (a <code>struct</code>) for which we will add functions to satisfy the traits' requirements.</p>
+<p>Let's start by having a look at the API documentation for <code>Potential</code>: open the <a href="http://lumol.org/lumol/latest/lumol/energy/trait.Potential.html">API documentation</a>.</p>
+<p>As you can see from the trait, a <code>Potential</code> defines the interface for two functions, <code>energy</code> and <code>force</code> (we ignore the <code>Sync + Send</code> statement for now):</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub trait Potential: Sync + Send {
+    fn energy(&amp;self, x: f64) -&gt; f64;
+    fn force(&amp;self, x: f64) -&gt; f64;
+}
+#}</code></pre></pre>
+<p><code>energy</code> will compute the interaction energy between two sites as a function of <code>x</code>. The force is defined as the negative derivative of the energy function with respect to <code>x</code>.</p>
+<p>Both functions take a single, scalar argument and return a single scalar value. In our case <code>x</code> stands for the distance between two interaction sites. Note that only the function definitions -- without a function body -- are specified. We will have to implement these functions for our potential.</p>
+<p>Let's start the implementation.</p>
+<a class="header" href="print.html#part-i-implementation-of-the-logic-in-a-separate-package" id="part-i-implementation-of-the-logic-in-a-separate-package"><h1>Part I: Implementation of the logic in a separate package</h1></a>
+<p>We start by creating a new package using <code>cargo</code>:</p>
+<pre><code>cargo new lumol_tutorial_potential
+cd lumol_tutorial_potential
+</code></pre>
+<p>Open <code>Cargo.toml</code> and add the lines</p>
+<pre><code class="language-toml">[dependencies]
+lumol = {git = &quot;https://github.com/lumol-org/lumol&quot;}
+</code></pre>
+<p>to add <code>Lumol</code> as a dependency to the package.
+To test if everything works, open the <code>lib.rs</code> file in <code>src</code> and add</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+extern crate lumol;
+#}</code></pre></pre>
+<p>in the first line.</p>
+<p>Run <code>cargo build</code> or <code>cargo test</code> to check if errors occur.</p>
+<a class="header" href="print.html#defining-the-struct" id="defining-the-struct"><h2>Defining the struct</h2></a>
+<p>For the first part of the tutorial, the complete code will be written into the <code>lib.rs</code> file.</p>
+<p>The energy function of the Mie potential reads</p>
+<p>$u(x) = \frac{n}{n-m} \left(\frac{n}{m}\right)^{m/(n-m)}\epsilon \left[ \left( \frac{\sigma}{x}\right)^n - \left( \frac{\sigma}{x}\right)^m \right]$</p>
+<p>where $x$ denotes the distance between two interaction sites $i, j$, with $x = x_{ij} = | \mathbf{r}_j - \mathbf{r}_i |$. The parameters of the potential are</p>
+<ul>
+<li>$n, m$ the repulsive and attractive exponents, respectively,</li>
+<li>$\epsilon$ the energetic paramater,</li>
+<li>$\sigma$ the particle diameter or structural parameter.</li>
+</ul>
+<p>We start by defining the <code>struct</code> for our potential. Add the following lines to <code>lib.rs</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+extern crate lumol;
+use lumol::energy::{Potential, PairPotential};
+
+#[derive(Clone, Copy)]
+pub struct Mie {
+    /// Distance constant
+    sigma: f64,
+    /// Energy constant
+    epsilon: f64,
+    /// Exponent of repulsive contribution
+    n: f64,
+    /// Exponent of attractive contribution
+    m: f64,
+    /// Energetic prefactor computed from the exponents and epsilon
+    prefactor: f64,
+}
+#}</code></pre></pre>
+<p>In the first two lines we define our imports from <code>Lumol</code>, following with our structure.</p>
+<p>Next, we implement a constructor function. That's usefull in this case since we want to compute the prefactor
+of the potential once before we start our simulation.</p>
+<p>$\text{prefactor} = \frac{n}{n-m} \left(\frac{n}{m}\right)^{m/(n-m)}\epsilon$</p>
+<p>In Rust we typically use <code>new</code> for the constructors' name.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl Mie {
+    pub fn new(sigma: f64, epsilon: f64, n: f64, m: f64) -&gt; Mie {
+        if m &gt;= n {
+            panic!(&quot;The repulsive exponent n has to be larger than the attractive exponent m&quot;)
+        };
+        let prefactor = n / (n - m) * (n / m).powf(m / (n - m)) * epsilon;
+        Mie {
+            sigma: sigma,
+            epsilon: epsilon,
+            n: n,
+            m: m,
+            prefactor: prefactor,
+        }
+    }
+}
+#}</code></pre></pre>
+<p>Our function takes the parameter set as input, computes the prefactor and returns a <code>Mie</code> struct. Notice that
+it panics, for <code>n</code> smaller than or equal to <code>m</code>.
+The next step is to implement the <code>Potential</code> trait for <code>Mie</code>.</p>
+<a class="header" href="print.html#implementing-potential" id="implementing-potential"><h2>Implementing <code>Potential</code></h2></a>
+<p>Add the following lines below the structs implementation.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl Potential for Mie {
+    fn energy(&amp;self, r: f64) -&gt; f64 {
+        let sigma_r = self.sigma / r;
+        let repulsive = f64::powf(sigma_r, self.n);
+        let attractive = f64::powf(sigma_r, self.m);
+        self.prefactor * (repulsive - attractive)
+    }
+
+    fn force(&amp;self, r: f64) -&gt; f64 {
+        let sigma_r = self.sigma / r;
+        let repulsive = f64::powf(sigma_r, self.n);
+        let attractive = f64::powf(sigma_r, self.m);
+        -self.prefactor * (self.n * repulsive - self.m * attractive) / r
+    }
+}
+#}</code></pre></pre>
+<p><code>energy</code> is the implementation of the Mie potential equation shown above.
+<code>force</code> is the negative derivative of the energy with respect to the distance, <code>r</code>.
+To be more precise, the vectorial force can readily be computed by multiplying the
+result of <code>force</code> with the connection vector $\vec{r}$.</p>
+<p>The next step is to make our <code>Potential</code> usable in Lumol's algortihms to compute
+non-bonded energies and forces.
+Therefore, we have to implement the <code>PairPotential</code> trait.</p>
+<a class="header" href="print.html#implementing-pairpotential" id="implementing-pairpotential"><h2>Implementing <code>PairPotential</code></h2></a>
+<p>Let's inspect the <a href="http://lumol.org/lumol/latest/lumol/energy/trait.PairPotential.html">documentation of <code>PairPotential</code></a>.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub trait PairPotential: Potential + BoxClonePair {
+    fn tail_energy(&amp;self, cutoff: f64) -&gt; f64;
+    fn tail_virial(&amp;self, cutoff: f64) -&gt; f64;
+
+    fn virial(&amp;self, r: &amp;Vector3D) -&gt; Matrix3 { ... }
+}
+#}</code></pre></pre>
+<p>First, we can see that <code>PairPotential</code> enforces the implementation of <code>Potential</code> which is denoted by <code>pub trait PairPotential: Potential ...</code> (we ignore <code>BoxClonePair</code> for now, as it is automatically implemented for us if we implement <code>PairPotential</code> manually).
+That makes sense from a didactive point of view since we said that <code>PairPotential</code> is a &quot;specialization&quot; of <code>Potential</code>
+and furthermore, we can make use of all functions that we had to implement for <code>Potential</code>.</p>
+<p>There are three functions in the <code>PairPotential</code> trait. The first two functions start with <code>tail_</code>.
+These are functions to compute long range or tail corrections.
+Often, we introduce a cutoff distance into our potential beyond which we set the energy to zero.
+Doing so we intoduce an error which we can account for using a tail correction.
+We need two of these corrections, one for the energy, <code>tail_energy</code>, and one for the pressure (which uses <code>tail_virial</code>
+under the hood). For a beautiful derivation of tail corrections for truncated potentials, <a href="https://engineering.ucsb.edu/%7Eshell/che210d/Simulations_of_bulk_phases.pdf">see here</a>.</p>
+<p>The third function, <code>virial</code>, already has its body implemented -- we don't have to write an implementation for
+our potential.</p>
+<p>We will omit the derivation of the formulae for tail corrections here but they are computed by solving these equations</p>
+<p>energy: $\int_{r_c}^{\infty} u(r) r^2 \mathrm{d}r$</p>
+<p>virial: $\int_{r_c}^{\infty} \frac{\partial u(r)}{\partial r} r^3 \mathrm{d}r$</p>
+<p>The implementation looks like so</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl PairPotential for Mie {
+    fn tail_energy(&amp;self, cutoff: f64) -&gt; f64 {
+        if self.m &lt; 3.0 {
+            return 0.0;
+        };
+        let sigma_rc = self.sigma / cutoff;
+        let n_3 = self.n - 3.0;
+        let m_3 = self.m - 3.0;
+        let repulsive = f64::powf(sigma_rc, n_3);
+        let attractive = f64::powf(sigma_rc, m_3);
+        -self.prefactor * self.sigma.powi(3) * (repulsive / n_3 - attractive / m_3)
+    }
+
+    fn tail_virial(&amp;self, cutoff: f64) -&gt; f64 {
+        if self.m &lt; 3.0 {
+            return 0.0;
+        };
+        let sigma_rc = self.sigma / cutoff;
+        let n_3 = self.n - 3.0;
+        let m_3 = self.m - 3.0;
+        let repulsive = f64::powf(sigma_rc, n_3);
+        let attractive = f64::powf(sigma_rc, m_3);
+        -self.prefactor * self.sigma.powi(3) * (repulsive * self.n / n_3 - attractive * self.m / m_3)
+    }
+}
+#}</code></pre></pre>
+<p>Note that we cannot correct every kind of energy function.
+In fact, the potential has to be a <em>short ranged</em> potential.
+For our Mie potential, both the exponents have to be larger than 3.0 else our potential will be <em>long ranged</em> and
+the integral that has to be solved to compute the tail corrections diverges.
+We return zero in that case.</p>
+<a class="header" href="print.html#running-a-small-simulation-using-the-new-potential" id="running-a-small-simulation-using-the-new-potential"><h2>Running a small simulation using the new potential</h2></a>
+<p>That concludes the first part.
+To test your new and shiny potential, you can run a small simulation.
+You'll find a minimal Monte Carlo simulation example in the <code>lumol/tutorials/lumol_tutorial_potential</code> directory where you will also find the <code>src/lib.rs</code> file we created in this tutorial.
+You can then run the simulation via</p>
+<pre><code>cargo run --release
+</code></pre>
+<p>Fantastic! You implemented a new potential and ran a simulation with it!</p>
+<p>If you want to share your implementation with other Lumol users only some small additional steps are neccessary.
+We will talk about them in part II.</p>
+<a class="header" href="print.html#part-ii-adding-the-potential-to-lumol-core" id="part-ii-adding-the-potential-to-lumol-core"><h1>Part II: Adding the potential to lumol core</h1></a>
+<a class="header" href="print.html#frequently-asked-questions" id="frequently-asked-questions"><h1>Frequently Asked Questions</h1></a>
+<p>Here are some commons questions about Lumol. If you have more questions, please
+contact us on <a href="https://gitter.im/lumol-org/lumol">Gitter</a> to ask it, so that we can add it here!</p>
+<ul>
+<li><a href="print.html#what-kind-of-simulation-can-i-run-with-lumol">What kind of simulation can I run with Lumol?</a></li>
+<li><a href="print.html#why-should-i-use-lumol">Why should I use Lumol?</a></li>
+<li><a href="print.html#why-should-i-not-use-lumol">Why should I NOT use Lumol?</a></li>
+<li><a href="print.html#how-can-i-build-the-initial-configuration">How can I build the initial configuration?</a></li>
+<li><a href="print.html#is-the-code-parallel">Is the code parallel?</a></li>
+<li><a href="print.html#why-is-lumol-written-in-rust">Why is Lumol written in Rust?</a></li>
+<li><a href="print.html#is-there-any-graphical-interface-to-lumol">Is there any graphical interface to Lumol?</a></li>
+</ul>
+<a class="header" href="print.html#what-kind-of-simulation-can-i-run-with-lumol" id="what-kind-of-simulation-can-i-run-with-lumol"><h2>What kind of simulation can I run with Lumol?</h2></a>
+<p>You should be able to run any kind of classical simulation, the only limit being
+the number of atoms fitting in memory.</p>
+<a class="header" href="print.html#why-should-i-use-lumol" id="why-should-i-use-lumol"><h2>Why should I use Lumol?</h2></a>
+<p>If any of these statement is true for you, you should consider using Lumol:</p>
+<ul>
+<li>You need to use a specific potential that is not yet available in other
+codes, or develop your own potential. Adding a new potential in Lumol is very
+simple and take less than 20 lines of code;</li>
+<li>You are developing new simulation algorithms, for example more efficient
+free-energy computations or better parallel scaling of Coulomb computations.
+Lumol allow you to write the specific algorithm, and reuse all the other part
+of the simulation engine;</li>
+</ul>
+<p>Other nice goodies include:</p>
+<ul>
+<li>Nicely formatted and easy to read input files;</li>
+<li><em>(and more to come ...)</em></li>
+</ul>
+<a class="header" href="print.html#why-should-i-not-use-lumol" id="why-should-i-not-use-lumol"><h2>Why should I NOT use Lumol?</h2></a>
+<p>Here are some reasons for you not to use Lumol:</p>
+<ul>
+<li>You need to get the fastest code for your simulations because you are working
+with a lot of atoms. Lumol is relatively young and is not yet fully optimized;</li>
+<li>You need to run your simulation on a cluster. Lumol can run on multiple cores
+(think OpenMP), but not yet on multiple nodes (think MPI).</li>
+</ul>
+<a class="header" href="print.html#how-can-i-build-the-initial-configuration" id="how-can-i-build-the-initial-configuration"><h2>How can I build the initial configuration?</h2></a>
+<p>Lumol does not provide tools for building the initial simulation configuration.
+There are already a lot of very good tools around, that you can use. Examples
+include <a href="http://www.ks.uiuc.edu/Research/vmd/">VMD</a>, <a href="http://www.ime.unicamp.br/%7Emartinez/packmol/">packmol</a>, <a href="http://gromacs.org/">gromacs</a>, and many others. Because Lumol uses
+<a href="http://chemfiles.org/">chemfiles</a> to read initial configuration, any <a href="http://chemfiles.org/chemfiles/latest/formats.html#list-of-supported-formats">format supported by
+chemfiles</a> can be used.</p>
+<a class="header" href="print.html#is-the-code-parallel" id="is-the-code-parallel"><h2>Is the code parallel?</h2></a>
+<p>Lumol can run in parallel on a single computer, using the multiple cores of the
+processor (this is shared memory parallelism, like OpenMP). It is not yet
+possible to run Lumol on multiple nodes in a cluster (message passing
+parallelism, like MPI).</p>
+<a class="header" href="print.html#why-is-lumol-written-in-rust" id="why-is-lumol-written-in-rust"><h2>Why is Lumol written in Rust?</h2></a>
+<p><a href="http://www.rust-lang.org/">Rust</a> is a language created by Mozilla, and was released in 1.0 version
+in may 2015. It is a modern language, that provides the same access to the bare
+metal performances as C or C++, but prevents some programmer mistakes leading to
+crashes and corruptions.</p>
+<p>This allow to build better software faster, because the programmer does not need
+to spend as much time debugging the code. At the same time, it also allow to
+check at compile-time that a code is data-race free, and allow to build parallel
+programs more easily.</p>
+<a class="header" href="print.html#is-there-any-graphical-interface-to-lumol" id="is-there-any-graphical-interface-to-lumol"><h2>Is there any graphical interface to Lumol?</h2></a>
+<p>Not yet. But because Lumol is built as a library implementing all the simulation
+algorithms, it should be relatively easy to create a graphical interface around
+it. If you are interested in a graphical user interface (using it or building
+it), please contact us!</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+
+                
+
+            </div>
+
+            
+
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

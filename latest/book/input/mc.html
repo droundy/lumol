@@ -1,0 +1,339 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Monte Carlo - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html" class="active"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Monte Carlo - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="input/mc.html#monte-carlo" id="monte-carlo"><h1>Monte Carlo</h1></a>
+<p>If you want to perform a Monte Carlo simulation, you have to set the propagator
+<code>type</code> to <code>&quot;MonteCarlo&quot;</code>. Every Monte Carlo simulations needs a <code>temperature</code>
+and a set of <code>moves</code> (this set can consist of a single move).</p>
+<p>You can think of a &quot;move&quot; as a specific instruction to generate a new trial
+configuration. For example: &quot;translate a single molecule in the system&quot;, &quot;rotate
+a molecule&quot;, or &quot;change the cell size&quot;. If a move is accepted (based on an
+acceptance criterion), the trial configuration becomes the new configuration. If
+the move is rejected, the system stays in its current configuration. You can add
+multiple moves so that the ensemble of your choice is sampled.</p>
+<p>Here is a list of all moves that are currently implemented in Lumol:</p>
+<ul>
+<li><a href="input/mc.html#translation">Translate</a>: Change the center of mass position of
+a molecule.</li>
+<li><a href="input/mc.html#rotation">Rotate</a>: Perform a rotation of a molecule about its
+center of mass.</li>
+<li><a href="input/mc.html#resize">Resize</a>: Change the size of the simulation cell.</li>
+</ul>
+<p>Currently, all Monte Carlo simulations are carried out using Metropolis
+acceptance criteria.</p>
+<p>You can add all necessary information after the <code>[simulations.propagator]</code> label.</p>
+<ul>
+<li>
+<p>Needed keys:</p>
+<ul>
+<li><code>type = &quot;MonteCarlo&quot;</code></li>
+<li><code>temperature</code> (string): System temperature. The string contains the
+temperature with unit.</li>
+</ul>
+</li>
+<li>
+<p>Optional keys:</p>
+<ul>
+<li><code>update_frequency</code> (positive integer): After this number of steps of a move, <code>delta</code> values
+for this move are updated. Updates use statistics of a moves' acceptance ratio so it
+is recommended to choose a sufficiently high number (&gt;100).</li>
+</ul>
+</li>
+</ul>
+<p>Naturally, Monte Carlo simulations are carried out at constant
+temperature which is set using the <code>temperature</code> key.</p>
+<p>Different from Molecular Dynamics, Monte Carlo simulations don't carry
+information about the velocities of particles.
+As a consequence we cannot access temperature from the kinetic energy.</p>
+<a class="header" href="input/mc.html#example" id="example"><h3>Example</h3></a>
+<p>A sample input for a Monte Carlo simulation (in the NPT ensemble)
+can look like so:</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;500 K&quot;
+
+moves = [
+    {type = &quot;Translate&quot;, delta = &quot;1 A&quot;, frequency = 2},
+    {type = &quot;Rotate&quot;, delta = &quot;20 deg&quot;, molecule = &quot;CO2.xyz&quot;},
+    {type = &quot;Resize&quot;, pressure = &quot;10 bar&quot;, delta = &quot;3 A^3&quot;, frequency = 0.001},
+]
+</code></pre>
+<a class="header" href="input/mc.html#moves" id="moves"><h2>Moves</h2></a>
+<p>All <code>moves</code> are specified as inline tables. You can add a move using the <code>type</code>
+key with the name of the move.</p>
+<p><code>moves</code> accept an optional <code>frequency</code> parameter. During a Monte Carlo
+simulation it is very important that a move is selected randomly from the whole
+set. You can increase the chance to pick a certain move (compared to all other
+moves) by assigning a high <code>frequency</code> to it. If you don't specify a
+<code>frequency</code>, it is set to one.</p>
+<p>Lumol normalizes frequencies after all moves are added. The easiest way to
+handle frequencies is to use relative values. We will explain this below in the
+given examples.</p>
+<p>Some moves can be specified to act on a single molecule or particle type. These
+moves accept a <code>molecule</code> key whose value is a path to a configuration file that
+can be read by <a href="http://chemfiles.org/">chemfiles</a>.</p>
+<p>You can add the same move multiple times. For example, you can assign different
+amplitudes for different species in a mixture to make sampling more efficient.
+You can also use the <code>molecule</code> type to freeze a species by assigning a move for
+all but the frozen species.</p>
+<p>If you specify a molecule, it will be selected with the following algorithm:</p>
+<ul>
+<li>Read the first frame of the file;</li>
+<li>If the file does not contain any bonding information, try to guess the bonds;</li>
+<li>Use the first molecule of the frame.</li>
+</ul>
+<p><code>moves</code> that use a displacement (<code>delta</code>) can be added with the
+<code>target_acceptance</code> key.
+After a specific number of times a move was called (<code>update_frequency</code>),
+we compute the acceptance ratio for the current <code>delta</code> value, <em>i.e.</em> how often
+the move was accepted versus how often a move was attempted.
+If the current acceptance is far away from the <code>target_acceptance</code>, we compute
+a new value of <code>delta</code> based on the current acceptance.
+A <code>target_acceptance</code> can only be used in conjunction with the
+update_frequency` key that specifies the frequency between updates.</p>
+<p>Sometimes a given acceptance value cannot be achieved. Either due to limits of
+the adjusted <code>delta</code> value (it makes no sense to rotate a particle by more than 180° or to
+translate it by multiple values of the cutoff range) or due to the nature of the
+system.</p>
+<p>To summarize, using an adjustable displacement, we can increase the efficiency of
+our simulation, but strictly speaking we violate detailed balance and therefore
+the Markov chain. To make sure you get correct results from your simulations, we
+recommend to use adjustable displacements <em>only for equilibration runs</em>. You can
+then take the resulting values for <code>delta</code> and use them for a production run,
+where no further adjustments are made.</p>
+<a class="header" href="input/mc.html#example-1" id="example-1"><h3>Example</h3></a>
+<pre><code class="language-toml"># Equilibration of a protein in water.
+[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;300 K&quot;
+# we update the maximum displacement `delta` after a move was called 500 times
+update_frequency = 500
+
+moves = [
+    # we have much more water in the system so we want to move it more often
+    # hence we set the `frequency = 100`
+    # after 500 calls to this translation move, we adjust `delta` to get to approximately 50% acceptance
+    {type = &quot;Translate&quot;, delta = &quot;2 A&quot;, molecule = &quot;H2O.xyz&quot;, frequency = 100, target_acceptance = 0.5},
+    # the single protein will be displaced only by a small distance `delta = &quot;0.05 A&quot;` during the whole run
+    {type = &quot;Translate&quot;, delta = &quot;0.05 A&quot;, molecule = &quot;protein.pdb&quot;, frequency = 1},
+]
+</code></pre>
+<a class="header" href="input/mc.html#translation" id="translation"><h3>Translation</h3></a>
+<p>The <code>Translate</code> move changes the position of a single, randomly selected  molecule
+by adding a random displacement vector to its center of mass.</p>
+<ul>
+<li>Needed keys:
+<ul>
+<li><code>type = &quot;Translate&quot;</code></li>
+<li><code>delta</code> (string): Maximum amplitude for displacement.</li>
+</ul>
+</li>
+<li>Optional keys:
+<ul>
+<li><code>frequency</code> (float): Move frequency.</li>
+<li><code>molecule</code> (string): Select only the specified molecule type. The string
+contains the path to the configuration file of the molecule.</li>
+<li><code>target_acceptance</code> (float): The target acceptance for this move. Value
+has to be greater than zero and smaller than one. Can only be used in conjunction with <code>update_frequency</code>.</li>
+</ul>
+</li>
+</ul>
+<p>If the <code>molecule</code> key is used, the move will only apply to one molecule type. If
+not, the move will apply to all molecule types in the system. The <code>delta</code> key is
+the maximum magnitude of the translation vector. The conjugated string contains
+the value with unit of distance.</p>
+<a class="header" href="input/mc.html#example-2" id="example-2"><h4>Example</h4></a>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;500 K&quot;
+moves = [
+    # Define a translation for all molecules in the system, including He.
+    {type = &quot;Translate&quot;, delta = &quot;1 A&quot;, frequency = 2},
+    # For He, pick a larger displacement with half the frequency of the
+    # first move. Now there is a 66% chance to pick *any* molecule
+    # and translate it by up to 1 A. There is a 33% chance to pick He (and only He)
+    # and translate it by up to 10 A.
+    {type = &quot;Translate&quot;, delta = &quot;10 A&quot;, molecule = &quot;He.xyz&quot;},
+]
+</code></pre>
+<a class="header" href="input/mc.html#rotation" id="rotation"><h3>Rotation</h3></a>
+<p>The <code>Rotate</code> move randomly rotates a single molecule around its
+center of mass.</p>
+<ul>
+<li>Needed keys:
+<ul>
+<li><code>type = &quot;Rotate&quot;</code></li>
+<li><code>delta</code> (string): Maximum angle for rotation.</li>
+</ul>
+</li>
+<li>Optional keys:
+<ul>
+<li><code>frequency</code> (float): Move frequency.</li>
+<li><code>molecule</code> (string): Select only the specified molecule type. The string
+contains the path to the configuration file of the molecule.</li>
+<li><code>target_acceptance</code> (float): The target acceptance for this move. Value
+has to be greater than zero and smaller than one. Can only be used in conjunction with <code>update_frequency</code>.</li>
+</ul>
+</li>
+</ul>
+<p>If the <code>molecule</code> key is used, the move will only apply to one molecule type. If
+not, the move will apply to all molecules in the system. The <code>delta</code> key is the
+maximum angle. The conjugated string contains the value and the unit of either
+radians or degrees (<code>rad</code> or <code>deg</code>).</p>
+<a class="header" href="input/mc.html#example-3" id="example-3"><h4>Example</h4></a>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;500 K&quot;
+moves = [
+    {type = &quot;Rotate&quot;, delta = &quot;3 deg&quot;, frequency = 2},
+]
+</code></pre>
+<a class="header" href="input/mc.html#resize" id="resize"><h3>Resize</h3></a>
+<p>The <code>Resize</code> move can be used to isotropically change the systems' volume.</p>
+<ul>
+<li>Needed keys:
+<ul>
+<li><code>type = &quot;Resize&quot;</code></li>
+<li><code>pressure</code> (string): Target pressure.</li>
+<li><code>delta</code> (string): Amplitude.</li>
+</ul>
+</li>
+<li>Optional keys:
+<ul>
+<li><code>frequency</code> (float): Move frequency.</li>
+<li><code>target_acceptance</code> (float): The target acceptance for this move. Value
+has to be greater than zero and smaller than one. Can only be used in conjunction with <code>update_frequency</code>.</li>
+</ul>
+</li>
+</ul>
+<p>For a given <code>pressure</code>, the volume will fluctuate during the simulation. We can
+use this move to sample an isobaric-isothermal ensemble. The <code>delta</code> key sets
+the maximum amplitude of the volume change in units of cubic length.</p>
+<p>By changing the volume, we effectively change all (center of mass) positions at
+once. This makes <code>Resize</code> moves computationally expensive and we recommend to
+use a comparatively low value for the <code>frequency</code>. As a rule of thumb, for a
+system containing $N$ particles, every $N + 1$'th move should be a <code>Resize</code>
+move, since a single volume change is approximately as expensive as $N$ particle
+translations or rotations.</p>
+<a class="header" href="input/mc.html#example-4" id="example-4"><h4>Example</h4></a>
+<pre><code class="language-toml"># Simulation of 500 molecules.
+[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;500 K&quot;
+moves = [
+    {type = &quot;Translate&quot;, delta = &quot;1 A&quot;, frequency = 250},
+    {type = &quot;Rotate&quot;, delta = &quot;20 deg&quot;, frequency = 250},
+    {type = &quot;Resize&quot;, pressure = &quot;10 bar&quot;, delta = &quot;3 A^3&quot;, frequency = 1},
+]
+</code></pre>
+<p>As mentioned above, frequencies are normalized. In this example, 501 moves
+consist of 250 translations, 250 rotations and a single resizing of the cell <em>on
+average</em> (remember, moves are picked at random with their respective frequency).
+Setting up a move set like we did in this example is very convenient and in
+literature you'll often find the term &quot;cycle&quot; (here, 1 cycle = 501 moves) to
+describe such a set of moves and respective frequencies.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="input/md.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="input/min.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="input/md.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="input/min.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

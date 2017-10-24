@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `MonteCarlo` struct in crate `lumol_core`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, MonteCarlo">
+
+    <title>lumol_core::sim::MonteCarlo - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct MonteCarlo</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>sim</a></p><script>window.sidebarCurrent = {name: 'MonteCarlo', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>sim</a>::<wbr><a class="struct" href=''>MonteCarlo</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#14-32' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct MonteCarlo { /* fields omitted */ }</pre><div class='docblock'><p>Metropolis Monte Carlo propagator</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../../lumol_core/sim/struct.MonteCarlo.html" title="struct lumol_core::sim::MonteCarlo">MonteCarlo</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#34-138' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(temperature: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>) -&gt; <a class="struct" href="../../lumol_core/sim/struct.MonteCarlo.html" title="struct lumol_core::sim::MonteCarlo">MonteCarlo</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#36-40' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a new Monte Carlo propagator at temperature <code>T</code>.</p>
+</div><h4 id='method.from_rng' class="method"><span id='from_rng.v' class='invisible'><code>fn <a href='#method.from_rng' class='fnname'>from_rng</a>(temperature: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, rng: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="https://docs.rs/rand/0.3/rand/trait.Rng.html" title="trait rand::Rng">Rng</a>&gt;) -&gt; <a class="struct" href="../../lumol_core/sim/struct.MonteCarlo.html" title="struct lumol_core::sim::MonteCarlo">MonteCarlo</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#44-55' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a Monte Carlo propagator at temperature <code>T</code>, using the <code>rng</code>
+random number generator.</p>
+</div><h4 id='method.add' class="method"><span id='add.v' class='invisible'><code>fn <a href='#method.add' class='fnname'>add</a>(&amp;mut self, mcmove: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/sim/mc/trait.MCMove.html" title="trait lumol_core::sim::mc::MCMove">MCMove</a>&gt;, frequency: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#64-73' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Add the <code>mcmove</code> Monte Carlo move to this propagator, with frequency
+<code>frequency</code>. All calls to this function should happen before any
+simulation run.</p>
+
+<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<p>If called after a simulation run.</p>
+</div><h4 id='method.add_move_with_acceptance' class="method"><span id='add_move_with_acceptance.v' class='invisible'><code>fn <a href='#method.add_move_with_acceptance' class='fnname'>add_move_with_acceptance</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;mcmove: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/sim/mc/trait.MCMove.html" title="trait lumol_core::sim::mc::MCMove">MCMove</a>&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;frequency: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;target_acceptance: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a><br>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#83-92' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Add the <code>mcmove</code> Monte Carlo move to the propagator.
+<code>frequency</code> describes how frequent a move is called, <code>target_acceptance</code>
+is the desired acceptance ratio of the move.</p>
+
+<h1 id='panics-1' class='section-header'><a href='#panics-1'>Panics</a></h1>
+<p>If called after a simulation run.
+If <code>target_acceptance</code> is either negative or larger than one.</p>
+</div><h4 id='method.set_amplitude_update_frequency' class="method"><span id='set_amplitude_update_frequency.v' class='invisible'><code>fn <a href='#method.set_amplitude_update_frequency' class='fnname'>set_amplitude_update_frequency</a>(&amp;mut self, frequency: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#96-98' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Set the number of times a move has to be called before its amplitude
+is updated. This value is applied to all moves.</p>
+</div><h4 id='method.temperature' class="method"><span id='temperature.v' class='invisible'><code>fn <a href='#method.temperature' class='fnname'>temperature</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#101-103' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the temperature of the simulation</p>
+</div><h4 id='method.set_temperature' class="method"><span id='set_temperature.v' class='invisible'><code>fn <a href='#method.set_temperature' class='fnname'>set_temperature</a>(&amp;mut self, temperature: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#106-108' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Set the temperature of the simulation</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Propagator' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../lumol_core/sim/trait.Propagator.html" title="trait lumol_core::sim::Propagator">Propagator</a> for <a class="struct" href="../../lumol_core/sim/struct.MonteCarlo.html" title="struct lumol_core::sim::MonteCarlo">MonteCarlo</a></code><a href='#impl-Propagator' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#140-211' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.temperature_strategy' class="method"><span id='temperature_strategy.v' class='invisible'><code>fn <a href='../../lumol_core/sim/trait.Propagator.html#tymethod.temperature_strategy' class='fnname'>temperature_strategy</a>(&amp;self) -&gt; <a class="enum" href="../../lumol_core/sim/enum.TemperatureStrategy.html" title="enum lumol_core::sim::TemperatureStrategy">TemperatureStrategy</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#141-143' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the temperature computation strategy for this propagator</p>
+</div><h4 id='method.setup' class="method"><span id='setup.v' class='invisible'><code>fn <a href='../../lumol_core/sim/trait.Propagator.html#method.setup' class='fnname'>setup</a>(&amp;mut self, system: &amp;<a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#145-151' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Setup code, preparing all the meta-information needed about the simulation. <a href="../../lumol_core/sim/trait.Propagator.html#method.setup">Read more</a></p>
+</div><h4 id='method.propagate' class="method"><span id='propagate.v' class='invisible'><code>fn <a href='../../lumol_core/sim/trait.Propagator.html#tymethod.propagate' class='fnname'>propagate</a>(&amp;mut self, system: &amp;mut <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#153-199' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Propagate the system for one simulation step.</p>
+</div><h4 id='method.finish' class="method"><span id='finish.v' class='invisible'><code>fn <a href='../../lumol_core/sim/trait.Propagator.html#method.finish' class='fnname'>finish</a>(&amp;mut self, _: &amp;<a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sim/mc/monte_carlo.rs.html#202-210' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Print some informations about moves to screen</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "lumol_core";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

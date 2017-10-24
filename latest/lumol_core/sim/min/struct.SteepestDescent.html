@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `SteepestDescent` struct in crate `lumol_core`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, SteepestDescent">
+
+    <title>lumol_core::sim::min::SteepestDescent - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct SteepestDescent</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../../index.html'>lumol_core</a>::<wbr><a href='../index.html'>sim</a>::<wbr><a href='index.html'>min</a></p><script>window.sidebarCurrent = {name: 'SteepestDescent', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>lumol_core</a>::<wbr><a href='../index.html'>sim</a>::<wbr><a href='index.html'>min</a>::<wbr><a class="struct" href=''>SteepestDescent</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/lumol_core/sim/min/steepest_descent.rs.html#16-19' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct SteepestDescent { /* fields omitted */ }</pre><div class='docblock'><p>Steepest descent minimization algorithm.</p>
+
+<p>This method propagates the system along the gradient of energy to find a
+minimum. Although easy to use, it will not converge in all situations.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../lumol_core/sim/min/struct.SteepestDescent.html" title="struct lumol_core::sim::min::SteepestDescent">SteepestDescent</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/lumol_core/sim/min/steepest_descent.rs.html#21-28' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class="struct" href="../../../lumol_core/sim/min/struct.SteepestDescent.html" title="struct lumol_core::sim::min::SteepestDescent">SteepestDescent</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/lumol_core/sim/min/steepest_descent.rs.html#23-27' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a new <code>SteepestDescent</code> minimizer</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Minimizer' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../../lumol_core/sim/min/trait.Minimizer.html" title="trait lumol_core::sim::min::Minimizer">Minimizer</a> for <a class="struct" href="../../../lumol_core/sim/min/struct.SteepestDescent.html" title="struct lumol_core::sim::min::SteepestDescent">SteepestDescent</a></code><a href='#impl-Minimizer' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/lumol_core/sim/min/steepest_descent.rs.html#30-67' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.minimize' class="method"><span id='minimize.v' class='invisible'><code>fn <a href='../../../lumol_core/sim/min/trait.Minimizer.html#tymethod.minimize' class='fnname'>minimize</a>(&amp;mut self, system: &amp;mut <a class="struct" href="../../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a>) -&gt; <a class="struct" href="../../../lumol_core/sim/min/struct.Tolerance.html" title="struct lumol_core::sim::min::Tolerance">Tolerance</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/lumol_core/sim/min/steepest_descent.rs.html#31-66' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Find a new configuration of lower energy, and return the corresponding values for energy and forces. <a href="../../../lumol_core/sim/min/trait.Minimizer.html#tymethod.minimize">Read more</a></p>
+</div><h4 id='method.setup' class="method"><span id='setup.v' class='invisible'><code>fn <a href='../../../lumol_core/sim/min/trait.Minimizer.html#method.setup' class='fnname'>setup</a>(&amp;mut self, _: &amp;<a class="struct" href="../../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/lumol_core/sim/min/minimization.rs.html#26' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Setup the minimizer. This function is called once at the begining of every simulation run. <a href="../../../lumol_core/sim/min/trait.Minimizer.html#method.setup">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "lumol_core";
+    </script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

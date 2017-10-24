@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hello Sodium Chloride - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html" class="active"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Hello Sodium Chloride - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="tutorial/nacl.html#hello-sodium-chloride" id="hello-sodium-chloride"><h1>Hello Sodium Chloride</h1></a>
+<p>In this example, we will simulate a Sodium Chloride crystal, using molecular
+dynamics to propagate the position throughout time. Sodium Chloride add a
+challenge in simulation because each atom carry a charge. These charges interact
+with a Coulomb potential which goes to zero as $1 / r$. The problem is that the
+cutoff scheme used for pair potential in most molecular simulations can not be
+used for anything that goes to zero slower than $1 / r^3$. So we need to use
+alternate methods to compute the potential for the charges-charges interactions.</p>
+<p>For this simulation, you will need the initial configuration available
+<a href="data/nacl.xyz">here</a>. Download it and save it under the name <code>nacl.xyz</code>. You will
+also need the input file available <a href="data/nacl.toml">here</a>. Save it as <code>nacl.toml</code> and
+place it near to <code>nacl.xyz</code>. Again you can run the simulation which should
+complete in a minute with:</p>
+<pre><code>lumol nacl.toml
+</code></pre>
+<p>This run a molecular dynamics simulation of a NaCl crystal, using electrostatic
+interactions between the atomic charges.</p>
+<a class="header" href="tutorial/nacl.html#the-input-file-commented" id="the-input-file-commented"><h2>The input file commented</h2></a>
+<p>We start with the input version again:</p>
+<pre><code class="language-toml">[input]
+version = 1
+</code></pre>
+<p>Then we load the system from the <code>nacl.xyz</code> file and define the unit cell.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;nacl.xyz&quot;
+cell = 22.5608
+</code></pre>
+<p>Here we define some global values for the interactions: setting
+<code>systems.potentials.global.cutoff</code> will use the given cutoff for all the pair
+interactions. The <code>systems.potentials.charges</code> section defined the atomic
+charges in the system.</p>
+<pre><code class="language-toml">[systems.potentials.global]
+cutoff = &quot;8 A&quot;
+
+[systems.potentials.charges]
+Na = 1.0
+Cl = -1.0
+</code></pre>
+<p>We need to define the pair interactions for all the pair combinations in the
+system, <em>i.e.</em> (Na, Na); (Cl, Cl); and (Na, Cl).</p>
+<pre><code class="language-toml">[[systems.potentials.pairs]]
+atoms = [&quot;Na&quot;, &quot;Cl&quot;]
+lj = {sigma = &quot;3.5545 A&quot;, epsilon = &quot;0.04425 kcal/mol&quot;}
+
+[[systems.potentials.pairs]]
+atoms = [&quot;Na&quot;, &quot;Na&quot;]
+lj = {sigma = &quot;2.497 A&quot;, epsilon = &quot;0.07826 kcal/mol&quot;}
+
+[[systems.potentials.pairs]]
+atoms = [&quot;Cl&quot;, &quot;Cl&quot;]
+lj = {sigma = &quot;4.612 A&quot;, epsilon = &quot;0.02502 kcal/mol&quot;}
+</code></pre>
+<p>Because our system have charges, we need to use an electrostatic potential
+solver. Here we are going for the <code>Wolf</code> solver, with a cutoff of 8 A.</p>
+<pre><code class="language-toml">[systems.potentials.coulomb]
+wolf = {cutoff = &quot;8 A&quot;}
+</code></pre>
+<p>We can now define the simulation and the outputs for this simulation.</p>
+<pre><code class="language-toml">[[simulations]]
+nsteps = 5000
+outputs = [
+    {type = &quot;Trajectory&quot;, file = &quot;trajectory.xyz&quot;, frequency = 10}
+]
+</code></pre>
+<p>We are using here a molecular dynamics simulation of the NaCl crystal, and a
+timestep of 1 fs for integration.</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MolecularDynamics&quot;
+timestep = &quot;1 fs&quot;
+</code></pre>
+<p>In the next example, we will see how to simulate molecules of
+<a href="tutorial/water.html">water</a>.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="tutorial/argon.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="tutorial/water.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="tutorial/argon.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="tutorial/water.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

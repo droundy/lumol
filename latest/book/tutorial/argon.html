@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Monte Carlo of Argon - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html" class="active"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Monte Carlo of Argon - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="tutorial/argon.html#monte-carlo-simulation-of-argon" id="monte-carlo-simulation-of-argon"><h1>Monte Carlo simulation of Argon</h1></a>
+<p>So let's run a simulation with Lumol. The easiest system to simulate is a
+Lennard-Jones fluid, which is a good model for noble gases fluids. Here we will
+simulate super-critical argon using Metropolis Monte Carlo algorithm.</p>
+<p>For this simulation, you will need the initial configuration available
+<a href="data/argon.xyz">here</a>. Download it and save it under the name <code>argon.xyz</code>.</p>
+<p>You will also need the input file available <a href="data/argon.toml">here</a>. Save it as
+<code>argon.toml</code> and place it near to <code>argon.xyz</code>. You can then run the simulation
+with:</p>
+<pre><code>lumol argon.toml
+</code></pre>
+<p>The simulation should complete in a few second (8 s on my system), and produce
+two files: <code>energy.dat</code> and <code>trajectory.xyz</code>.</p>
+<a class="header" href="tutorial/argon.html#input-file-anatomy" id="input-file-anatomy"><h2>Input file anatomy</h2></a>
+<p>The input file is written using the TOML syntax, you can learn more about this
+<a href="https://github.com/toml-lang/toml">syntax here</a>. The file starts with a header declaring the version of the
+input file syntax used, here the version 1:</p>
+<pre><code class="language-toml">[input]
+version = 1
+</code></pre>
+<p>Then, we declare which system we want to simulate, in the <code>systems</code> array. We
+define this system using an XYZ file, and providing the unit cell size.</p>
+<pre><code class="language-toml">[[systems]]
+file = &quot;argon.xyz&quot;
+cell = 21.65
+</code></pre>
+<p>We also need to define the interactions potential between the atom in the
+system, which we do in the <code>potential.pairs</code> section; using a Lennard-Jones
+potentials with a cutoff distance of 10 A for all Ar-Ar pairs.</p>
+<pre><code class="language-toml">[[systems.potentials.pairs]]
+atoms = [&quot;Ar&quot;, &quot;Ar&quot;]
+cutoff = &quot;10 A&quot;
+lj = {sigma = &quot;3.4 A&quot;, epsilon = &quot;1.0 kJ/mol&quot;}
+</code></pre>
+<p>Then we define how we want to simulate our system. Here we need to run the
+simulation for <code>100000</code> steps, and output the energy to <code>energy.dat</code> every 100
+steps, and the trajectory to <code>trajectory.xyz</code> every 100 steps too.</p>
+<pre><code class="language-toml">[[simulations]]
+nsteps = 100000
+outputs = [
+    {type = &quot;Energy&quot;, file = &quot;energy.dat&quot;, frequency = 100},
+    {type = &quot;Trajectory&quot;, file = &quot;trajectory.xyz&quot;, frequency = 100}
+]
+</code></pre>
+<p>At the end we define how we propagate the system from one step to another. Here
+we are using a Monte Carlo simulation at 500 K, and the only Monte Carlo move is
+a translation of maximum amplitude of 1 A.</p>
+<pre><code class="language-toml">[simulations.propagator]
+type = &quot;MonteCarlo&quot;
+temperature = &quot;500 K&quot;
+moves = [
+    {type = &quot;Translate&quot;, delta = &quot;1 A&quot;},
+]
+</code></pre>
+<p>So now we know how to run simulations of Lennard-Jones fluids. How about we add
+electrostatic interactions in the next example? Say hello to <a href="tutorial/nacl.html">Sodium
+Chloride</a>!</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="tutorial/intro.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="tutorial/nacl.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="tutorial/intro.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="tutorial/nacl.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

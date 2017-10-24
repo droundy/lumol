@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `System` struct in crate `lumol_core`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, System">
+
+    <title>lumol_core::sys::System - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct System</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#deref-methods">Methods from Deref&lt;Target=Configuration&gt;</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>sys</a></p><script>window.sidebarCurrent = {name: 'System', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>sys</a>::<wbr><a class="struct" href=''>System</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#28-39' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct System { /* fields omitted */ }</pre><div class='docblock'><p>The <code>System</code> type hold all the data about a simulated system.</p>
+
+<p>This data contains:</p>
+
+<ul>
+<li>an unit cell, containing the system;</li>
+<li>a list of particles in the system;</li>
+<li>a list of molecules in the system;</li>
+<li>a list of interactions, associating particles kinds and potentials</li>
+</ul>
+
+<p>In the implementation, the particles contained in a molecule are guaranteed
+to be contiguous in memory. This allow for faster access when iterating
+over molecules, and easier molecule removal from the system.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#41-140' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#43-45' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a new empty <code>System</code></p>
+</div><h4 id='method.with_cell' class="method"><span id='with_cell.v' class='invisible'><code>fn <a href='#method.with_cell' class='fnname'>with_cell</a>(cell: <a class="struct" href="../../lumol_core/sys/struct.UnitCell.html" title="struct lumol_core::sys::UnitCell">UnitCell</a>) -&gt; <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#48-52' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create an empty system with a specific unit cell</p>
+</div><h4 id='method.add_particle' class="method"><span id='add_particle.v' class='invisible'><code>fn <a href='#method.add_particle' class='fnname'>add_particle</a>(&amp;mut self, particle: <a class="struct" href="../../lumol_core/sys/struct.Particle.html" title="struct lumol_core::sys::Particle">Particle</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#76-81' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Insert a particle at the end of the internal list.</p>
+</div><h4 id='method.composition' class="method"><span id='composition.v' class='invisible'><code>fn <a href='#method.composition' class='fnname'>composition</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/sys/struct.Composition.html" title="struct lumol_core::sys::Composition">Composition</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#84-91' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the number of particles of each kind in the configuration</p>
+</div><h4 id='method.particle_kinds' class="method"><span id='particle_kinds.v' class='invisible'><code>fn <a href='#method.particle_kinds' class='fnname'>particle_kinds</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../../lumol_core/sys/struct.ParticleKind.html" title="struct lumol_core::sys::ParticleKind">ParticleKind</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#94-96' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get a list of all the particles kinds in the system.</p>
+</div><h4 id='method.step' class="method"><span id='step.v' class='invisible'><code>fn <a href='#method.step' class='fnname'>step</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#99-101' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the current step of the system</p>
+</div><h4 id='method.increment_step' class="method"><span id='increment_step.v' class='invisible'><code>fn <a href='#method.increment_step' class='fnname'>increment_step</a>(&amp;mut self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#104-106' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Increment the system step</p>
+</div><h4 id='method.external_temperature' class="method"><span id='external_temperature.v' class='invisible'><code>fn <a href='#method.external_temperature' class='fnname'>external_temperature</a>(&amp;mut self, temperature: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt;)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#114-119' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Use an external temperature for all the system properties. Calling this
+with <code>Some(temperature)</code> will replace all the computation of the
+temperature from the velocities with the given values. Calling it with
+<code>None</code> will use the velocities.</p>
+
+<p>The default is to use the velocities unless this function is called.</p>
+</div><h4 id='method.guess_bonds' class="method"><span id='guess_bonds.v' class='invisible'><code>fn <a href='#method.guess_bonds' class='fnname'>guess_bonds</a>(&amp;mut self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#128-139' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Guess the bonds in the configuration using the chemfiles algorithm.</p>
+
+<p>This function removes any existing bond, and tries to guess bonds using
+a distance criteria. Because this function does a round trip to
+chemfiles, it might be costly when dealing with big systems.</p>
+</div></div><h3 id='impl-1' class='impl'><span class='in-band'><code>impl <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a></code><a href='#impl-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#143-275' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'><p>Functions related to interactions</p>
+</div><div class='impl-items'><h4 id='method.energy_evaluator' class="method"><span id='energy_evaluator.v' class='invisible'><code>fn <a href='#method.energy_evaluator' class='fnname'>energy_evaluator</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/sys/struct.EnergyEvaluator.html" title="struct lumol_core::sys::EnergyEvaluator">EnergyEvaluator</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#145-147' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get an helper struct to evaluate the energy of this system.</p>
+</div><h4 id='method.add_pair_potential' class="method"><span id='add_pair_potential.v' class='invisible'><code>fn <a href='#method.add_pair_potential' class='fnname'>add_pair_potential</a>(&amp;mut self, i: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, j: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, potential: <a class="struct" href="../../lumol_core/energy/struct.PairInteraction.html" title="struct lumol_core::energy::PairInteraction">PairInteraction</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#150-154' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Add the <code>potential</code> pair interaction for the pair <code>(i, j)</code></p>
+</div><h4 id='method.add_bond_potential' class="method"><span id='add_bond_potential.v' class='invisible'><code>fn <a href='#method.add_bond_potential' class='fnname'>add_bond_potential</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;i: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;j: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;potential: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/energy/trait.BondPotential.html" title="trait lumol_core::energy::BondPotential">BondPotential</a>&gt;<br>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#157-161' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Add the <code>potential</code> bonded interaction for the pair <code>(i, j)</code></p>
+</div><h4 id='method.add_angle_potential' class="method"><span id='add_angle_potential.v' class='invisible'><code>fn <a href='#method.add_angle_potential' class='fnname'>add_angle_potential</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;i: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;j: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;k: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;potential: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/energy/trait.AnglePotential.html" title="trait lumol_core::energy::AnglePotential">AnglePotential</a>&gt;<br>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#164-169' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Add the <code>potential</code> angle interaction for the angle <code>(i, j, k)</code></p>
+</div><h4 id='method.add_dihedral_potential' class="method"><span id='add_dihedral_potential.v' class='invisible'><code>fn <a href='#method.add_dihedral_potential' class='fnname'>add_dihedral_potential</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;i: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;j: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;k: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;m: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;potential: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/energy/trait.DihedralPotential.html" title="trait lumol_core::energy::DihedralPotential">DihedralPotential</a>&gt;<br>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#173-179' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Add the <code>potential</code> dihedral interaction for the dihedral angle <code>(i, j, k, m)</code></p>
+</div><h4 id='method.set_coulomb_potential' class="method"><span id='set_coulomb_potential.v' class='invisible'><code>fn <a href='#method.set_coulomb_potential' class='fnname'>set_coulomb_potential</a>(&amp;mut self, potential: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/energy/trait.CoulombicPotential.html" title="trait lumol_core::energy::CoulombicPotential">CoulombicPotential</a>&gt;)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#182-184' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Set the coulombic interaction for all pairs to <code>potential</code></p>
+</div><h4 id='method.add_global_potential' class="method"><span id='add_global_potential.v' class='invisible'><code>fn <a href='#method.add_global_potential' class='fnname'>add_global_potential</a>(&amp;mut self, potential: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/energy/trait.GlobalPotential.html" title="trait lumol_core::energy::GlobalPotential">GlobalPotential</a>&gt;)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#187-189' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Add the <code>potential</code> global interaction</p>
+</div><h4 id='method.pair_potentials' class="method"><span id='pair_potentials.v' class='invisible'><code>fn <a href='#method.pair_potentials' class='fnname'>pair_potentials</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="struct" href="../../lumol_core/energy/struct.PairInteraction.html" title="struct lumol_core::energy::PairInteraction">PairInteraction</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#193-204' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the list of pair potential acting between the particles at indexes
+<code>i</code> and <code>j</code>.</p>
+</div><h4 id='method.bond_potentials' class="method"><span id='bond_potentials.v' class='invisible'><code>fn <a href='#method.bond_potentials' class='fnname'>bond_potentials</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/energy/trait.BondPotential.html" title="trait lumol_core::energy::BondPotential">BondPotential</a>&gt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#213-224' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the list of bonded potential acting between the particles at indexes
+<code>i</code> and <code>j</code>.</p>
+</div><h4 id='method.angle_potentials' class="method"><span id='angle_potentials.v' class='invisible'><code>fn <a href='#method.angle_potentials' class='fnname'>angle_potentials</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;k: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/energy/trait.AnglePotential.html" title="trait lumol_core::energy::AnglePotential">AnglePotential</a>&gt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#228-241' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the list of angle interaction acting between the particles at
+indexes <code>i</code>, <code>j</code> and <code>k</code>.</p>
+</div><h4 id='method.dihedral_potentials' class="method"><span id='dihedral_potentials.v' class='invisible'><code>fn <a href='#method.dihedral_potentials' class='fnname'>dihedral_potentials</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;k: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;m: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/energy/trait.DihedralPotential.html" title="trait lumol_core::energy::DihedralPotential">DihedralPotential</a>&gt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#245-259' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the list of dihedral angles interaction acting between the particles
+at indexes <code>i</code>, <code>j</code>, <code>k</code> and <code>m</code>.</p>
+</div><h4 id='method.coulomb_potential' class="method"><span id='coulomb_potential.v' class='invisible'><code>fn <a href='#method.coulomb_potential' class='fnname'>coulomb_potential</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="trait" href="../../lumol_core/energy/trait.CoulombicPotential.html" title="trait lumol_core::energy::CoulombicPotential">CoulombicPotential</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#262-264' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the coulombic interaction for the system</p>
+</div><h4 id='method.global_potentials' class="method"><span id='global_potentials.v' class='invisible'><code>fn <a href='#method.global_potentials' class='fnname'>global_potentials</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="../../lumol_core/energy/trait.GlobalPotential.html" title="trait lumol_core::energy::GlobalPotential">GlobalPotential</a>&gt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#267-269' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get all global interactions for the system</p>
+</div><h4 id='method.maximum_cutoff' class="method"><span id='maximum_cutoff.v' class='invisible'><code>fn <a href='#method.maximum_cutoff' class='fnname'>maximum_cutoff</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#272-274' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get maximum cutoff from <code>coulomb</code>, <code>pairs</code> and <code>global</code> interactions.</p>
+</div></div><h3 id='impl-2' class='impl'><span class='in-band'><code>impl <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a></code><a href='#impl-2' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#286-332' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'><p>Functions to get physical properties of a system.</p>
+</div><div class='impl-items'><h4 id='method.kinetic_energy' class="method"><span id='kinetic_energy.v' class='invisible'><code>fn <a href='#method.kinetic_energy' class='fnname'>kinetic_energy</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#288' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the kinetic energy of the system.</p>
+</div><h4 id='method.potential_energy' class="method"><span id='potential_energy.v' class='invisible'><code>fn <a href='#method.potential_energy' class='fnname'>potential_energy</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#290' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the potential energy of the system.</p>
+</div><h4 id='method.total_energy' class="method"><span id='total_energy.v' class='invisible'><code>fn <a href='#method.total_energy' class='fnname'>total_energy</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#292' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the total energy of the system.</p>
+</div><h4 id='method.temperature' class="method"><span id='temperature.v' class='invisible'><code>fn <a href='#method.temperature' class='fnname'>temperature</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#295-300' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the temperature of the system.</p>
+</div><h4 id='method.volume' class="method"><span id='volume.v' class='invisible'><code>fn <a href='#method.volume' class='fnname'>volume</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#303' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the volume of the system.</p>
+</div><h4 id='method.virial' class="method"><span id='virial.v' class='invisible'><code>fn <a href='#method.virial' class='fnname'>virial</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/types/struct.Matrix3.html" title="struct lumol_core::types::Matrix3">Matrix3</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#306' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the virial of the system as a tensor</p>
+</div><h4 id='method.pressure' class="method"><span id='pressure.v' class='invisible'><code>fn <a href='#method.pressure' class='fnname'>pressure</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#309-316' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the pressure of the system from the virial equation, at the system
+instantaneous temperature.</p>
+</div><h4 id='method.stress' class="method"><span id='stress.v' class='invisible'><code>fn <a href='#method.stress' class='fnname'>stress</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/types/struct.Matrix3.html" title="struct lumol_core::types::Matrix3">Matrix3</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#318-326' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the stress tensor of the system from the virial equation.</p>
+</div><h4 id='method.forces' class="method"><span id='forces.v' class='invisible'><code>fn <a href='#method.forces' class='fnname'>forces</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#329-331' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the forces acting on all the particles in the system</p>
+</div></div>
+                    <h2 id='deref-methods' class='small-section-header'>
+                      Methods from <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a>&lt;Target = <a class="struct" href="../../lumol_core/sys/struct.Configuration.html" title="struct lumol_core::sys::Configuration">Configuration</a>&gt;<a href='#deref-methods' class='anchor'></a>
+                    </h2>
+                <div class='impl-items'></div><div class='impl-items'><h4 id='method.molecule_type' class="method"><span id='molecule_type.v' class='invisible'><code>fn <a href='#method.molecule_type' class='fnname'>molecule_type</a>(&amp;self, molid: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#53-56' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the type of the molecule at index <code>molid</code>. This type is a hash of
+the atoms names, and the set of bonds in the molecule. This means that
+two molecules will have the same type if and only if they contains the
+same atoms and the same bonds, <strong>in the same order</strong>.</p>
+</div><h4 id='method.molecules_with_moltype' class="method"><span id='molecules_with_moltype.v' class='invisible'><code>fn <a href='#method.molecules_with_moltype' class='fnname'>molecules_with_moltype</a>(&amp;self, moltype: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#59-67' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get a list of molecules with <code>moltype</code> molecule type.</p>
+</div><h4 id='method.are_in_same_molecule' class="method"><span id='are_in_same_molecule.v' class='invisible'><code>fn <a href='#method.are_in_same_molecule' class='fnname'>are_in_same_molecule</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#70-73' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Check if the particles at indexes <code>i</code> and <code>j</code> are in the same molecule</p>
+</div><h4 id='method.molecules' class="method"><span id='molecules.v' class='invisible'><code>fn <a href='#method.molecules' class='fnname'>molecules</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="struct" href="../../lumol_core/sys/struct.Molecule.html" title="struct lumol_core::sys::Molecule">Molecule</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#76-78' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the list of molecules in the configuration.</p>
+</div><h4 id='method.molecule' class="method"><span id='molecule.v' class='invisible'><code>fn <a href='#method.molecule' class='fnname'>molecule</a>(&amp;self, id: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; &amp;<a class="struct" href="../../lumol_core/sys/struct.Molecule.html" title="struct lumol_core::sys::Molecule">Molecule</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#81-83' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the molecule at index <code>id</code></p>
+</div><h4 id='method.molid' class="method"><span id='molid.v' class='invisible'><code>fn <a href='#method.molid' class='fnname'>molid</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#86-88' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the index of the molecule containing the particle <code>i</code></p>
+</div><h4 id='method.bond_distance' class="method"><span id='bond_distance.v' class='invisible'><code>fn <a href='#method.bond_distance' class='fnname'>bond_distance</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i8.html">i8</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#94-114' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the length of the shortest bond path to go from the particle <code>i</code> to
+the particle <code>j</code>. If the particles are not in the same molecule, the
+length is -1. Else, this length is 0 if <code>i == j</code>, 1 if there is a bond
+between <code>i</code> and <code>j</code>, etc.</p>
+</div><h4 id='method.remove_molecule' class="method"><span id='remove_molecule.v' class='invisible'><code>fn <a href='#method.remove_molecule' class='fnname'>remove_molecule</a>(&amp;mut self, molid: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#117-134' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Remove the molecule at index <code>i</code></p>
+</div><h4 id='method.add_bond' class="method"><span id='add_bond.v' class='invisible'><code>fn <a href='#method.add_bond' class='fnname'>add_bond</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;particle_i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;particle_j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><br>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#148-201' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Add a bond between the particles at indexes <code>i</code> and <code>j</code>. The particles
+should have been added to the configuration before calling this.</p>
+
+<h1 id='warning' class='section-header'><a href='#warning'>Warning</a></h1>
+<p>If the bond is between two particles which are not in the same molecule,
+the two molecules are merged together by moving particles in the
+particles list, and thus invalidate any previously stored index. In
+particular, any bond, angle, dihedral or molecule is invalidated.</p>
+
+<p>This function will return the list of atomic permutations that where
+applied in order to ensure that molecules are contiguous in memory.</p>
+</div><h4 id='method.remove_particle' class="method"><span id='remove_particle.v' class='invisible'><code>fn <a href='#method.remove_particle' class='fnname'>remove_particle</a>(&amp;mut self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#204-214' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Removes particle at index <code>i</code> and any associated bonds, angle or dihedral</p>
+</div><h4 id='method.add_particle-1' class="method"><span id='add_particle.v-1' class='invisible'><code>fn <a href='#method.add_particle-1' class='fnname'>add_particle</a>(&amp;mut self, particle: <a class="struct" href="../../lumol_core/sys/struct.Particle.html" title="struct lumol_core::sys::Particle">Particle</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#218-223' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Insert a particle at the end of the internal list. The new particle
+must have a valid particle kind.</p>
+</div><h4 id='method.size' class="method"><span id='size.v' class='invisible'><code>fn <a href='#method.size' class='fnname'>size</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#226' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the number of particles in this configuration</p>
+</div><h4 id='method.is_empty' class="method"><span id='is_empty.v' class='invisible'><code>fn <a href='#method.is_empty' class='fnname'>is_empty</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Check if this configuration contains any particle</p>
+</div><h4 id='method.molecule_com' class="method"><span id='molecule_com.v' class='invisible'><code>fn <a href='#method.molecule_com' class='fnname'>molecule_com</a>(&amp;self, molid: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#238-246' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Return the center-of-mass of a molecule</p>
+
+<h1 id='warning-1' class='section-header'><a href='#warning-1'>Warning</a></h1>
+<p>This function does not check for the particles&#39; positions&#39; nearest
+images. To use this function properly, make sure that all particles of
+the molecule are adjacent.</p>
+</div><h4 id='method.center_of_mass' class="method"><span id='center_of_mass.v' class='invisible'><code>fn <a href='#method.center_of_mass' class='fnname'>center_of_mass</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#255-263' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Return the center-of-mass of the configuration</p>
+
+<h1 id='warning-2' class='section-header'><a href='#warning-2'>Warning</a></h1>
+<p>This function does not check for the particles&#39; positions&#39; nearest
+images. To use this function properly, make sure that all particles of
+a molecule are adjacent.</p>
+</div><h4 id='method.wrap_molecule' class="method"><span id='wrap_molecule.v' class='invisible'><code>fn <a href='#method.wrap_molecule' class='fnname'>wrap_molecule</a>(&amp;mut self, molid: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#272-281' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Move all particles of a molecule such that the molecules center-of-mass
+position resides inside the simulation cell.</p>
+
+<h1 id='note' class='section-header'><a href='#note'>Note</a></h1>
+<p>If the <code>CellShape</code> is <code>Infinite</code> there are no changes
+to the positions.</p>
+</div><h4 id='method.particles' class="method"><span id='particles.v' class='invisible'><code>fn <a href='#method.particles' class='fnname'>particles</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#284-286' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the list of particles in this configuration, as a <code>ParticleSlice</code>.</p>
+</div><h4 id='method.particles_mut' class="method"><span id='particles_mut.v' class='invisible'><code>fn <a href='#method.particles_mut' class='fnname'>particles_mut</a>(&amp;mut self) -&gt; <a class="struct" href="../../lumol_core/sys/struct.ParticleSliceMut.html" title="struct lumol_core::sys::ParticleSliceMut">ParticleSliceMut</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#290-292' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the list of particles in this configuration, as a mutable
+<code>ParticleSliceMut</code>.</p>
+</div></div><div class='impl-items'><h4 id='method.distance' class="method"><span id='distance.v' class='invisible'><code>fn <a href='#method.distance' class='fnname'>distance</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#390-392' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the distance between the particles at indexes <code>i</code> and <code>j</code></p>
+</div><h4 id='method.nearest_image' class="method"><span id='nearest_image.v' class='invisible'><code>fn <a href='#method.nearest_image' class='fnname'>nearest_image</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#396-400' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the vector between the nearest image of particle <code>j</code> with respect to
+particle <code>i</code>.</p>
+</div><h4 id='method.angle' class="method"><span id='angle.v' class='invisible'><code>fn <a href='#method.angle' class='fnname'>angle</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, k: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#403-408' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the angle between the particles <code>i</code>, <code>j</code> and <code>k</code></p>
+</div><h4 id='method.angle_and_derivatives' class="method"><span id='angle_and_derivatives.v' class='invisible'><code>fn <a href='#method.angle_and_derivatives' class='fnname'>angle_and_derivatives</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;k: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#412-417' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the angle and the derivatives of the angle between the particles
+<code>i</code>, <code>j</code> and <code>k</code></p>
+</div><h4 id='method.dihedral' class="method"><span id='dihedral.v' class='invisible'><code>fn <a href='#method.dihedral' class='fnname'>dihedral</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, k: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, m: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#420-426' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the dihedral angle between the particles <code>i</code>, <code>j</code>, <code>k</code> and <code>m</code></p>
+</div><h4 id='method.dihedral_and_derivatives' class="method"><span id='dihedral_and_derivatives.v' class='invisible'><code>fn <a href='#method.dihedral_and_derivatives' class='fnname'>dihedral_and_derivatives</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;j: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;k: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;m: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a>, <a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/configuration.rs.html#430-436' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get the dihedral angle and the derivatives of the dihedral angle
+between the particles <code>i</code>, <code>j</code>, <code>k</code> and <code>m</code></p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#27' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#27' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Self)</code></span><span class='out-of-band'><div class='ghost'></div><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div><a class='srclink' href='https://doc.rust-lang.org/nightly/src/core/clone.rs.html#112-114' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 id='impl-Deref' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a> for <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a></code><a href='#impl-Deref' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#334-340' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Target' class="type"><span id='Target.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html#associatedtype.Target' class="type">Target</a> = <a class="struct" href="../../lumol_core/sys/struct.Configuration.html" title="struct lumol_core::sys::Configuration">Configuration</a></code></span></h4>
+<div class='docblock'><p>The resulting type after dereferencing.</p>
+</div><h4 id='method.deref' class="method"><span id='deref.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html#tymethod.deref' class='fnname'>deref</a>(&amp;self) -&gt; &amp;<a class="struct" href="../../lumol_core/sys/struct.Configuration.html" title="struct lumol_core::sys::Configuration">Configuration</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#337-339' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Dereferences the value.</p>
+</div></div><h3 id='impl-DerefMut' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.DerefMut.html" title="trait core::ops::deref::DerefMut">DerefMut</a> for <a class="struct" href="../../lumol_core/sys/struct.System.html" title="struct lumol_core::sys::System">System</a></code><a href='#impl-DerefMut' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#342-346' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.deref_mut' class="method"><span id='deref_mut.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/deref/trait.DerefMut.html#tymethod.deref_mut' class='fnname'>deref_mut</a>(&amp;mut self) -&gt; &amp;mut <a class="struct" href="../../lumol_core/sys/struct.Configuration.html" title="struct lumol_core::sys::Configuration">Configuration</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/system.rs.html#343-345' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Mutably dereferences the value.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "lumol_core";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

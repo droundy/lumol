@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Logging configuration - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html" class="active"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Logging configuration - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="input/log.html#logging-configuration" id="logging-configuration"><h1>Logging configuration</h1></a>
+<p>Lumol sends various logging messages while running a simulation. Some of them
+are informational messages (<code>charge was set to 1.2 for 132 particles</code>), others
+are warnings or error message (<code>infinite energy!</code>) and some are for debug
+purposes.</p>
+<p>By default, lumol prints all the informational, warning and error messages to
+the standard terminal output. This allows to run the code and redirect the
+output to a specific file with the usual UNIX way: <code>lumol input.toml &gt; simulation.log</code>.</p>
+<p>Lumol also offers finer-grain configuration for logging output, for example only
+printing errors and warnings, and redirecting everything else to a file. This
+configuration happens in the <code>[log]</code> section of the input file. This section can
+contain either a single output <code>target</code>, or multiple <code>targets</code>.</p>
+<pre><code class="language-toml"># Single log target
+[log]
+target = &quot;lumol.log&quot;
+
+# Multiple log targets
+[log]
+targets = [
+    {target = &quot;lumol.log&quot;},
+    {target = &quot;&lt;stdout&gt;&quot;, level = &quot;warning&quot;}
+]
+
+# Multiple log targets, alternative syntax
+[[log.targets]]
+target = &quot;lumol.log&quot;
+
+[[log.targets]]
+target = &quot;&lt;stdout&gt;&quot;
+level = &quot;warning&quot;
+</code></pre>
+<p>In the multiple targets case, the <code>targets</code> key must be an array of tables,
+containing individual target configuration with the same syntax as a single
+target.</p>
+<p>The only required key is the <code>target</code> key, identifying where to write the
+messages. It is interpreted as the path to a file, expect for the two special
+values of <code>&lt;stdout&gt;</code> and <code>&lt;stderr&gt;</code> that are used to write messages to the
+standard terminal output stream or error stream respectively.</p>
+<pre><code class="language-toml"># Write all messages to the standard error stream
+[log]
+target = &quot;&lt;stderr&gt;&quot;
+</code></pre>
+<p>Optional keys are <code>level</code> and <code>append</code>. The <code>level</code> key controls which messages
+are sent to this output, and default to <code>info</code>. Available levels are the
+following:</p>
+<ul>
+<li><code>error</code>: only error messages;</li>
+<li><code>warning</code>: error and warning messages;</li>
+<li><code>info</code>: error, warnings and informational messages;</li>
+</ul>
+<p>The <code>debug</code> (debug messages) and <code>trace</code> (very verbose debug) are also
+available, but mainly intended for developers.</p>
+<p>The <code>append</code> key is a Boolean value (<code>true</code> or <code>false</code>) only used for files, and
+controlling whether to overwrite the file or append new messages at the end of
+the file. It defaults to <code>false</code>, meaning that the file is overwritten by every
+simulation run.</p>
+<pre><code class="language-toml">[log]
+# Use multiple targets
+targets = [
+    # Print warnings to the standard output stream
+    {target = &quot;&lt;stdout&gt;&quot;, level = &quot;warning&quot;},
+    # Save all messages to the 'lumol.log' file
+    {target = &quot;lumol.log&quot;},
+    # Save debug messages to 'debug.log', keeping the file across simulation
+    # runs.
+    {target = &quot;debug.log&quot;, level = &quot;debug&quot;, append = true},
+]
+
+</code></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="input/min.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="advanced/custom_potential/intro.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="input/min.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="advanced/custom_potential/intro.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

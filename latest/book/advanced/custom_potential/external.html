@@ -1,0 +1,283 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Part I: Separate package - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html" class="active"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Part I: Separate package - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="advanced/custom_potential/external.html#part-i-implementation-of-the-logic-in-a-separate-package" id="part-i-implementation-of-the-logic-in-a-separate-package"><h1>Part I: Implementation of the logic in a separate package</h1></a>
+<p>We start by creating a new package using <code>cargo</code>:</p>
+<pre><code>cargo new lumol_tutorial_potential
+cd lumol_tutorial_potential
+</code></pre>
+<p>Open <code>Cargo.toml</code> and add the lines</p>
+<pre><code class="language-toml">[dependencies]
+lumol = {git = &quot;https://github.com/lumol-org/lumol&quot;}
+</code></pre>
+<p>to add <code>Lumol</code> as a dependency to the package.
+To test if everything works, open the <code>lib.rs</code> file in <code>src</code> and add</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+extern crate lumol;
+#}</code></pre></pre>
+<p>in the first line.</p>
+<p>Run <code>cargo build</code> or <code>cargo test</code> to check if errors occur.</p>
+<a class="header" href="advanced/custom_potential/external.html#defining-the-struct" id="defining-the-struct"><h2>Defining the struct</h2></a>
+<p>For the first part of the tutorial, the complete code will be written into the <code>lib.rs</code> file.</p>
+<p>The energy function of the Mie potential reads</p>
+<p>$u(x) = \frac{n}{n-m} \left(\frac{n}{m}\right)^{m/(n-m)}\epsilon \left[ \left( \frac{\sigma}{x}\right)^n - \left( \frac{\sigma}{x}\right)^m \right]$</p>
+<p>where $x$ denotes the distance between two interaction sites $i, j$, with $x = x_{ij} = | \mathbf{r}_j - \mathbf{r}_i |$. The parameters of the potential are</p>
+<ul>
+<li>$n, m$ the repulsive and attractive exponents, respectively,</li>
+<li>$\epsilon$ the energetic paramater,</li>
+<li>$\sigma$ the particle diameter or structural parameter.</li>
+</ul>
+<p>We start by defining the <code>struct</code> for our potential. Add the following lines to <code>lib.rs</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+extern crate lumol;
+use lumol::energy::{Potential, PairPotential};
+
+#[derive(Clone, Copy)]
+pub struct Mie {
+    /// Distance constant
+    sigma: f64,
+    /// Energy constant
+    epsilon: f64,
+    /// Exponent of repulsive contribution
+    n: f64,
+    /// Exponent of attractive contribution
+    m: f64,
+    /// Energetic prefactor computed from the exponents and epsilon
+    prefactor: f64,
+}
+#}</code></pre></pre>
+<p>In the first two lines we define our imports from <code>Lumol</code>, following with our structure.</p>
+<p>Next, we implement a constructor function. That's usefull in this case since we want to compute the prefactor
+of the potential once before we start our simulation.</p>
+<p>$\text{prefactor} = \frac{n}{n-m} \left(\frac{n}{m}\right)^{m/(n-m)}\epsilon$</p>
+<p>In Rust we typically use <code>new</code> for the constructors' name.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl Mie {
+    pub fn new(sigma: f64, epsilon: f64, n: f64, m: f64) -&gt; Mie {
+        if m &gt;= n {
+            panic!(&quot;The repulsive exponent n has to be larger than the attractive exponent m&quot;)
+        };
+        let prefactor = n / (n - m) * (n / m).powf(m / (n - m)) * epsilon;
+        Mie {
+            sigma: sigma,
+            epsilon: epsilon,
+            n: n,
+            m: m,
+            prefactor: prefactor,
+        }
+    }
+}
+#}</code></pre></pre>
+<p>Our function takes the parameter set as input, computes the prefactor and returns a <code>Mie</code> struct. Notice that
+it panics, for <code>n</code> smaller than or equal to <code>m</code>.
+The next step is to implement the <code>Potential</code> trait for <code>Mie</code>.</p>
+<a class="header" href="advanced/custom_potential/external.html#implementing-potential" id="implementing-potential"><h2>Implementing <code>Potential</code></h2></a>
+<p>Add the following lines below the structs implementation.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl Potential for Mie {
+    fn energy(&amp;self, r: f64) -&gt; f64 {
+        let sigma_r = self.sigma / r;
+        let repulsive = f64::powf(sigma_r, self.n);
+        let attractive = f64::powf(sigma_r, self.m);
+        self.prefactor * (repulsive - attractive)
+    }
+
+    fn force(&amp;self, r: f64) -&gt; f64 {
+        let sigma_r = self.sigma / r;
+        let repulsive = f64::powf(sigma_r, self.n);
+        let attractive = f64::powf(sigma_r, self.m);
+        -self.prefactor * (self.n * repulsive - self.m * attractive) / r
+    }
+}
+#}</code></pre></pre>
+<p><code>energy</code> is the implementation of the Mie potential equation shown above.
+<code>force</code> is the negative derivative of the energy with respect to the distance, <code>r</code>.
+To be more precise, the vectorial force can readily be computed by multiplying the
+result of <code>force</code> with the connection vector $\vec{r}$.</p>
+<p>The next step is to make our <code>Potential</code> usable in Lumol's algortihms to compute
+non-bonded energies and forces.
+Therefore, we have to implement the <code>PairPotential</code> trait.</p>
+<a class="header" href="advanced/custom_potential/external.html#implementing-pairpotential" id="implementing-pairpotential"><h2>Implementing <code>PairPotential</code></h2></a>
+<p>Let's inspect the <a href="http://lumol.org/lumol/latest/lumol/energy/trait.PairPotential.html">documentation of <code>PairPotential</code></a>.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub trait PairPotential: Potential + BoxClonePair {
+    fn tail_energy(&amp;self, cutoff: f64) -&gt; f64;
+    fn tail_virial(&amp;self, cutoff: f64) -&gt; f64;
+
+    fn virial(&amp;self, r: &amp;Vector3D) -&gt; Matrix3 { ... }
+}
+#}</code></pre></pre>
+<p>First, we can see that <code>PairPotential</code> enforces the implementation of <code>Potential</code> which is denoted by <code>pub trait PairPotential: Potential ...</code> (we ignore <code>BoxClonePair</code> for now, as it is automatically implemented for us if we implement <code>PairPotential</code> manually).
+That makes sense from a didactive point of view since we said that <code>PairPotential</code> is a &quot;specialization&quot; of <code>Potential</code>
+and furthermore, we can make use of all functions that we had to implement for <code>Potential</code>.</p>
+<p>There are three functions in the <code>PairPotential</code> trait. The first two functions start with <code>tail_</code>.
+These are functions to compute long range or tail corrections.
+Often, we introduce a cutoff distance into our potential beyond which we set the energy to zero.
+Doing so we intoduce an error which we can account for using a tail correction.
+We need two of these corrections, one for the energy, <code>tail_energy</code>, and one for the pressure (which uses <code>tail_virial</code>
+under the hood). For a beautiful derivation of tail corrections for truncated potentials, <a href="https://engineering.ucsb.edu/%7Eshell/che210d/Simulations_of_bulk_phases.pdf">see here</a>.</p>
+<p>The third function, <code>virial</code>, already has its body implemented -- we don't have to write an implementation for
+our potential.</p>
+<p>We will omit the derivation of the formulae for tail corrections here but they are computed by solving these equations</p>
+<p>energy: $\int_{r_c}^{\infty} u(r) r^2 \mathrm{d}r$</p>
+<p>virial: $\int_{r_c}^{\infty} \frac{\partial u(r)}{\partial r} r^3 \mathrm{d}r$</p>
+<p>The implementation looks like so</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl PairPotential for Mie {
+    fn tail_energy(&amp;self, cutoff: f64) -&gt; f64 {
+        if self.m &lt; 3.0 {
+            return 0.0;
+        };
+        let sigma_rc = self.sigma / cutoff;
+        let n_3 = self.n - 3.0;
+        let m_3 = self.m - 3.0;
+        let repulsive = f64::powf(sigma_rc, n_3);
+        let attractive = f64::powf(sigma_rc, m_3);
+        -self.prefactor * self.sigma.powi(3) * (repulsive / n_3 - attractive / m_3)
+    }
+
+    fn tail_virial(&amp;self, cutoff: f64) -&gt; f64 {
+        if self.m &lt; 3.0 {
+            return 0.0;
+        };
+        let sigma_rc = self.sigma / cutoff;
+        let n_3 = self.n - 3.0;
+        let m_3 = self.m - 3.0;
+        let repulsive = f64::powf(sigma_rc, n_3);
+        let attractive = f64::powf(sigma_rc, m_3);
+        -self.prefactor * self.sigma.powi(3) * (repulsive * self.n / n_3 - attractive * self.m / m_3)
+    }
+}
+#}</code></pre></pre>
+<p>Note that we cannot correct every kind of energy function.
+In fact, the potential has to be a <em>short ranged</em> potential.
+For our Mie potential, both the exponents have to be larger than 3.0 else our potential will be <em>long ranged</em> and
+the integral that has to be solved to compute the tail corrections diverges.
+We return zero in that case.</p>
+<a class="header" href="advanced/custom_potential/external.html#running-a-small-simulation-using-the-new-potential" id="running-a-small-simulation-using-the-new-potential"><h2>Running a small simulation using the new potential</h2></a>
+<p>That concludes the first part.
+To test your new and shiny potential, you can run a small simulation.
+You'll find a minimal Monte Carlo simulation example in the <code>lumol/tutorials/lumol_tutorial_potential</code> directory where you will also find the <code>src/lib.rs</code> file we created in this tutorial.
+You can then run the simulation via</p>
+<pre><code>cargo run --release
+</code></pre>
+<p>Fantastic! You implemented a new potential and ran a simulation with it!</p>
+<p>If you want to share your implementation with other Lumol users only some small additional steps are neccessary.
+We will talk about them in part II.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="advanced/custom_potential/intro.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="advanced/custom_potential/core.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="advanced/custom_potential/intro.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="advanced/custom_potential/core.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

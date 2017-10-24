@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Adding potentials - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html" class="active"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Adding potentials - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="advanced/custom_potential/intro.html#creating-your-own-potential-function" id="creating-your-own-potential-function"><h1>Creating your own potential function</h1></a>
+<p>In this tutorial we will teach you how to use your own potential function with Lumol.
+This tutorial consists of two parts.
+In the first part, we will implement the logic in a separate project using Lumol as an external library.
+The second part describes the neccessary steps to implement the logic into the core package of Lumol called <code>lumol-core</code>.</p>
+<p>A potential is a function that describes the energy and force between interaction sites.
+In Lumol we differentiate between two types of potentials: First, there are potential functions that need the global state of the system, <em>i.e.</em> all positions, as input. The Ewald summation which is used to compute electrostatic interactions is an example for this kind of potential.
+We call them <code>GlobalPotential</code>s.
+And second, we have potentials that take a single geometric parameter as input.
+This geometric parameter can be for example a distance or an angle.
+Typical examples are Van-der-Waals potentials (<em>e.g.</em> Lennard-Jones) and potential functions describing covalent bonds (<em>e.g.</em> harmonic potential, cosine potential, torsion, <em>etc.</em>).
+There are plenty of potentials falling into this category, hence in Lumol we simply call them <code>Potential</code>s.</p>
+<blockquote>
+<p>There are two kind of potentials. A <code>GlobalPotential</code> takes the global systems' state as input
+and a <code>Potential</code> takes a single scalar value (distance, angle, ...) as input.</p>
+</blockquote>
+<p>In this tutorial we will focus on the implementation of the latter.
+More specific, we will implement a potential to compute van-der-Waals interactions between pairs of particles.
+We will make liberal use of the API documentation of both the Rust standard library as well as the Lumol API.
+Please note that we will point to other references, such as the Rust book, concerning general Rust concepts to keep this tutorial brief.
+If you have questions concerning Rust or Lumol, please don't hesitate to file an issue on <a href="https://github.com/lumol-org/lumol/issues">github</a> or join the discussion on our <a href="https://gitter.im/lumol-org/lumol">gitter</a>.</p>
+<p>The tutorial is structured as follows: First we will have a look at how <code>Potentials</code> are represented (what data structures are used) and what functionalities we have to implement. Then we describe how we add those functionalities. We will write a small simulation program that makes use of our newly created potential.
+In the second part we talk about implementing the potential into Lumol's core.
+Rust offers beautiful utilities to add documentation inside the code. We will have a look at the documentation of currently implemented potentials to guide us. We will then add some tests to make sure that our implementation is correct. This concludes the bulk the work, but to make our new potential function accessible to all Lumol users we will also add a parsing function. Doing so, our potential can be conveniently specified from an input file. We conclude the tutorial by adding a short documentation to the user manual.</p>
+<p>We have a lot to do. Ready? Let's go.</p>
+<a class="header" href="advanced/custom_potential/intro.html#rust-prerequisites" id="rust-prerequisites"><h2>Rust prerequisites</h2></a>
+<p>We recommend reading these chapters in the rust book.</p>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/second-edition/ch05-00-structs.html">structs</a></li>
+<li><a href="https://doc.rust-lang.org/book/second-edition/ch10-02-traits.html">traits</a></li>
+</ul>
+<a class="header" href="advanced/custom_potential/intro.html#representation" id="representation"><h2>Representation</h2></a>
+<p>As mentioned above, potential functions can be used to model all kinds of interactions between particles such as bonded and non-bonded interactions. In Lumol, <code>Potential</code> is a <a href="https://doc.rust-lang.org/book/second-edition/ch10-02-traits.html">trait</a>. To further distinguish between bonded interactions (bond lengths, angles and dihedrals) and non-bonded interactions, we use another trait (often called marker traits). Your possible options to further specialise a <code>Potential</code> are</p>
+<ul>
+<li><a href="http://lumol.org/lumol/latest/lumol/energy/trait.PairPotential.html"><code>PairPotential</code></a> for non-bonded two body interactions;</li>
+<li><a href="http://lumol.org/lumol/latest/lumol/energy/trait.BondPotential.html"><code>BondPotential</code></a> for covalent bonds interactions;</li>
+<li><a href="http://lumol.org/lumol/latest/lumol/energy/trait.AnglePotential.html"><code>AnglePotential</code></a> for covalent angles interactions;</li>
+<li><a href="http://lumol.org/lumol/latest/lumol/energy/trait.DihedralPotential.html"><code>DihedralPotential</code></a> for covalent dihedral angles interactions.</li>
+</ul>
+<p>In this tutorial, we will implement a potential to describe non-bonded pair interactions, namely the <a href="http://www.sklogwiki.org/SklogWiki/index.php/Mie_potential"><strong>Mie potential</strong></a>. We will have to implement both the <code>Potential</code> as well as the <code>PairPotential</code> traits. If we wanted to implement a function that can be used as non-bonded as well as bond-length potential, we'd have to implement <code>Potential</code>, <code>PairPotential</code> as well as <code>BondPotential</code>. &quot;Implementing a trait&quot; means that we will define a <a href="https://doc.rust-lang.org/book/second-edition/ch05-00-structs.html">structure</a> (a <code>struct</code>) for which we will add functions to satisfy the traits' requirements.</p>
+<p>Let's start by having a look at the API documentation for <code>Potential</code>: open the <a href="http://lumol.org/lumol/latest/lumol/energy/trait.Potential.html">API documentation</a>.</p>
+<p>As you can see from the trait, a <code>Potential</code> defines the interface for two functions, <code>energy</code> and <code>force</code> (we ignore the <code>Sync + Send</code> statement for now):</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub trait Potential: Sync + Send {
+    fn energy(&amp;self, x: f64) -&gt; f64;
+    fn force(&amp;self, x: f64) -&gt; f64;
+}
+#}</code></pre></pre>
+<p><code>energy</code> will compute the interaction energy between two sites as a function of <code>x</code>. The force is defined as the negative derivative of the energy function with respect to <code>x</code>.</p>
+<p>Both functions take a single, scalar argument and return a single scalar value. In our case <code>x</code> stands for the distance between two interaction sites. Note that only the function definitions -- without a function body -- are specified. We will have to implement these functions for our potential.</p>
+<p>Let's start the implementation.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="input/log.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="advanced/custom_potential/external.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="input/log.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="advanced/custom_potential/external.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ParticleSlice` struct in crate `lumol_core`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ParticleSlice">
+
+    <title>lumol_core::sys::ParticleSlice - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct ParticleSlice</p><div class="block items"><ul><li><a href="#fields">Fields</a></li><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>sys</a></p><script>window.sidebarCurrent = {name: 'ParticleSlice', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>lumol_core</a>::<wbr><a href='index.html'>sys</a>::<wbr><a class="struct" href=''>ParticleSlice</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ParticleSlice&lt;'a&gt; {
+    pub name: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>,
+    pub kind: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="struct" href="../../lumol_core/sys/struct.ParticleKind.html" title="struct lumol_core::sys::ParticleKind">ParticleKind</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>,
+    pub charge: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>,
+    pub mass: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>,
+    pub position: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>,
+    pub velocity: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>,
+}</pre><div class='docblock'><p>A slice of
+<a href="struct.Particle.html"><code>Particle</code></a>
+ inside a
+<a href="struct.ParticleVec.html"><code>ParticleVec</code></a>
+ .</p>
+</div><h2 id='fields' class='fields small-section-header'>
+                       Fields<a href='#fields' class='anchor'></a></h2><span id='structfield.name' class="structfield">
+                           <span id='name.v' class='invisible'>
+                           <code>name: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code>
+                           </span></span><div class='docblock'><p>A slice of <code>name</code> from a <a href="struct.ParticleVec.html"><code>ParticleVec</code></a></p>
+</div><span id='structfield.kind' class="structfield">
+                           <span id='kind.v' class='invisible'>
+                           <code>kind: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="struct" href="../../lumol_core/sys/struct.ParticleKind.html" title="struct lumol_core::sys::ParticleKind">ParticleKind</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code>
+                           </span></span><div class='docblock'><p>A slice of <code>kind</code> from a <a href="struct.ParticleVec.html"><code>ParticleVec</code></a></p>
+</div><span id='structfield.charge' class="structfield">
+                           <span id='charge.v' class='invisible'>
+                           <code>charge: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code>
+                           </span></span><div class='docblock'><p>A slice of <code>charge</code> from a <a href="struct.ParticleVec.html"><code>ParticleVec</code></a></p>
+</div><span id='structfield.mass' class="structfield">
+                           <span id='mass.v' class='invisible'>
+                           <code>mass: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code>
+                           </span></span><div class='docblock'><p>A slice of <code>mass</code> from a <a href="struct.ParticleVec.html"><code>ParticleVec</code></a></p>
+</div><span id='structfield.position' class="structfield">
+                           <span id='position.v' class='invisible'>
+                           <code>position: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code>
+                           </span></span><div class='docblock'><p>A slice of <code>position</code> from a <a href="struct.ParticleVec.html"><code>ParticleVec</code></a></p>
+</div><span id='structfield.velocity' class="structfield">
+                           <span id='velocity.v' class='invisible'>
+                           <code>velocity: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="struct" href="../../lumol_core/types/struct.Vector3D.html" title="struct lumol_core::types::Vector3D">Vector3D</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code>
+                           </span></span><div class='docblock'><p>A slice of <code>velocity</code> from a <a href="struct.ParticleVec.html"><code>ParticleVec</code></a></p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a>&lt;'a&gt;</code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.iter' class="method"><span id='iter.v' class='invisible'><code>fn <a href='#method.iter' class='fnname'>iter</a>(&amp;self) -&gt; Iter</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get an iterator over the
+<a href="struct.ParticleRef.html"><code>ParticleRef</code></a>
+ in this slice.</p>
+</div></div><h3 id='impl-1' class='impl'><span class='in-band'><code>impl&lt;'b&gt; <a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a>&lt;'b&gt;</code><a href='#impl-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.zip' class="method"><span id='zip.v' class='invisible'><code>fn <a href='#method.zip' class='fnname'>zip</a>&lt;'a, D&gt;(&amp;'a self, data: D) -&gt; Self::Iterator <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: Zip&lt;'a, D&gt;,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get an iterator over multiple fields of this <code>ParticleSlice</code>.</p>
+
+<p>Use the <code>data</code> argument to request specific fields. This
+ argument can be a reference to any of the marker types in the
+<a href="zip_particle/index.html"><code>zip_particle</code></a>
+ module; or a tuple of reference to types in this module. Only
+ fields marked with <code>#[soa_derive(zip)]</code> are available. It is
+ also possible to pass any type implementing <code>IntoIterator</code>
+ after the marker types, and the corresponding values will be
+ forwarded.</p>
+
+<p>This function is only generated when the main struct is public.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class="rust rust-example-rendered">
+ <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">StructOfArray</span>)]</span>
+ <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Example</span> {
+     <span class="attribute">#[<span class="ident">soa_derive</span>(<span class="ident">zip</span>)]</span>
+     <span class="ident">mass</span>: <span class="ident">f64</span>,
+     <span class="attribute">#[<span class="ident">soa_derive</span>(<span class="ident">zip</span>)]</span>
+     <span class="ident">label</span>: <span class="ident">String</span>,
+     <span class="attribute">#[<span class="ident">soa_derive</span>(<span class="ident">zip</span>)]</span>
+     <span class="ident">position</span>: [<span class="ident">f64</span>; <span class="number">3</span>],
+ }
+
+ <span class="kw">use</span> <span class="self">self</span>::<span class="ident">zip_example</span>::{<span class="ident">Mass</span>, <span class="ident">Label</span>, <span class="ident">Position</span>};
+ <span class="kw">let</span> <span class="ident">vector</span> <span class="op">=</span> <span class="ident">ExampleVec</span>::<span class="ident">new</span>();
+
+ <span class="kw">let</span> <span class="ident">slice</span> <span class="op">=</span> <span class="ident">vector</span>.<span class="ident">as_slice</span>();
+ <span class="kw">for</span> <span class="ident">mass</span> <span class="kw">in</span> <span class="ident">slice</span>.<span class="ident">zip</span>(<span class="kw-2">&amp;</span><span class="ident">Mass</span>) {
+     <span class="comment">// ...</span>
+ }
+
+ <span class="kw">for</span> (<span class="ident">mass</span>, <span class="ident">position</span>, <span class="ident">label</span>) <span class="kw">in</span> <span class="ident">slice</span>.<span class="ident">zip</span>((<span class="kw-2">&amp;</span><span class="ident">Mass</span>, <span class="kw-2">&amp;</span><span class="ident">Position</span>, <span class="kw-2">&amp;</span><span class="ident">Label</span>)) {
+     <span class="comment">// ...</span>
+ }</pre>
+</div></div><h3 id='impl-2' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a>&lt;'a&gt;</code><a href='#impl-2' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.len' class="method"><span id='len.v' class='invisible'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Similar to <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.len"><code>[Particle] ::len()</code></a>,
+ the length of all fields should be the same.</p>
+</div><h4 id='method.is_empty' class="method"><span id='is_empty.v' class='invisible'><code>fn <a href='#method.is_empty' class='fnname'>is_empty</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Similar to <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.is_empty"><code>[Particle] ::is_empty()</code></a>,
+ the length of all fields should be the same.</p>
+</div><h4 id='method.first' class="method"><span id='first.v' class='invisible'><code>fn <a href='#method.first' class='fnname'>first</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../lumol_core/sys/struct.ParticleRef.html" title="struct lumol_core::sys::ParticleRef">ParticleRef</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Similar to <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.first"><code>[Particle] ::first()</code></a>.</p>
+</div><h4 id='method.split_first' class="method"><span id='split_first.v' class='invisible'><code>fn <a href='#method.split_first' class='fnname'>split_first</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="struct" href="../../lumol_core/sys/struct.ParticleRef.html" title="struct lumol_core::sys::ParticleRef">ParticleRef</a>, <a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Similar to <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.split_first"><code>[Particle] ::split_first()</code></a>.</p>
+</div><h4 id='method.last' class="method"><span id='last.v' class='invisible'><code>fn <a href='#method.last' class='fnname'>last</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../lumol_core/sys/struct.ParticleRef.html" title="struct lumol_core::sys::ParticleRef">ParticleRef</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Similar to <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.last"><code>[Particle] ::last()</code></a>.</p>
+</div><h4 id='method.split_last' class="method"><span id='split_last.v' class='invisible'><code>fn <a href='#method.split_last' class='fnname'>split_last</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="struct" href="../../lumol_core/sys/struct.ParticleRef.html" title="struct lumol_core::sys::ParticleRef">ParticleRef</a>, <a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Similar to <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.split_last"><code>[Particle] ::split_last()</code></a>.</p>
+</div><h4 id='method.split_at' class="method"><span id='split_at.v' class='invisible'><code>fn <a href='#method.split_at' class='fnname'>split_at</a>(&amp;self, mid: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a>, <a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Similar to <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.split_at"><code>[Particle] ::split_at()</code></a>.</p>
+</div><h4 id='method.get' class="method"><span id='get.v' class='invisible'><code>fn <a href='#method.get' class='fnname'>get</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../lumol_core/sys/struct.ParticleRef.html" title="struct lumol_core::sys::ParticleRef">ParticleRef</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Similar to <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.get"><code>[Particle] ::get()</code></a>.</p>
+</div><h4 id='method.get_unchecked' class="method"><span id='get_unchecked.v' class='invisible'><code>unsafe fn <a href='#method.get_unchecked' class='fnname'>get_unchecked</a>(&amp;self, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="struct" href="../../lumol_core/sys/struct.ParticleRef.html" title="struct lumol_core::sys::ParticleRef">ParticleRef</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Similar to <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.get_unchecked"><code>[Particle] ::get_unchecked()</code></a>.</p>
+</div></div><h3 id='impl-3' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a>&lt;'a&gt;</code><a href='#impl-3' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.to_vec' class="method"><span id='to_vec.v' class='invisible'><code>fn <a href='#method.to_vec' class='fnname'>to_vec</a>(&amp;self) -&gt; <a class="struct" href="../../lumol_core/sys/struct.ParticleVec.html" title="struct lumol_core::sys::ParticleVec">ParticleVec</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Similar to <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.to_vec"><code>[Particle] ::to_vec()</code></a>.</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a>&lt;'a&gt;</code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 id='impl-IntoIterator' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.IntoIterator.html" title="trait core::iter::traits::IntoIterator">IntoIterator</a> for <a class="struct" href="../../lumol_core/sys/struct.ParticleSlice.html" title="struct lumol_core::sys::ParticleSlice">ParticleSlice</a>&lt;'a&gt;</code><a href='#impl-IntoIterator' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Item' class="type"><span id='Item.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/iter/traits/trait.IntoIterator.html#associatedtype.Item' class="type">Item</a> = <a class="struct" href="../../lumol_core/sys/struct.ParticleRef.html" title="struct lumol_core::sys::ParticleRef">ParticleRef</a>&lt;'a&gt;</code></span></h4>
+<div class='docblock'><p>The type of the elements being iterated over.</p>
+</div><h4 id='associatedtype.IntoIter' class="type"><span id='IntoIter.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/iter/traits/trait.IntoIterator.html#associatedtype.IntoIter' class="type">IntoIter</a> = Iter&lt;'a&gt;</code></span></h4>
+<div class='docblock'><p>Which kind of iterator are we turning this into?</p>
+</div><h4 id='method.into_iter' class="method"><span id='into_iter.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/iter/traits/trait.IntoIterator.html#tymethod.into_iter' class='fnname'>into_iter</a>(self) -&gt; Self::<a class="type" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.IntoIterator.html#associatedtype.IntoIter" title="type core::iter::traits::IntoIterator::IntoIter">IntoIter</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lumol_core/sys/config/particles.rs.html#28' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Creates an iterator from a value. <a href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.IntoIterator.html#tymethod.into_iter">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "lumol_core";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

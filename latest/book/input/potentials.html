@@ -1,0 +1,216 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Potentials - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight.css">
+
+        <link rel="stylesheet" href="static/css/lumol.css">
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="intro.html"><strong>1.</strong> Introduction</a></li><li><a href="installation.html"><strong>2.</strong> Installation</a></li><li><a href="tutorial/intro.html"><strong>3.</strong> First simulations</a></li><li><ul class="section"><li><a href="tutorial/argon.html"><strong>3.1.</strong> Monte Carlo of Argon</a></li><li><a href="tutorial/nacl.html"><strong>3.2.</strong> Hello Sodium Chloride</a></li><li><a href="tutorial/water.html"><strong>3.3.</strong> Molecular dynamics of water</a></li><li><strong>3.4.</strong> Gibbs simulation of ethane</li><li><strong>3.5.</strong> Adsorption in zeolites</li></ul></li><li><a href="concepts/intro.html"><strong>4.</strong> Simulation concepts</a></li><li><ul class="section"><li><a href="concepts/system.html"><strong>4.1.</strong> System</a></li><li><a href="concepts/simulation.html"><strong>4.2.</strong> Simulation</a></li><li><a href="concepts/units.html"><strong>4.3.</strong> Units</a></li></ul></li><li><a href="input/intro.html"><strong>5.</strong> Input files</a></li><li><ul class="section"><li><strong>5.1.</strong> TOML syntax</li><li><a href="input/systems.html"><strong>5.2.</strong> Systems</a></li><li><a href="input/interactions.html"><strong>5.3.</strong> Interactions</a></li><li><a href="input/pairs.html"><strong>5.4.</strong> Pair interactions</a></li><li><a href="input/electrostatic.html"><strong>5.5.</strong> Electrostatics</a></li><li><a href="input/potentials.html" class="active"><strong>5.6.</strong> Potentials</a></li><li><a href="input/simulations.html"><strong>5.7.</strong> Simulations</a></li><li><a href="input/md.html"><strong>5.8.</strong> Molecular dynamics</a></li><li><a href="input/mc.html"><strong>5.9.</strong> Monte Carlo</a></li><li><a href="input/min.html"><strong>5.10.</strong> Minimization</a></li><li><a href="input/log.html"><strong>5.11.</strong> Logging configuration</a></li></ul></li><li><strong>6.</strong> Advanced tutorials</li><li><ul class="section"><li><a href="advanced/custom_potential/intro.html"><strong>6.1.</strong> Adding potentials</a></li><li><ul class="section"><li><a href="advanced/custom_potential/external.html"><strong>6.1.1.</strong> Part I: Separate package</a></li><li><a href="advanced/custom_potential/core.html"><strong>6.1.2.</strong> Part II: Lumol core</a></li></ul></li><li><strong>6.2.</strong> Adding outputs</li><li><strong>6.3.</strong> Extending Molecular dynamics</li><li><strong>6.4.</strong> Extending Monte Carlo</li><li><strong>6.5.</strong> Adding propagators</li></ul></li><li><a href="faq.html"><strong>7.</strong> FAQ</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                    </div>
+
+                    <h1 class="menu-title">Potentials - </h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="input/potentials.html#available-potentials" id="available-potentials"><h1>Available potentials</h1></a>
+<p>This section is a list of all the available potentials in Lumol, with the
+associated parameters. All potentials have to provide additional parameters in
+there definition, as a TOML table. Using inline tables is the easiest way to do
+so:</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+# Additional parameters here are 'sigma' and 'epsilon'.
+lj = {sigma = &quot;3 A&quot;, epsilon = &quot;123 kJ/mol&quot;}
+</code></pre>
+<p>The same potential can be used for either pairs (at distance $r$); or for
+angles (at angle $\phi$). In all the formulas, the $x$ parameter
+represents either a distance or an angle.</p>
+<a class="header" href="input/potentials.html#null-potential" id="null-potential"><h2>Null potential</h2></a>
+<p>This potential is always 0, for all values of $x$. It should be used to remove
+interactions between atoms in a pair/bond/angle/dihedral that are
+present in the system but should not be interacting.</p>
+<p>This potential can be used by specifying the <code>null</code> key with an empty table <code>{}</code>
+as value.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+null = {}
+</code></pre>
+<a class="header" href="input/potentials.html#lennard-jones-potential" id="lennard-jones-potential"><h2>Lennard-Jones potential</h2></a>
+<p>The Lennard-Jones potential is a classical potential for pair interactions
+expressed as: $$ V(x) = 4 \epsilon \left[\left(\frac{\sigma}{x}\right)^{12} -
+\left(\frac{\sigma}{x}\right)^6\right].$$</p>
+<p>The Lennard-Jones potential is defined using the <code>lj</code> key. The
+parameters are <code>sigma</code> ($\sigma$) and <code>epsilon</code> ($\epsilon$), which should be
+provided as strings.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;O&quot;, &quot;O&quot;]
+lj = {sigma = &quot;3.16 A&quot;, epsilon = &quot;0.155 kcal/mol&quot;}
+</code></pre>
+<a class="header" href="input/potentials.html#buckingham-potential" id="buckingham-potential"><h2>Buckingham potential</h2></a>
+<p>The Buckingham potential is a potential for pair interactions expressed as: $$
+V(x) = A \exp(-r / \rho) - \frac{C}{r^6}.$$</p>
+<p>The potential type keyword is <code>buckingham</code>, and the parameters <code>A</code>, <code>rho</code>
+($\rho$) and <code>C</code> should be provided as strings.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+buckingham = {A = &quot;40 kJ/mol&quot;, C = &quot;120e-6 kJ/mol/A^6&quot;, rho = &quot;3.0 A&quot;}
+</code></pre>
+<a class="header" href="input/potentials.html#born-mayer-huggins-potential" id="born-mayer-huggins-potential"><h2>Born-Mayer-Huggins potential</h2></a>
+<p>The Born-Mayer-Huggins potential is a potential for pair interactions, used in
+particular for halide alkali. Its expression is: $$ V(x) = A
+\exp\left(\frac{\sigma -r}{\rho}\right) - \frac{C}{r^6} + \frac{D}{r^8}.$$</p>
+<p>The potential type keyword is <code>born</code>, and the parameters <code>A</code>, <code>C</code>, <code>D</code>, <code>sigma</code>
+($\sigma$) and <code>rho</code> ($\rho$) should be provided as strings.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+[pairs.born]
+A = &quot;40 kJ/mol&quot;
+C = &quot;120e-6 kJ/mol/A^6&quot;
+D = &quot;23e-6 kJ/mol/A^8&quot;
+rho = &quot;3.0 A&quot;
+sigma = &quot;2.2 A&quot;
+</code></pre>
+<a class="header" href="input/potentials.html#harmonic-potential" id="harmonic-potential"><h2>Harmonic potential</h2></a>
+<p>The Harmonic potential is usually used for intramolecular interactions such as
+bonds, angles or dihedrals. It is expressed as:
+$$ V(x) = \frac 12 k \ (x - x_0)^2$$</p>
+<p>The potential type keyword is <code>harmonic</code>, and the parameters are <code>k</code> and <code>x0</code>,
+provided as strings.</p>
+<pre><code class="language-toml">[[bonds]]
+atoms = [&quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;1054.2 kcal/mol/A^2&quot;, x0 = &quot;1.0 A&quot;}
+
+[[angles]]
+atoms = [&quot;H&quot;, &quot;O&quot;, &quot;H&quot;]
+harmonic = {k = &quot;75.9 kcal/mol/rad^2&quot;, x0 = &quot;109.5 deg&quot;}
+</code></pre>
+<a class="header" href="input/potentials.html#cosine-harmonic-potential" id="cosine-harmonic-potential"><h2>Cosine-Harmonic potential</h2></a>
+<p>This potential is usually used for angles and dihedral angles interactions,
+because it presents a $2\pi$ periodicity. It is expressed as: $$ V(x) = \frac 12
+k \ (\cos x - \cos x_0)^2$$</p>
+<p>The potential type keyword is <code>cosine-harmonic</code>, and the parameters <code>k</code> and <code>x0</code>
+should be provided as strings.</p>
+<pre><code class="language-toml">[[angles]]
+atoms = [&quot;H&quot;, &quot;C&quot;, &quot;H&quot;]
+cosine-harmonic = {k = &quot;67 kJ/mol&quot;, x0 = &quot;120 deg&quot;}
+</code></pre>
+<a class="header" href="input/potentials.html#torsion-potential" id="torsion-potential"><h2>Torsion potential</h2></a>
+<p>This potential is usually used for dihedral interactions. It is
+expressed as: $$ V(x) = k \ (1 + \cos(n x - \delta))$$</p>
+<p>The potential type keyword is <code>torsion</code>, and the parameters <code>k</code> and <code>delta</code>
+($\delta$) should be provided as strings, and <code>n</code> should be provided as an
+integer.</p>
+<pre><code class="language-toml">[[dihedrals]]
+atoms = [&quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;]
+torsion = {k = &quot;40 kJ/mol&quot;, delta = &quot;120 deg&quot;, n: 4}
+</code></pre>
+<a class="header" href="input/potentials.html#morse-potential" id="morse-potential"><h2>Morse potential</h2></a>
+<p>This potential is usually used for intramolecular interaction such as bonds,
+angles or dihedrals. It is a better approximation for the vibrational structure
+of the molecule than the Harmonic potential. It is expressed as: $$ V(r) = depth
+(1 - \exp(- a (r - x_0))^2 $$</p>
+<p>The potential type keyword is <code>morse</code>, and the parameters <code>a</code>, <code>x0</code> and <code>depth</code>
+should be provided as strings.</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+morse = {depth = &quot;40 kJ/mol&quot;, a = &quot;2.0 A^-1&quot;, x0 = &quot;1.3 A&quot;}
+</code></pre>
+<p>For angles and dihedral angles, <code>x0</code> and <code>a</code> should be provided in angle units:</p>
+<pre><code class="language-toml">[[pairs]]
+atoms = [&quot;A&quot;, &quot;B&quot;]
+morse = {depth = &quot;40 kJ/mol&quot;, a = &quot;2.0 rad^-1&quot;, x0 = &quot;109.7 deg&quot;}
+</code></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="input/electrostatic.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="input/simulations.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="input/electrostatic.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="input/simulations.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

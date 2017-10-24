@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["ParallelShortcuts","Utility trait that adds shortcuts for `IntoParallelIterator` structs."]]});
