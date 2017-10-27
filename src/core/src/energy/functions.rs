@@ -95,6 +95,53 @@ impl PairPotential for LennardJones {
     }
 }
 
+/// Weeks Chandler Anderson potential.
+///
+/// # Examples
+///
+/// ```
+/// use lumol_core::energy::Potential;
+/// use lumol_core::energy::WCA;
+///
+/// let potential = WCA{sigma: 2.0, epsilon: 10.0};
+/// assert_eq!(potential.energy(2.0), 10.0);
+/// assert_eq!(potential.energy(4.0), 0.0);
+/// assert_eq!(potential.energy(3.0), 0.0);
+/// assert_eq!(potential.energy(2.1), 2.424880861637271);
+///
+/// println!("force at 2 is {}", potential.force(2.0));
+/// assert_eq!(potential.force(2.0), 120.0);
+/// println!("force at 3 is {}", potential.force(3.0));
+/// assert_eq!(potential.force(3.0), 0.0);
+/// ```
+#[derive(Clone, Copy)]
+pub struct WCA {
+    /// Distance constant
+    pub sigma: f64,
+    /// Energy Constant
+    pub epsilon: f64,
+}
+
+impl Potential for WCA {
+    fn energy(&self, r: f64) -> f64 {
+        if r < f64::powf(2., 1./6.) * self.sigma {
+            let s6 = f64::powi(self.sigma / r, 6);
+            4.0 * self.epsilon * (f64::powi(s6, 2) - s6) + self.epsilon
+        } else {
+            0.
+        }
+    }
+
+    fn force(&self, r: f64) -> f64 {
+        if r < f64::powf(2., 1./6.) * self.sigma {
+            let s6 = f64::powi(self.sigma / r, 6);
+            -24.0 * self.epsilon * (s6 - 2.0 * f64::powi(s6, 2)) / r
+        } else {
+            0.
+        }
+    }
+}
+
 /// Harmonic potential.
 ///
 /// The following energy expression is used: `V(x) = 1/2 * k * (x - x0)^2` where
